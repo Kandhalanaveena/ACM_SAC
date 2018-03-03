@@ -58,7 +58,9 @@ Licence URI: http://www.os-templates.com/template-terms
   <main class="hoc container clear"> 
     <!-- main body -->
     <!-- ################################################################################################ -->
-<div class="wrap-contact100">
+<div class="wrap-contact100" style="color:#222222; ">
+<br>
+<p style="text-align: center;font-size:20px;">Topic details</p>
      <form class="contact100-form validate-form" action="db_topic.php" method="post" autocomplete="off">
 
 
@@ -102,10 +104,14 @@ $result = mysqli_query($dbConn, $sql);
 $year=2018;
 $sql = "SELECT t.tname FROM Topics as t, Topics_Year as y where y.tid=t.tid and y.year='$year'";
 $result = mysqli_query($dbConn, $sql);
+if(mysqli_num_rows($result)>0) 
+{
+  echo "<p style='text-align: center; font-size:18px;'>Included Topics for ". $year."</p>";
+}
 echo "<ul style='margin-left:20px;'>";
 while ($row = mysqli_fetch_array($result)) {
 
-    echo "<li style='padding-left:10px;margin-bottom:4px;color:#222222;'>".$row['tname']."</li>";
+    echo "<li style='padding-left:10px;margin-bottom:4px;'>".$row['tname']."</li>";
 
     }
 echo "</ul>";

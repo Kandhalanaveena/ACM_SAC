@@ -58,17 +58,25 @@ Licence URI: http://www.os-templates.com/template-terms
   <main class="hoc container clear"> 
     <!-- main body -->
     <!-- ################################################################################################ -->
-<div class="wrap-contact100">
-     <form class="contact100-form validate-form" action="db_topic.php" method="post" autocomplete="off">
+<div class="wrap-contact100" style="color:#222222;">
+<br>
+    <p style="text-align: center;font-size:20px;">Member details</p>
+     <form class="contact100-form validate-form" action="db_prog.php" method="post" autocomplete="off">
 
 
 <div class="wrap-input100 validate-input" data-validate="Name is required">
-          <span class="label-input100">Topic Name:</span>
-          <input class="input100" type="text" list="tt_names" name="tt_name" placeholder="Enter track topic">
+          <span class="label-input100">Name:</span>
+          <input class="input100" type="text" list="mem_names" name="mem_name" placeholder="Enter name">
           <span class="focus-input100"></span>
         </div>
 
-<datalist id="tt_names">
+        <div class="wrap-input100 validate-input" data-validate="Name is required">
+          <span class="label-input100">Country:</span>
+          <input class="input100" type="text" list="countries" name="country" placeholder="Enter country">
+          <span class="focus-input100"></span>
+        </div>
+
+<datalist id="mem_names">
 <?php
 
 $dbHost = 'Localhost';
@@ -79,15 +87,28 @@ $dbName = 'db_b140622cs';
 $dbConn = mysqli_connect ($dbHost, $dbUser, $dbPass) or die ('mysqli connect failed. ' . mysqli_error());
 mysqli_select_db($dbConn, $dbName) or die('Cannot select database. ' . mysqli_error());
 
-$sql="SELECT tname FROM Topics";
+$sql="SELECT distinct pname FROM Program_committee";
 $result = mysqli_query($dbConn, $sql);
     while ($row = mysqli_fetch_array($result)) {
-    echo "<option value="."'".$row['tname']."'"."/>" ;
+    echo "<option value="."'".$row['pname']."'"."/>" ;
     }
 
 
 ?>
 </datalist>
+
+<datalist id="countries">
+<?php
+
+$sql="SELECT distinct country FROM Program_committee";
+$result = mysqli_query($dbConn, $sql);
+    while ($row = mysqli_fetch_array($result)) {
+    echo "<option value="."'".$row['country']."'"."/>" ;
+    }
+
+?>
+</datalist>
+
 <div class="container-contact100-form-btn">
           <button class="contact100-form-btn">
             <span>
@@ -100,12 +121,16 @@ $result = mysqli_query($dbConn, $sql);
 
 <?php
 $year=2018;
-$sql = "SELECT t.tname FROM Topics as t, Topics_Year as y where y.tid=t.tid and y.year='$year'";
+$sql = "SELECT p.pname,p.country  FROM Program_committee as p, Program_committee_Year as y where y.pid=p.pid and y.year='$year'";
 $result = mysqli_query($dbConn, $sql);
+if(mysqli_num_rows($result)>0) 
+{
+  echo "<p style='text-align: center; font-size:18px;'>Included Members for ". $year."</p>";
+}
 echo "<ul style='margin-left:20px;'>";
 while ($row = mysqli_fetch_array($result)) {
 
-    echo "<li style='padding-left:10px;margin-bottom:4px;color:#222222;'>".$row['tname']."</li>";
+    echo "<li style='padding-left:10px;margin-bottom:4px;'>".$row['pname']." , ".$row['country']."</li>";
 
     }
 echo "</ul>";
