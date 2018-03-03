@@ -35,7 +35,7 @@ Licence URI: http://www.os-templates.com/template-terms
         <ul class="clear">
           <li><a href="home.html">Admin</a></li>
           <li><a href="use_temp.html">Title/Home</a></li>
-          <li ><a href="track_topics.html">Track Topics</a></li>
+          <li ><a href="track_topics.php">Track Topics</a></li>
           <li><a href="proceedings.html">Proceedings</a></li>
           <li><a href="chairs.php">Chair persons</a></li>
           <li class="active"><a href="">Program Committee members</a></li>
