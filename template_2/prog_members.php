@@ -22,10 +22,10 @@
       <div id="menubar">
         <ul id="menu">
           <!-- put class="selected" in the li tag for the selected page - to highlight which page you're on -->
-           <li><a href="home.html">Home</a></li>
+          <li><a href="home.html">Home</a></li>
           <li><a href="home.html">Proceedings</a></li>
-          <li class="selected"><a href="track_topics.php">Track Topics</a></li>
-          <li><a href="prog_members.php">Program committee</a></li>
+          <li ><a href="track_topics.php">Track Topics</a></li>
+          <li class="selected"><a href="">Program committee</a></li>
           <!--<li><a href="another_page.html">Another Page</a></li>
           <li><a href="contact.html">Contact Us</a></li>-->
         </ul>
@@ -33,7 +33,7 @@
     </div>
     <div id="site_content">
     <div id="content">
-    <h2>Track Topics</h2>
+    <h2>Program Committee</h2>
    <ul>  
 <?php
 $servername = "Localhost";
@@ -48,13 +48,13 @@ if (mysqli_connect_errno())
 {
 echo "Failed to connect to MySQL: " . mysqli_connect_error();
 }
-$sql="SELECT t.tname FROM Topics as t, Topics_Year as y WHERE y.tid=t.tid and y.year='$year'";
+$sql="SELECT p.pname, p.country FROM Program_committee as p, Program_committee_Year as y WHERE y.pid=p.pid and y.year='$year'";
 $result = mysqli_query($conn,$sql);
 
 
 while($row = mysqli_fetch_array($result))
 {
-echo "<li>" . $row['tname'] . "</li>";
+echo "<li>" . $row['pname'] . ", ".$row['country']."</li>";
 }
 
 ?>

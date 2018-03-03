@@ -127,7 +127,8 @@ else {
 
 
 $sql="CREATE TABLE Program_committee 
-( pid int NOT NULL AUTO_INCREMENT, pname VARCHAR(500) NOT NULL UNIQUE, country VARCHAR(100) NOT NULL, PRIMARY KEY (pid));";
+( pid int NOT NULL AUTO_INCREMENT, pname VARCHAR(500) NOT NULL UNIQUE, country VARCHAR(100) NOT NULL, PRIMARY KEY (pid),
+ CONSTRAINT PC_unique UNIQUE (pname,country));";
 $result=mysqli_query($conn, $sql);
 
 if ($result) {
