@@ -19,7 +19,15 @@ echo "connection established<br>";
 
 $name=$_POST['mem_name'];
 $country=$_POST['country'];
+if(!(empty($name)) && !(empty($country)))
+{
+$name=trim($name);
+$country=trim($country);
+$name=ucwords(strtolower($name));
+$country=ucwords(strtolower($country));
+
 $year=2018;
+
 $sql="INSERT into Program_committee (pname, country) 
 VALUES ('$name', '$country')";
 
@@ -28,9 +36,10 @@ $result=mysqli_query($conn, $sql);
 $sql="INSERT into Program_committee_Year (pid, year)
 SELECT pid, "."'".$year."'"." FROM Program_committee WHERE pname='$name' and country='$country'";
 $result=mysqli_query($conn, $sql);
+}
 mysqli_close($conn);
 
- header("Location:track_topics.php");
+ header("Location:prog_members.php");
      
 
 ?>

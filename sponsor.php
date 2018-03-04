@@ -34,22 +34,22 @@ Licence URI: http://www.os-templates.com/template-terms
         <!-- ################################################################################################ -->
         <ul class="clear">
           <li><a href="home.html">Admin</a></li>
-          <li><a href="title.php">Title</a></li>
-          <li><a class="drop" href="">Home</a>
+          <li ><a href="title.php">Title</a></li>
+          <li class="active"><a class="drop" href="">Home</a>
             <ul>
               <li><a href="host.php">Hosted by</a></li>
-              <li><a href="sponsor.php">Sponsored by</a></li>
+              <li><a href="">Sponsored by</a></li>
               <li><a href="sponsor.php">Important dates</a></li>
             </ul>
           </li>
-          <li class="active"><a href="">Track Topics</a></li>
+          <li ><a href="track_topics.php">Track Topics</a></li>
           <li ><a class="drop" href="">Chair persons</a>
             <ul>
               <li><a href="chairs_exist.php">Add Existing</a></li>
               <li><a href="chairs_new.php">Add New</a></li>
             </ul>
           </li>
-          <li><a href="prog_members.php">Program Committee</a></li>
+          <li ><a href="prog_members.php">Program Committee</a></li>
         </ul>
         <!-- ################################################################################################ -->
       </nav>
@@ -69,38 +69,82 @@ Licence URI: http://www.os-templates.com/template-terms
   <main class="hoc container clear"> 
     <!-- main body -->
     <!-- ################################################################################################ -->
-<div class="wrap-contact100" style="color:#222222; ">
+<div class="wrap-contact100" style="color:#222222;">
 <br>
-<p style="text-align: center;font-size:20px;">Topic details</p>
-     <form class="contact100-form validate-form" action="db_topic.php" method="post" autocomplete="off">
-
-
-<div class="wrap-input100 validate-input" data-validate="Name is required">
-          <span class="label-input100">Topic Name:</span>
-          <input class="input100" type="text" list="tt_names" name="tt_name" placeholder="Enter track topic">
-          <span class="focus-input100"></span>
-        </div>
-
-<datalist id="tt_names">
 <?php
+// define variables and set to empty values
+$sponsorErr= $urlErr= 0;
+$sponsor= $url= "";
 
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  if (empty($_POST["sponsor"])) {
+    $sponsorErr = 1;
+  } else {
+    $sponsor = test_input($_POST["sponsor"]);
+  }
+ 
+
+  $url=$_POST["url"];
+
+
+  
+/* inserting into databse*/
+
+if($sponsorErr == 0 )
+{
 $dbHost = 'Localhost';
 $dbUser = 'b140622cs';
 $dbPass = 'b140622cs';
 $dbName = 'db_b140622cs';
-
+$year=2018;
 $dbConn = mysqli_connect ($dbHost, $dbUser, $dbPass) or die ('mysqli connect failed. ' . mysqli_error());
 mysqli_select_db($dbConn, $dbName) or die('Cannot select database. ' . mysqli_error());
 
-$sql="SELECT tname FROM Topics";
+$sql="INSERT into Sponsored_by (sponsor_name, url, year) 
+VALUES ('$sponsor', '$url', '$year')";
+
+
 $result = mysqli_query($dbConn, $sql);
-    while ($row = mysqli_fetch_array($result)) {
-    echo "<option value="."'".$row['tname']."'"."/>" ;
-    }
+
+if($result)
+{
+  header("Location:sponsor.php");
+}
+
+mysqli_close($dbConn);
+}
 
 
+}
+
+function test_input($data) {
+  $data = trim($data);
+  $data = stripslashes($data);
+  $data = htmlspecialchars($data);
+  $data=ucwords(strtolower($data));
+  return $data;
+}
 ?>
-</datalist>
+
+
+<p style="text-align: center;font-size:20px;">Sponsors details</p>
+     <form class="contact100-form validate-form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" autocomplete="off">
+
+
+    <div class="wrap-input100 validate-input" data-validate="Name is required">
+           <span class="label-input100"><span class="error">*</span><?php if ($sponsorErr==1){ echo "<span class='error'>Sponser:</span>";} else{ echo "Sponsor:"; }?></span>
+          <input class="input100" type="text" name="sponsor" placeholder="Enter Sponsor name" <?php if ($sponsorErr==0){ echo "value="."'".$sponsor."'";} ?> >
+          <span class="focus-input100"></span>
+
+        </div>
+
+         <div class="wrap-input100 validate-input" data-validate="Name is required">
+          <span class="label-input100">   URL:</span>
+          <input class="input100" type="text" name="url" placeholder="Enter Website URL" <?php if ($urlErr==0){ echo "value="."'".$url."'";} ?>>
+          <span class="focus-input100"></span>
+        </div>
+
+
 <div class="container-contact100-form-btn">
           <button class="contact100-form-btn">
             <span>
@@ -112,22 +156,32 @@ $result = mysqli_query($dbConn, $sql);
       </form>
 
 <?php
+$dbHost = 'Localhost';
+$dbUser = 'b140622cs';
+$dbPass = 'b140622cs';
+$dbName = 'db_b140622cs';
 $year=2018;
-$sql = "SELECT t.tname FROM Topics as t, Topics_Year as y where y.tid=t.tid and y.year='$year'";
+$dbConn = mysqli_connect ($dbHost, $dbUser, $dbPass) or die ('mysqli connect failed. ' . mysqli_error());
+mysqli_select_db($dbConn, $dbName) or die('Cannot select database. ' . mysqli_error());
+
+$sql = "SELECT sponsor_name FROM Sponsored_by where year='$year'";
 $result = mysqli_query($dbConn, $sql);
+
 if(mysqli_num_rows($result)>0) 
 {
-  echo "<p style='text-align: center; font-size:18px;'>Included Topics for ". $year."</p>";
+  echo "<p style='text-align: center; font-size:18px;'>Sponsors for ". $year."</p>";
 }
 echo "<ul style='margin-left:20px;'>";
 while ($row = mysqli_fetch_array($result)) {
 
-    echo "<li style='padding-left:10px;margin-bottom:4px;'>".$row['tname']."</li>";
+    echo "<li style='padding-left:10px;margin-bottom:4px;'>".$row['sponsor_name']."</li>";
 
     }
 echo "</ul>";
 mysqli_close($dbConn);
 ?>
+
+
 
 <br>
 <br>

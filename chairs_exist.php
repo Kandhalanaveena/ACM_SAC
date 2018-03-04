@@ -34,7 +34,7 @@ Licence URI: http://www.os-templates.com/template-terms
         <!-- ################################################################################################ -->
         <ul class="clear">
           <li><a href="home.html">Admin</a></li>
-          <li><a href="title.php">Title</a></li>
+          <li ><a href="title.php">Title</a></li>
           <li><a class="drop" href="">Home</a>
             <ul>
               <li><a href="host.php">Hosted by</a></li>
@@ -42,14 +42,14 @@ Licence URI: http://www.os-templates.com/template-terms
               <li><a href="sponsor.php">Important dates</a></li>
             </ul>
           </li>
-          <li class="active"><a href="">Track Topics</a></li>
-          <li ><a class="drop" href="">Chair persons</a>
+          <li ><a href="track_topics.php">Track Topics</a></li>
+         <li class="active"><a class="drop" href="">Chair persons</a>
             <ul>
               <li><a href="chairs_exist.php">Add Existing</a></li>
               <li><a href="chairs_new.php">Add New</a></li>
             </ul>
           </li>
-          <li><a href="prog_members.php">Program Committee</a></li>
+          <li ><a href="prog_members.php">Program Committee</a></li>
         </ul>
         <!-- ################################################################################################ -->
       </nav>
@@ -69,21 +69,8 @@ Licence URI: http://www.os-templates.com/template-terms
   <main class="hoc container clear"> 
     <!-- main body -->
     <!-- ################################################################################################ -->
-<div class="wrap-contact100" style="color:#222222; ">
-<br>
-<p style="text-align: center;font-size:20px;">Topic details</p>
-     <form class="contact100-form validate-form" action="db_topic.php" method="post" autocomplete="off">
 
-
-<div class="wrap-input100 validate-input" data-validate="Name is required">
-          <span class="label-input100">Topic Name:</span>
-          <input class="input100" type="text" list="tt_names" name="tt_name" placeholder="Enter track topic">
-          <span class="focus-input100"></span>
-        </div>
-
-<datalist id="tt_names">
 <?php
-
 $dbHost = 'Localhost';
 $dbUser = 'b140622cs';
 $dbPass = 'b140622cs';
@@ -92,46 +79,170 @@ $dbName = 'db_b140622cs';
 $dbConn = mysqli_connect ($dbHost, $dbUser, $dbPass) or die ('mysqli connect failed. ' . mysqli_error());
 mysqli_select_db($dbConn, $dbName) or die('Cannot select database. ' . mysqli_error());
 
-$sql="SELECT tname FROM Topics";
-$result = mysqli_query($dbConn, $sql);
-    while ($row = mysqli_fetch_array($result)) {
-    echo "<option value="."'".$row['tname']."'"."/>" ;
-    }
+$sql= "SELECT cid, cname, designation, department, institute, city, state, pin, country, email, country_code, phone, fax  FROM Chairs ";
 
 
-?>
-</datalist>
-<div class="container-contact100-form-btn">
-          <button class="contact100-form-btn">
-            <span>
-              Include
-              <i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
-            </span>
-          </button>
-        </div>
-      </form>
+$result = mysqli_query($dbConn, $sql); 
+      if($result)
+      {
+        echo "success";
 
-<?php
-$year=2018;
-$sql = "SELECT t.tname FROM Topics as t, Topics_Year as y where y.tid=t.tid and y.year='$year'";
-$result = mysqli_query($dbConn, $sql);
-if(mysqli_num_rows($result)>0) 
+      }
+      else
+      {
+        echo "failure";
+      }
+if (mysqli_num_rows($result)>0)
+
 {
-  echo "<p style='text-align: center; font-size:18px;'>Included Topics for ". $year."</p>";
-}
-echo "<ul style='margin-left:20px;'>";
-while ($row = mysqli_fetch_array($result)) {
 
-    echo "<li style='padding-left:10px;margin-bottom:4px;'>".$row['tname']."</li>";
+      echo "<p style='text-align: center; font-size:18px;'>Select the Chair Persons</p>";
+
+echo "<table>"; 
+
+  echo "<thead>
+            <tr>
+              <th>Professor name</th>
+              <th>Information</th>
+              <th>Email/fax</th>
+              <th>Phone</th>
+              <th></th>
+            </tr>
+          </thead>";
+echo "<tbody>";
+
+while ($row = mysqli_fetch_array($result)) {
+    echo "<tr>";
+    echo "<td>".$row['cname']."</td>";
+    echo "<td>".$row['designation']."<br>".$row['department']."<br>".$row['institute']."<br>".$row['city']." - ".$row['pin']." , ".$row['state']."<br>".$row['country']."</td>";
+    echo "<td>". $row['email']."<br>".$row['country_code']." ".$row['fax']."</td>";
+    echo "<td>".$row['country_code']." ". $row['phone']."</td>";
+
+
+    echo "<td align='center'  width='100px'>";
+    echo "<form action='";
+    echo htmlspecialchars($_SERVER["PHP_SELF"]);
+    echo "' method='post'>";
+    echo "<input type='hidden' name='acid' value='". $row['cid'] ."'>";
+    echo "<input type='submit' name='button1' value='Edit' style='margin-top:6px;padding:6px 10px;font-size: 18px; color:white;background-color:#373737; border-radius:10px'><br>";
+    echo "<input type='submit' name='button1' value='Add' style='margin-top:6px;padding:6px 10px;font-size: 18px; color:white;background-color:#373737; border-radius:10px'>";
+    echo "</form>";
+
+    echo "</td>";
+
+  echo "</tr>";
 
     }
-echo "</ul>";
-mysqli_close($dbConn);
-?>
+echo "</tbody>";
 
-<br>
-<br>
-</div>
+echo "</table>";
+      }
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+   if($_POST["button1"]=="Add")
+  {
+    $year=2018;
+    $acid=$_POST["acid"];
+    echo "year";
+    echo $acid;
+    $sql="INSERT into Chairs_Year (cid, year) 
+    SELECT cid, "."'".$year."'"." FROM Chairs WHERE cid='$acid'"; 
+
+  $result = mysqli_query($dbConn, $sql); 
+  if($result)
+  {
+    echo "success";
+  }
+  else
+  {
+    echo "failure";
+  }
+}
+
+else if($_POST["button1"]=="Delete")
+  {
+    $year=2018;
+    $dcid=$_POST["dcid"];
+    echo "year";
+    echo $dcid;
+
+    $sql="DELETE FROM Chairs_Year WHERE cid='$dcid' and year='$year'";
+  $result = mysqli_query($dbConn, $sql); 
+  if($result)
+  {
+    echo "success";
+  }
+  else
+  {
+    echo "failure";
+  }
+
+}
+}
+
+
+/* new table*/
+
+$year=2018;
+$sql= "SELECT c.cid, c.cname, c.designation, c.department, c.institute, c.city, c.state, c.pin, c.country, c.email, c.country_code, c.phone, c.fax  FROM Chairs c, Chairs_Year y WHERE c.cid=y.cid and y.year='$year'";
+
+
+$result = mysqli_query($dbConn, $sql); 
+      echo "hello1";
+
+if (mysqli_num_rows($result)>0)
+
+{
+
+      echo "<p style='text-align: center; font-size:18px;'>Chair Persons included</p>";
+
+echo "<table>"; 
+
+  echo "<thead>
+            <tr>
+              <th>Professor name</th>
+              <th>Information</th>
+              <th>Email/fax</th>
+              <th>Phone</th>
+              <th></th>
+            </tr>
+          </thead>";
+echo "<tbody>";
+echo "hello1";
+while ($row = mysqli_fetch_array($result)) {
+    echo "<tr>";
+    echo "<td>".$row['cname']."</td>";
+    echo "<td>".$row['designation']."<br>".$row['department']."<br>".$row['institute']."<br>".$row['city']." - ".$row['pin']." , ".$row['state']."<br>".$row['country']."</td>";
+    echo "<td>". $row['email']."<br>".$row['country_code']." ".$row['fax']."</td>";
+    echo "<td>".$row['country_code']." ". $row['phone']."</td>";
+
+    echo "<td align='center'  width='100px'>";
+    echo "<form action='";
+    echo htmlspecialchars($_SERVER["PHP_SELF"]);
+    echo "' method='post'>";
+    echo "<input type='hidden' name='dcid' value='". $row['cid'] ."'>";
+   
+    echo "<input type='submit' name='button1' value='Delete' style='margin-top:6px;padding:6px 10px;font-size: 18px; color:white;background-color:#373737; border-radius:10px'>";
+    echo "</form>";
+
+    echo "</td>";
+
+  echo "</tr>";
+
+    }
+echo "</tbody>";
+
+echo "</table>";
+
+}
+
+
+ 
+
+     ?>       
+    
+
 
 
 <!--Showing the List of track topics-->

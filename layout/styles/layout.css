@@ -238,6 +238,9 @@ input:focus, textarea:focus, *:required:focus{border-color:#2196F3;}
 .btn, .btn.inverse:hover{color:#FFFFFF; background-color:#2196F3; border-color:#2196F3;}
 .btn:hover, .btn.inverse{color:inherit; background-color:transparent; border-color:inherit;}
 
+/* error */
+
+.error {color: #FF0000;}
 
 /* Rows */
 .row0, .row0 a{}
