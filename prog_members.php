@@ -34,11 +34,22 @@ Licence URI: http://www.os-templates.com/template-terms
         <!-- ################################################################################################ -->
         <ul class="clear">
           <li><a href="home.html">Admin</a></li>
-          <li><a href="use_temp.html">Title/Home</a></li>
+          <li><a href="title.php">Title</a></li>
+          <li><a class="drop" href="">Home</a>
+            <ul>
+              <li><a href="host.php">Hosted by</a></li>
+              <li><a href="sponsor.php">Sponsored by</a></li>
+              <li><a href="sponsor.php">Important dates</a></li>
+            </ul>
+          </li>
           <li ><a href="track_topics.php">Track Topics</a></li>
-          <li><a href="proceedings.html">Proceedings</a></li>
-          <li><a href="chairs.php">Chair persons</a></li>
-          <li class="active"><a href="">Program Committee members</a></li>
+         <li ><a class="drop" href="">Chair persons</a>
+            <ul>
+              <li><a href="chairs_exist.php">Add Existing</a></li>
+              <li><a href="chairs_new.php">Add New</a></li>
+            </ul>
+          </li>
+          <li class="active"><a href="">Program Committee</a></li>
         </ul>
         <!-- ################################################################################################ -->
       </nav>
@@ -121,7 +132,7 @@ $result = mysqli_query($dbConn, $sql);
 
 <?php
 $year=2018;
-$sql = "SELECT p.pname,p.country  FROM Program_committee as p, Program_committee_Year as y where y.pid=p.pid and y.year='$year'";
+$sql = "SELECT p.pname,p.country  FROM Program_committee as p, Program_committee_Year as y where y.pid=p.pid and y.year='$year' ORDER BY p.pname ASC";
 $result = mysqli_query($dbConn, $sql);
 if(mysqli_num_rows($result)>0) 
 {

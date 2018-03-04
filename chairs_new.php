@@ -34,7 +34,7 @@ Licence URI: http://www.os-templates.com/template-terms
         <!-- ################################################################################################ -->
         <ul class="clear">
           <li><a href="home.html">Admin</a></li>
-          <li><a href="title.php">Title</a></li>
+          <li><a href="">Title</a></li>
           <li><a class="drop" href="">Home</a>
             <ul>
               <li><a href="host.php">Hosted by</a></li>
@@ -42,14 +42,14 @@ Licence URI: http://www.os-templates.com/template-terms
               <li><a href="sponsor.php">Important dates</a></li>
             </ul>
           </li>
-          <li class="active"><a href="">Track Topics</a></li>
-          <li ><a class="drop" href="">Chair persons</a>
+          <li ><a href="track_topics.php">Track Topics</a></li>
+          <li class="active"><a class="drop" href="">Chair persons</a>
             <ul>
               <li><a href="chairs_exist.php">Add Existing</a></li>
               <li><a href="chairs_new.php">Add New</a></li>
             </ul>
           </li>
-          <li><a href="prog_members.php">Program Committee</a></li>
+          <li ><a href="prog_members.php">Program Committee</a></li>
         </ul>
         <!-- ################################################################################################ -->
       </nav>
@@ -69,65 +69,171 @@ Licence URI: http://www.os-templates.com/template-terms
   <main class="hoc container clear"> 
     <!-- main body -->
     <!-- ################################################################################################ -->
-<div class="wrap-contact100" style="color:#222222; ">
+<div class="wrap-contact100" style="color:#222222;">
 <br>
-<p style="text-align: center;font-size:20px;">Topic details</p>
-     <form class="contact100-form validate-form" action="db_topic.php" method="post" autocomplete="off">
-
-
-<div class="wrap-input100 validate-input" data-validate="Name is required">
-          <span class="label-input100">Topic Name:</span>
-          <input class="input100" type="text" list="tt_names" name="tt_name" placeholder="Enter track topic">
-          <span class="focus-input100"></span>
-        </div>
-
-<datalist id="tt_names">
 <?php
+// define variables and set to empty values
+$nameErr = $desErr = $depErr= $insErr= $cityErr = $stateErr = $pinErr= $countryErr = $emailErr= $codeErr= $phoneErr= $faxErr =0;
+$name = $des =$dep = $ins= $city = $state= $pin= $country = $email =$code = $phone  = $fax ="";
 
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  if (empty($_POST["name"])) {
+    $nameErr = 1;
+  } else {
+    $name = test_input($_POST["name"]);
+  }
+  
+  
+    
+
+  $des=test_input($_POST["des"]);
+  $dep=test_input($_POST["dep"]);
+  $ins=test_input($_POST["ins"]);
+  $city=test_input($_POST["city"]);
+  $state=test_input($_POST["state"]);
+  $pin=$_POST["pin"];
+  $country=test_input($_POST["country"]);
+  $email = $_POST["email"];
+  $code=$_POST["code"];
+  $phone=$_POST["phone"];
+  $fax=$_POST["fax"];
+
+/* inserting into databse*/
+
+if($nameErr == 0 && $emailErr == 0)
+{
 $dbHost = 'Localhost';
 $dbUser = 'b140622cs';
 $dbPass = 'b140622cs';
 $dbName = 'db_b140622cs';
+$year=2018;
 
 $dbConn = mysqli_connect ($dbHost, $dbUser, $dbPass) or die ('mysqli connect failed. ' . mysqli_error());
 mysqli_select_db($dbConn, $dbName) or die('Cannot select database. ' . mysqli_error());
 
-$sql="SELECT tname FROM Topics";
+$sql="INSERT into Chairs (cname, designation, department, institute, city, state, pin, country, email, country_code, phone, fax) 
+VALUES ('$name','$des', '$dep','$ins', '$city', '$state', '$pin','$country', '$email',  '$code', '$phone', '$fax')";
+
+
 $result = mysqli_query($dbConn, $sql);
-    while ($row = mysqli_fetch_array($result)) {
-    echo "<option value="."'".$row['tname']."'"."/>" ;
-    }
+
+$sql="INSERT into Chairs_Year (cid, year) 
+    SELECT cid, "."'".$year."'"." FROM Chairs WHERE cname='$name'";
+
+$result = mysqli_query($dbConn, $sql);
 
 
+if($result)
+{
+  header("Location:chairs_new.php");
+}
+
+mysqli_close($dbConn);
+
+}
+
+}
+
+function test_input($data) {
+  $data = trim($data);
+  $data = stripslashes($data);
+  $data = htmlspecialchars($data);
+  $data=ucwords(strtolower($data));
+  return $data;
+}
 ?>
-</datalist>
+    <p style="text-align: center;font-size:20px;">Member details</p>
+     <form class="contact100-form validate-form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" autocomplete="off">
+
+
+<div class="wrap-input100 validate-input" data-validate="Name is required">
+           <span class="label-input100"><span class="error">*</span><?php if ($nameErr==1){ echo "<span class='error'>Name:</span>";} else{ echo "Name:"; }?></span>
+          <input class="input100" type="text" name="name" placeholder="Enter Name" <?php if ($nameErr==0){ echo "value="."'".$name."'";} ?> >
+          <span class="focus-input100"></span>
+
+        </div>
+        <div class="wrap-input100 validate-input" data-validate="Name is required">
+          <span class="label-input100">   Designation:</span>
+          <input class="input100" type="text" name="des" placeholder="Enter Designation" <?php if ($desErr==0){ echo "value="."'".$des."'";} ?>>
+          <span class="focus-input100"></span>
+        </div>
+
+        <div class="wrap-input100 validate-input" data-validate="Name is required">
+          <span class="label-input100">   Department:</span>
+          <input class="input100" type="text" name="dep" placeholder="Enter Department" <?php if ($depErr==0){ echo "value="."'".$dep."'";} ?>>
+          <span class="focus-input100"></span>
+        </div>
+
+        <div class="wrap-input100 validate-input" data-validate="Name is required">
+          <span class="label-input100">   Institute:</span>
+          <input class="input100" type="text" name="ins" placeholder="Enter Institute" <?php if ($insErr==0){ echo "value="."'".$ins."'";} ?>>
+          <span class="focus-input100"></span>
+        </div>
+
+        
+
+         <div class="wrap-input100 validate-input" data-validate="Name is required">
+          <span class="label-input100">   City:</span>
+          <input class="input100" type="text" name="city" placeholder="Enter City" <?php if ($cityErr==0){ echo "value="."'".$city."'";} ?>>
+          <span class="focus-input100"></span>
+        </div>
+
+        <div class="wrap-input100 validate-input" data-validate="Name is required">
+          <span class="label-input100">   State:</span>
+          <input class="input100" type="text" name="state" placeholder="Enter State" <?php if ($stateErr==0){ echo "value="."'".$state."'";} ?>>
+          <span class="focus-input100"></span>
+        </div>
+
+        <div class="wrap-input100 validate-input" data-validate="Name is required">
+          <span class="label-input100">   Pincode:</span>
+          <input class="input100" type="text" name="pin" placeholder="Enter Pincode" <?php if ($pinErr==0){ echo "value="."'".$pin."'";} ?>>
+          <span class="focus-input100"></span>
+        </div>
+      
+      
+
+         <div class="wrap-input100 validate-input" data-validate="Name is required">
+          <span class="label-input100">   Country:</span>
+          <input class="input100" type="text" name="country" placeholder="Enter Country" <?php if ($countryErr==0){ echo "value="."'".$country."'";} ?>>
+          <span class="focus-input100"></span>
+        </div>
+
+        <div class="wrap-input100 validate-input" data-validate="Name is required">
+          <span class="label-input100">   Email:</span>
+          <input class="input100" type="text" name="email" placeholder="Enter Email" <?php if ($emailErr==0){ echo "value="."'".$email."'";} ?>>
+          <span class="focus-input100"></span>
+        </div>
+
+        <div class="wrap-input100 validate-input" data-validate="Name is required">
+          <span class="label-input100">   Country code:</span>
+          <input class="input100" type="text" name="code" placeholder="Enter Country code" <?php if ($codeErr==0){ echo "value="."'".$code."'";} ?>>
+          <span class="focus-input100"></span>
+        </div>
+
+        <div class="wrap-input100 validate-input" data-validate="Name is required">
+          <span class="label-input100">   Phone:</span>
+          <input class="input100" type="text" name="phone" placeholder="Enter Phone number" <?php if ($phoneErr==0){ echo "value="."'".$phone."'";} ?>>
+          <span class="focus-input100"></span>
+        </div>
+
+        <div class="wrap-input100 validate-input" data-validate="Name is required">
+          <span class="label-input100">   Fax:</span>
+          <input class="input100" type="text" name="fax" placeholder="Enter Fax" <?php if ($faxErr==0){ echo "value="."'".$fax."'";} ?>>
+          <span class="focus-input100"></span>
+        </div>
+
+        
+
 <div class="container-contact100-form-btn">
           <button class="contact100-form-btn">
             <span>
-              Include
+              Add
               <i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
             </span>
           </button>
         </div>
       </form>
 
-<?php
-$year=2018;
-$sql = "SELECT t.tname FROM Topics as t, Topics_Year as y where y.tid=t.tid and y.year='$year'";
-$result = mysqli_query($dbConn, $sql);
-if(mysqli_num_rows($result)>0) 
-{
-  echo "<p style='text-align: center; font-size:18px;'>Included Topics for ". $year."</p>";
-}
-echo "<ul style='margin-left:20px;'>";
-while ($row = mysqli_fetch_array($result)) {
-
-    echo "<li style='padding-left:10px;margin-bottom:4px;'>".$row['tname']."</li>";
-
-    }
-echo "</ul>";
-mysqli_close($dbConn);
-?>
 
 <br>
 <br>
