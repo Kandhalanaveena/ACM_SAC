@@ -90,12 +90,12 @@ ol li
 
 #header
 { background: #1D1D1D url(header.png) repeat;
-  height: 240px;}
+  height: 1500px;}
 
 #logo
 { width: 825px;
   position: relative;
-  height: 168px;}
+  height: 1000px;}
 
 #logo #logo_text 
 { position: absolute; 

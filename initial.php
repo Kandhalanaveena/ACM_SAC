@@ -88,13 +88,14 @@ $sql="CREATE TABLE Chairs
   designation VARCHAR(100), 
   department VARCHAR(500), 
   institute VARCHAR(500),
-   city VARCHAR(100), 
+   city VARCHAR(100),
+   state VARCHAR(100), 
    pin int, 
    country VARCHAR(100), 
    email VARCHAR(250),
    country_code VARCHAR(5),
-   phone int,
-   fax int,
+   phone VARCHAR(20),
+   fax VARCHAR(20),
    PRIMARY KEY(cid));";
 $result=mysqli_query($conn, $sql);
 
@@ -127,7 +128,7 @@ else {
 
 
 $sql="CREATE TABLE Program_committee 
-( pid int NOT NULL AUTO_INCREMENT, pname VARCHAR(500) NOT NULL UNIQUE, country VARCHAR(100) NOT NULL, PRIMARY KEY (pid),
+( pid int NOT NULL AUTO_INCREMENT, pname VARCHAR(500) NOT NULL, country VARCHAR(100) NOT NULL, PRIMARY KEY (pid),
  CONSTRAINT PC_unique UNIQUE (pname,country));";
 $result=mysqli_query($conn, $sql);
 
@@ -157,7 +158,72 @@ else {
     echo "Error  ".mysqli_error($conn)."<br>";
     }  
  
-           
+$sql="CREATE TABLE Info 
+( year int NOT NULL UNIQUE, 
+  number int NOT NULL UNIQUE,
+  city VARCHAR(50) NOT NULL,
+  country VARCHAR(50) NOT NULL,
+  start_date DATE NOT NULL,
+  end_date DATE NOT NULL,
+  url VARCHAR(200),
+  temp_no int,
+  PRIMARY KEY (year));";
+$result=mysqli_query($conn, $sql);
+
+if ($result) {
+    echo "Info table creation successfull <br>";
+    
+}
+else {
+    echo "Error  ".mysqli_error($conn)."<br>";
+    }  
+ 
+$sql="CREATE TABLE Hosted_by 
+( university_name TEXT NOT NULL, 
+  country VARCHAR(50) NOT NULL,
+   url VARCHAR(512) CHARACTER SET 'ascii' COLLATE 'ascii_general_ci',
+  year int NOT NULL
+ );";
+$result=mysqli_query($conn, $sql);
+
+if ($result) {
+    echo "Hosted_by table creation successfull <br>";
+    
+}
+else {
+    echo "Error  ".mysqli_error($conn)."<br>";
+    } 
+
+$sql="CREATE TABLE Sponsored_by 
+( sponsor_name VARCHAR(100) NOT NULL,
+  url VARCHAR(512) CHARACTER SET 'ascii' COLLATE 'ascii_general_ci', 
+  year int NOT NULL
+ );";
+
+$result=mysqli_query($conn, $sql);
+
+if ($result) {
+    echo "Sponsored_by table creation successfull <br>";
+    
+}
+else {
+    echo "Error  ".mysqli_error($conn)."<br>";
+    }  
+
+$sql="CREATE TABLE Submission_link 
+( url VARCHAR(512) CHARACTER SET 'ascii' COLLATE 'ascii_general_ci' NOT NULL, 
+  year int NOT NULL
+ );";
+
+$result=mysqli_query($conn, $sql);
+
+if ($result) {
+    echo "Submission_link table creation successfull <br>";
+    
+}
+else {
+    echo "Error  ".mysqli_error($conn)."<br>";
+    }             
 mysqli_close($conn);
 
 
