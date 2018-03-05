@@ -1,4 +1,7 @@
  <?php
+
+require 'globals_year.php';
+
 $servername = "Localhost";
 $username = "b140622cs";
 $password = "b140622cs";
@@ -18,7 +21,7 @@ echo "connection established<br>";
 
 
 $topic=$_POST['tt_name'];
-$year=2018;
+
 $sql="INSERT into Topics (tname) 
 VALUES ('$topic')";
 

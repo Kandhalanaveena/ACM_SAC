@@ -36,10 +36,11 @@ Licence URI: http://www.os-templates.com/template-terms
           <li><a href="home.html">Admin</a></li>
           <li ><a href="title.php">Title</a></li>
           <li class=" active"><a class="drop" href="">Home</a>
-            <ul>
-              <li><a href="">Hosted by</a></li>
+           <ul>
+              <li><a href="host.php">Hosted by</a></li>
               <li><a href="sponsor.php">Sponsored by</a></li>
-              <li><a href="sponsor.php">Important dates</a></li>
+              <li><a href="imp_dates.php">Important dates</a></li>
+              <li><a href="sub_link.php">Submission Link</a></li>
             </ul>
           </li>
           <li ><a href="track_topics.php">Track Topics</a></li>
@@ -72,6 +73,8 @@ Licence URI: http://www.os-templates.com/template-terms
 <div class="wrap-contact100" style="color:#222222;">
 <br>
 <?php
+require 'globals_year.php';
+
 // define variables and set to empty values
 $uniErr = $countryErr = $urlErr= 0;
 $uni = $country = $url= "";
@@ -99,7 +102,8 @@ $dbHost = 'Localhost';
 $dbUser = 'b140622cs';
 $dbPass = 'b140622cs';
 $dbName = 'db_b140622cs';
-$year=2018;
+
+
 $dbConn = mysqli_connect ($dbHost, $dbUser, $dbPass) or die ('mysqli connect failed. ' . mysqli_error());
 mysqli_select_db($dbConn, $dbName) or die('Cannot select database. ' . mysqli_error());
 
@@ -163,7 +167,8 @@ $dbHost = 'Localhost';
 $dbUser = 'b140622cs';
 $dbPass = 'b140622cs';
 $dbName = 'db_b140622cs';
-$year=2018;
+
+
 $dbConn = mysqli_connect ($dbHost, $dbUser, $dbPass) or die ('mysqli connect failed. ' . mysqli_error());
 mysqli_select_db($dbConn, $dbName) or die('Cannot select database. ' . mysqli_error());
 
@@ -205,21 +210,12 @@ mysqli_close($dbConn);
 <div class="bgded overlay" style="background-image:url('images/NIT-Calicut.jpg');">
   <footer id="footer" class="hoc clear center"> 
     <!-- ################################################################################################ -->
-    <h3 class="heading uppercase">Penyler</h3>
-    <ul class="faico clear">
-      <li><a class="faicon-facebook" href="#"><i class="fa fa-facebook"></i></a></li>
-      <li><a class="faicon-twitter" href="#"><i class="fa fa-twitter"></i></a></li>
-      <li><a class="faicon-dribble" href="#"><i class="fa fa-dribbble"></i></a></li>
-      <li><a class="faicon-linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>
-      <li><a class="faicon-google-plus" href="#"><i class="fa fa-google-plus"></i></a></li>
-      <li><a class="faicon-vk" href="#"><i class="fa fa-vk"></i></a></li>
-    </ul>
+    
     <!-- ################################################################################################ -->
   </footer>
   <!-- ################################################################################################ -->
   <div id="copyright" class="hoc clear center"> 
     <!-- ################################################################################################ -->
-    <p>Copyright &copy; 2018 - All Rights Reserved - <a href="#">Domain Name</a></p>
    
     <!-- ################################################################################################ -->
   </div>

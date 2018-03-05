@@ -39,7 +39,8 @@ Licence URI: http://www.os-templates.com/template-terms
             <ul>
               <li><a href="host.php">Hosted by</a></li>
               <li><a href="sponsor.php">Sponsored by</a></li>
-              <li><a href="sponsor.php">Important dates</a></li>
+              <li><a href="imp_dates.php">Important dates</a></li>
+              <li><a href="sub_link.php">Submission Link</a></li>
             </ul>
           </li>
           <li ><a href="track_topics.php">Track Topics</a></li>
@@ -131,7 +132,7 @@ $result = mysqli_query($dbConn, $sql);
       </form>
 
 <?php
-$year=2018;
+require 'globals_year.php';
 $sql = "SELECT p.pname,p.country  FROM Program_committee as p, Program_committee_Year as y where y.pid=p.pid and y.year='$year' ORDER BY p.pname ASC";
 $result = mysqli_query($dbConn, $sql);
 if(mysqli_num_rows($result)>0) 
@@ -170,21 +171,12 @@ mysqli_close($dbConn);
 <div class="bgded overlay" style="background-image:url('images/NIT-Calicut.jpg');">
   <footer id="footer" class="hoc clear center"> 
     <!-- ################################################################################################ -->
-    <h3 class="heading uppercase">Penyler</h3>
-    <ul class="faico clear">
-      <li><a class="faicon-facebook" href="#"><i class="fa fa-facebook"></i></a></li>
-      <li><a class="faicon-twitter" href="#"><i class="fa fa-twitter"></i></a></li>
-      <li><a class="faicon-dribble" href="#"><i class="fa fa-dribbble"></i></a></li>
-      <li><a class="faicon-linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>
-      <li><a class="faicon-google-plus" href="#"><i class="fa fa-google-plus"></i></a></li>
-      <li><a class="faicon-vk" href="#"><i class="fa fa-vk"></i></a></li>
-    </ul>
+    
     <!-- ################################################################################################ -->
   </footer>
   <!-- ################################################################################################ -->
   <div id="copyright" class="hoc clear center"> 
     <!-- ################################################################################################ -->
-    <p>Copyright &copy; 2018 - All Rights Reserved - <a href="#">Domain Name</a></p>
    
     <!-- ################################################################################################ -->
   </div>
