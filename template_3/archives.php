@@ -109,11 +109,19 @@ echo "<title>ACM SAC ".$row['year']."</title>";
     <!-- main body -->
     <h6 style="text-transform: capitalize;">Previous Year Websites</h6>
     <ul>
+    <?php
+    $limityear=2017;  
+    $sql="SELECT year, temp_no FROM Info WHERE year>'$limityear' and year<='$inputyear'";
+  $result = mysqli_query($conn,$sql);
 
 
-        
-        <li><a href="http://www.nitc.ac.in/sac2018/" target="_blank" style="color:#00BCD4">Year 2018</a></li>
-        <li><a href="http://www.nitc.ac.in/sac/sac2017/cc.htm" target="_blank" style="color:#00BCD4">Year 2017</a></li>
+while($archrow = mysqli_fetch_array($result))
+{
+echo '<li><a href="../template_'.$archrow['temp_no'].'/home.php?year='.$archrow['year'].'" target="_blank" style="color:#00BCD4">Year '.$archrow['year'].'</a></li>';
+}
+
+?>  
+      <li><a href="http://www.nitc.ac.in/sac/sac2017/cc.htm" target="_blank" style="color:#00BCD4">Year 2017</a></li>
         <li><a href="http://www.nitc.ac.in/sac2018/bisite.usal.es/sac2016/cc/" target="_blank" style="color:#00BCD4">Year 2016</a></li>
         <li><a href="http://www.nitc.ac.in/sac/sac2014/cc.htm" target="_blank" style="color:#00BCD4">Year 2014</a></li>
         <li><a href="http://www.nitc.ac.in/sac/sac2013/cc.htm" target="_blank" style="color:#00BCD4">Year 2013</a></li>

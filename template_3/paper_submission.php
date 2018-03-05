@@ -107,25 +107,17 @@ echo "<title>ACM SAC ".$row['year']."</title>";
 <div class="wrapper row3">
   <main class="hoc container clear"> 
     <!-- main body -->
-    
-    <div class="content three_quarter first"> 
-      <h6>ACM SAC 2018</h6>
-      <p>For the past thirty one  years, the ACM Symposium on Applied Computing has been a primary gathering forum for applied computer scientists, computer engineers, software engineers, and application developers from around the world. SAC 2017 is sponsored by the ACM Special Interest Group on Applied Computing (SIGAPP), and is <b>hosted by</b> </p>
+            <?php $sql="SELECT url FROM Submission_link WHERE year='$inputyear'";
+                  $result = mysqli_query($conn,$sql);
+                $linkrow = mysqli_fetch_array($result)?>
+            <h6 style="text-transform: capitalize; text-align: center;">Paper Submission</h6><br>
+            <p style="text-align: justify;">The submissions should be in electronic format (pdf), based on original, unpublished work.. The file format should be PDF. The author(s) name(s) and address(es) must not appear in the body of the paper, and self-reference should be in the third person. This is to facilitate blind review. Only the title should be shown at the first page without the author's information. Papers must be formatted according to the template which is available at the SAC <?php ?> website :: <a href="https://www.sigapp.org/sac/" target="_blank">HERE</a>.</p> 
+            <p style="text-align: justify;">Full paper size is limited to 6 pages according to the above mentioned template, being allowed a maximum of 2 extra pages at the additional cost of 80 USD per extra page. Poster papers are limited to 2 pages and no additional pages are permitted. A few key words should be provided. A paper cannot be sent to more than one track. Original manuscripts (regular papers) should be submitted in electronic format through the START Conference manager web site :<br> <?php echo '<a href="'.$linkrow['url'].'" target="_blank">'.$linkrow['url'].'</a>'?></p>
+            <p>Abstracts for the Student Research Competition (SRC) should be submitted in electronic format through the START Conference manager web site : <br><?php echo '<a href="'.$linkrow['url'].'" target="_blank">'.$linkrow['url'].'</a>'?></p>
+              <br><br>
+              <h6><b>IMPORTANT NOTICE FOR THE AUTHORS</b></h6>
 
-    </div>
-    <div class="sidebar one_quarter"> 
-   <h6 style="text-transform: capitalize;">Quick Links</h6>
-   <div class="sdb_holder">
-   <p class="heading" style="text-transform: capitalize; font-size: 20px">Important Dates</p>
-   </div>
-   <div class="sdb_holder">
-   <p class="heading" style="text-transform: capitalize; font-size: 20px">Call for Papers</p>
-   </div>
-   <div class="sdb_holder">
-   <p class="heading" style="text-transform: capitalize; font-size: 20px">Venue</p>
-   </div>
-    </div>
-   
+                <p style="text-align: justify;">Paper registration is required, allowing the inclusion of the paper/poster in the conference proceedings. An author or a proxy attending SAC MUST present the paper. This is a requirement for the paper/poster to be included in the ACM/IEEE digital library. No-show of scheduled papers and posters will result in excluding them from the ACM/IEEE digital library.</p>
     <!-- / main body -->
     <div class="clear"></div>
   </main>

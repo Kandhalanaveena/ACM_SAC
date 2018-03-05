@@ -140,6 +140,22 @@ echo "<title>ACM SAC ".$row['year']."</title>";
    <h5 style="text-transform: capitalize;">Quick Links</h5>
    <div class="sdb_holder">
    <p class="heading" style="text-transform: capitalize; font-size: 20px">Important Dates</p>
+    <ul>
+         <?php
+          $sql="SELECT * FROM Important_dates WHERE year='$inputyear'";
+          $result = mysqli_query($conn,$sql);
+          while($datesrow = mysqli_fetch_array($result))
+          {
+            echo '<li>'.$datesrow['activity'].' : <br>'.$datesrow['start_date'].'</li><br>';
+          }
+          $sql="SELECT * FROM Sponsored_by WHERE year='$inputyear'";
+          $result = mysqli_query($conn,$sql);
+          $sponrow=mysqli_fetch_array($result);
+?>
+
+
+       </ul>
+
    </div>
    <div class="sdb_holder">
    <p class="heading" style="text-transform: capitalize; font-size: 20px">Call for Papers</p>

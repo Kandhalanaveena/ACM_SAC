@@ -212,7 +212,7 @@ else {
 
 $sql="CREATE TABLE Submission_link 
 ( url VARCHAR(512) CHARACTER SET 'ascii' COLLATE 'ascii_general_ci' NOT NULL, 
-  year int NOT NULL
+  year int NOT NULL UNIQUE
  );";
 
 $result=mysqli_query($conn, $sql);
@@ -223,7 +223,23 @@ if ($result) {
 }
 else {
     echo "Error  ".mysqli_error($conn)."<br>";
-    }             
+    } 
+
+$sql="CREATE TABLE Important_dates 
+( activity VARCHAR(500),
+  start_date DATE NOT NULL, 
+  year int NOT NULL
+ );";
+
+$result=mysqli_query($conn, $sql);
+
+if ($result) {
+    echo "Important_dates table creation successfull <br>";
+    
+}
+else {
+    echo "Error  ".mysqli_error($conn)."<br>";
+    }                  
 mysqli_close($conn);
 
 

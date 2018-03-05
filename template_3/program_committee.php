@@ -114,9 +114,9 @@ echo "<title>ACM SAC ".$row['year']."</title>";
   $result = mysqli_query($conn,$sql);
 
 
-while($row = mysqli_fetch_array($result))
+while($progrow = mysqli_fetch_array($result))
 {
-echo "<li>" . $row['pname'] . ", ".$row['country']."</li>";
+echo "<li>" . $progrow['pname'] . ", ".$progrow['country']."</li>";
 }
 
 ?>
