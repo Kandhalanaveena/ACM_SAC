@@ -31,12 +31,33 @@ Licence URI: http://www.os-templates.com/template-terms
       <nav id="mainav" class="clear"> 
         <!-- ################################################################################################ -->
         <ul class="clear">
-          <li class="active"><a href="home.html">Home</a></li>
-          
+          <li class="active"><a href="home.php">Home</a></li>
+          <!--<li><a class="drop" href="#">Pages</a>
+            <ul>
+              <li><a href="pages/gallery.html">Gallery</a></li>
+              <li><a href="pages/full-width.html">Full Width</a></li>
+              <li><a href="pages/sidebar-left.html">Sidebar Left</a></li>
+              <li><a href="pages/sidebar-right.html">Sidebar Right</a></li>
+              <li><a href="pages/basic-grid.html">Basic Grid</a></li>
+            </ul>
+          </li>-->
+          <!--<li><a class="drop" href="#">Dropdown</a>
+            <ul>
+              <li><a href="#">Level 2</a></li>
+              <li><a class="drop" href="#">Level 2 + Drop</a>
+                <ul>
+                  <li><a href="#">Level 3</a></li>
+                  <li><a href="#">Level 3</a></li>
+                  <li><a href="#">Level 3</a></li>
+                </ul>
+              </li>
+              <li><a href="#">Level 2</a></li>
+            </ul>
+          </li>-->
           <li><a class="drop" href="#">Website</a>
             <ul>
-              <li><a href="">Create new</a></li>
-              <li ><a href="#">Edit website</a></li>
+              <li><a href="create.php">Create new</a></li>
+              <li><a href="#">Edit website</a></li>
             </ul>
           </li>
           <li><a href="update_info.html">Update Information</a></li>
@@ -49,22 +70,27 @@ Licence URI: http://www.os-templates.com/template-terms
     </header>
   </div>
   <!-- ################################################################################################ -->
+  <!-- ################################################################################################ -->
+  <!-- ################################################################################################ -->
   
+  <!-- ################################################################################################ -->
 </div>
 <!-- End Top Background Image Wrapper -->
-
+<!-- ################################################################################################ -->
+<!-- ################################################################################################ -->
+<!-- ################################################################################################ -->
 <div class="wrapper row3">
   <main class="hoc container clear"> 
     <!-- main body -->
     <!-- ################################################################################################ -->
     <ul class="nospace clear services">
-      <!--<li class="one_half first borderedbox">
-        <div class="inspace-30">
-          <h6 class="heading">Sed eu vestibulum turpis nunc</h6>
+      <li >
+        <div class="inspace-30" style="color: #111111;">
+          <h6 class="heading" style="text-align: center;font-size: 24px">How to create the website</h6>
           <p class="nospace">Maximus aliquet vivamus velit non magna ac sollicitudin risus luctus eget tempor tortor nulla et lacus quis nisl tristique congue nulla semper diam et ipsum rhoncus dapibus sed rhoncus at diam quis facilisis fusce dui ante.</p>
         </div>
       </li>
-      <li class="one_quarter"><a href="#">
+    <!-- <li class="one_quarter"><a href="#">
         <figure><img src="images/demo/320x285.png" alt="">
           <figcaption>Placerat</figcaption>
         </figure>
@@ -73,53 +99,26 @@ Licence URI: http://www.os-templates.com/template-terms
         <figure><img src="images/demo/320x285.png" alt="">
           <figcaption>Facilisis</figcaption>
         </figure>
-        </a></li>-->
-      <li class="one_third first">
-      	<div style="background-color: #2196F3;">
-      		<a href="template_1/demo.html" target="_blank">
-        	<figure><img src="images/temp.jpeg" alt="">
-          	<figcaption>Click for demo</figcaption>
-        	</figure>
-        	</a>
-
-        <a href="set_temp.php?number=1">
-        	<div style="text-align: center;font-size: 20px;padding:10px; color: #FFFFFF">
-       		  <h5>Use template</h5>
-       		</div>
-       		</a>
-       </div>
+        </a></li>
+      <li class="one_quarter first"><a href="#">
+        <figure><img src="images/NIT-Calicut.jpg" alt="">
+          <figcaption>Click for demo</figcaption>
+        </figure>
+        </a>
         </li>
-      <li class="one_third">
-        <div style="background-color: #2196F3;">
-      		<a href="#">
-        	<figure><img src="images/temp.jpeg" alt="">
-          	<figcaption>Click for demo</figcaption>
-        	</figure>
-        	</a>
-        	<a href="set_temp.php?number=2">
-        	<div style="text-align: center;font-size: 20px;padding:10px; color: #FFFFFF">
-       		  <h5>Use template</h5>
-       		</div>
-       		</a>
-       </div>
-       </li>
+      <li class="one_quarter"><a href="#">
+        <figure><img src="images/NIT-Calicut.jpg" alt="">
+          <figcaption>Click for demo</figcaption>
+        </figure>
+        </a></li>
+      <li class="one_quarter"><a href="#">
+        <figure><img src="images/NIT-Calicut.jpg" alt="">
+          <figcaption>Click for demo</figcaption>
+        </figure>
+        </a></li>
+        
       
-        <li class="one_third">
-        <div style="background-color: #2196F3;">
-          <a href="#">
-          <figure><img src="images/NIT-Calicut.jpg" alt="">
-            <figcaption>Click for demo</figcaption>
-          </figure>
-          </a>
-          <a href="set_temp.php?number=3">
-          <div style="text-align: center;font-size: 20px;padding:10px; color: #FFFFFF">
-            <h5>Use template</h5>
-          </div>
-          </a>
-       </div>
-       </li>
-      
-      <!--<li class="one_quarter"><a href="#">
+      <li class="one_quarter"><a href="#">
         <figure><img src="images/demo/320x285.png" alt="">
           <figcaption>Hendrerit</figcaption>
         </figure>
@@ -139,11 +138,10 @@ Licence URI: http://www.os-templates.com/template-terms
 <!-- ################################################################################################ -->
 <!--<div class="wrapper bgded overlay" style="background-image:url('images/demo/backgrounds/02.png');">
   <article class="hoc container clear center"> 
-    
     <h3 class="heading">Sagittis ac tincidunt vel mattis</h3>
     <p class="btmspace-50">Vel erat suspendisse imperdiet eros in dignissim maximus eros ligula faucibus nisl in.</p>
     <footer><a class="btn medium" href="#">Further Details</a></footer>
-   
+
   </article>
 </div>-->
 <!-- ################################################################################################ -->
@@ -151,7 +149,7 @@ Licence URI: http://www.os-templates.com/template-terms
 <!-- ################################################################################################ -->
 <!--<div class="wrapper row3">
   <section class="hoc container clear"> 
-    
+
     <div class="center btmspace-80">
       <h3 class="heading">Imperdiet urna lacus</h3>
       <p class="nospace">Quis augue nullam urna tincidunt ut eleifend ac bibendum mauris ullamcorper.</p>
@@ -179,7 +177,7 @@ Licence URI: http://www.os-templates.com/template-terms
         </article>
       </li>
     </ul>
-    
+
     <div class="clear"></div>
   </section>
 </div>-->
@@ -189,22 +187,13 @@ Licence URI: http://www.os-templates.com/template-terms
 <div class="bgded overlay" style="background-image:url('images/NIT-Calicut.jpg');">
   <footer id="footer" class="hoc clear center"> 
     <!-- ################################################################################################ -->
-    <h3 class="heading uppercase">Penyler</h3>
-    <ul class="faico clear">
-      <li><a class="faicon-facebook" href="#"><i class="fa fa-facebook"></i></a></li>
-      <li><a class="faicon-twitter" href="#"><i class="fa fa-twitter"></i></a></li>
-      <li><a class="faicon-dribble" href="#"><i class="fa fa-dribbble"></i></a></li>
-      <li><a class="faicon-linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>
-      <li><a class="faicon-google-plus" href="#"><i class="fa fa-google-plus"></i></a></li>
-      <li><a class="faicon-vk" href="#"><i class="fa fa-vk"></i></a></li>
-    </ul>
+    
     <!-- ################################################################################################ -->
   </footer>
   <!-- ################################################################################################ -->
   <div id="copyright" class="hoc clear center"> 
     <!-- ################################################################################################ -->
-    <p>Copyright &copy; 2018 - All Rights Reserved - <a href="#">Domain Name</a></p>
-   
+    
     <!-- ################################################################################################ -->
   </div>
 </div>
