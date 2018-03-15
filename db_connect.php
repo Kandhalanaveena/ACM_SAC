@@ -19,14 +19,15 @@ echo "connection established<br>";
 
 $username=$_POST['username'];
 $password=$_POST['pwd'];
-//echo $username;
-//echo $password;
 $sql="SELECT * FROM Admin WHERE username='$username' AND password=SHA1('$password')";
 $result=mysqli_query($conn, $sql);
 if ($result) {
   if (mysqli_num_rows($result) > 0) {
-	// echo "success<br>";
-    header("Location:home.html");
+	    
+      $row=mysqli_fetch_array($result);
+      session_start();
+      $_SESSION['id']=$row['uid']; 
+    header("Location:home.php");
     exit;
     }
   else {

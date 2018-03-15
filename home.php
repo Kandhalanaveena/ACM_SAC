@@ -57,7 +57,7 @@ Licence URI: http://www.os-templates.com/template-terms
           <li><a class="drop" href="#">Website</a>
             <ul>
               <li><a href="create.php">Create new</a></li>
-              <li><a href="#">Edit website</a></li>
+              <li><a href="edit_year.php">Edit website</a></li>
             </ul>
           </li>
           <li><a href="update_info.html">Update Information</a></li>

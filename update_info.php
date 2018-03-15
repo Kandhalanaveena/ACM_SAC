@@ -33,18 +33,18 @@ Licence URI: http://www.os-templates.com/template-terms
       <nav id="mainav" class="clear"> 
         <!-- ################################################################################################ -->
         <ul class="clear">
-          <li ><a href="home.html">Home</a></li>
+          <li ><a href="home.php">Home</a></li>
           
           <li><a class="drop" href="#">Website</a>
             <ul>
-              <li><a href="create.html">Create new</a></li>
+              <li><a href="create.php">Create new</a></li>
               <li><a href="#">Edit website</a></li>
             </ul>
           </li>
           <li class="active"><a href="#">Update Information</a></li>
-          <li><a href="new_pwd.html">Change Password</a></li>
-          <li><a href="#">Add new Admin</a></li>
-          <li><a href="#">Log Out</a></li>
+          <li><a href="new_pwd.php">Change Password</a></li>
+          <li><a href="new_admin.php">Add new Admin</a></li>
+          <li><a href="logout.php">Log Out</a></li>
         </ul>
         <!-- ################################################################################################ -->
       </nav>
@@ -169,21 +169,13 @@ Licence URI: http://www.os-templates.com/template-terms
 <div class="bgded overlay" style="background-image:url('images/NIT-Calicut.jpg');">
   <footer id="footer" class="hoc clear center"> 
     <!-- ################################################################################################ -->
-    <h3 class="heading uppercase">Penyler</h3>
-    <ul class="faico clear">
-      <li><a class="faicon-facebook" href="#"><i class="fa fa-facebook"></i></a></li>
-      <li><a class="faicon-twitter" href="#"><i class="fa fa-twitter"></i></a></li>
-      <li><a class="faicon-dribble" href="#"><i class="fa fa-dribbble"></i></a></li>
-      <li><a class="faicon-linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>
-      <li><a class="faicon-google-plus" href="#"><i class="fa fa-google-plus"></i></a></li>
-      <li><a class="faicon-vk" href="#"><i class="fa fa-vk"></i></a></li>
-    </ul>
+    
     <!-- ################################################################################################ -->
   </footer>
   <!-- ################################################################################################ -->
   <div id="copyright" class="hoc clear center"> 
     <!-- ################################################################################################ -->
-    <p>Copyright &copy; 2018 - All Rights Reserved - <a href="#">Domain Name</a></p>
+    
    
     <!-- ################################################################################################ -->
   </div>
