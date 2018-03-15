@@ -128,6 +128,11 @@ else if($_POST["button1"]=="Delete")
 
 <form class="contact100-form validate-form" action="db_topic.php" method="post" autocomplete="off">
 
+<input type='hidden' name='tid' 
+          <?php if($flag==1) {
+            echo "value='".$tid."'";
+          }?>
+          >
 
 <div class="wrap-input100 validate-input" data-validate="Name is required">
           <span class="label-input100">Topic Name:</span>
@@ -182,8 +187,8 @@ $result = mysqli_query($dbConn, $sql);
 if (mysqli_num_rows($result)>0)
 
 {
-
-      echo "<p style='text-align: center; font-size:18px;'>Track Topics in current year</p>";
+echo "<br>"; 
+      echo "<p style='text-align: center; font-size:18px;'>Track Topics in year ".$year."</p>";
 
 echo "<table>"; 
 
