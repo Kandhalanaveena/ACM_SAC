@@ -108,19 +108,29 @@ echo "<title>ACM SAC ".$row['year']."</title>";
   <main class="hoc container clear"> 
     <!-- main body -->
     <h6 style="text-transform: capitalize;">Track Topics</h6>
-   <p style="text-align: justify;">The ACM SAC <?php  echo $row['year']; ?> Track on Cloud Computing welcomes paper submissions on all aspects of cloud computing research and applications with emphasis on those describing research on different forms of virtualization techniques as applied to systems computing. However the main theme of the CC track for this year is security of data in clouds. The list of possible topics includes but is not restricted to the following areas :</p> <br>
-   <ul>
-   <?php
+     <?php
+        $sql="SELECT * FROM Paras WHERE year='$inputyear' AND type='topics'";
+          $result = mysqli_query($conn,$sql);
+          $pararow = mysqli_fetch_array($result);
+            echo '<p style="text-align: justify;">'.$pararow['para']."</p><br>";
+     
+  /*<!-- <p style="text-align: justify;">The ACM SAC <?php  echo $row['year']; ?> Track on Cloud Computing welcomes paper submissions on all aspects of cloud computing research and applications with emphasis on those describing research on different forms of virtualization techniques as applied to systems computing. However the main theme of the CC track for this year is security of data in clouds. The list of possible topics includes but is not restricted to the following areas :</p>-->*/ 
+
+  
      $sql="SELECT t.tname FROM Topics as t, Topics_Year as y WHERE y.tid=t.tid and y.year='$inputyear'";
 $result = mysqli_query($conn,$sql);
 
-
+if (mysqli_num_rows($result) > 0) {
+  echo '<p style="text-align: justify;">The list of possible topics includes but is not restricted to the following areas :</p>';
+  echo    "<ul>";
 while($topicrow = mysqli_fetch_array($result))
 {
 echo "<li>" . $topicrow['tname'] . "</li>";
-}?>
+}
+}
+?>
    </ul><br>
-   <p style="text-align: justify;">This track welcomes theoretical models, algorithms, practical results, description and analysis of experiments and demonstrations of working prototypes of cloud computing applications. Your paper needs to be submitted to the track chairs.</p> 
+  <!-- <p style="text-align: justify;">This track welcomes theoretical models, algorithms, practical results, description and analysis of experiments and demonstrations of working prototypes of cloud computing applications. Your paper needs to be submitted to the track chairs.</p> -->
 
     <!-- / main body -->
     <div class="clear"></div>

@@ -1,3 +1,5 @@
+<?php require 'session.php';
+?>
 <!DOCTYPE html>
 <!--
 Template Name: Penyler
@@ -60,10 +62,10 @@ Licence URI: http://www.os-templates.com/template-terms
               <li><a href="edit_year.php">Edit website</a></li>
             </ul>
           </li>
-          <li><a href="update_info.html">Update Information</a></li>
-          <li><a href="new_pwd.html">Change Password</a></li>
-          <li><a href="#">Add new Admin</a></li>
-          <li><a href="#">Log Out</a></li>
+          <li><a href="update_info.php">Update Information</a></li>
+          <li><a href="new_pwd.php">Change Password</a></li>
+          <li><a href="new_admin.php">Add new Admin</a></li>
+          <li><a href="logout.php">Log Out</a></li>
         </ul>
         <!-- ################################################################################################ -->
       </nav>

@@ -1,7 +1,9 @@
 <?php
+// remove all session variables
 session_start();
-if(isset($_SESSION['id']))
-{
-echo $_SESSION['id'];
-}
+session_unset();
+
+// destroy the session
+session_destroy(); 
+header("Location:index.html");
 ?>

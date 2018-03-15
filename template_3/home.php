@@ -111,30 +111,43 @@ echo "<title>ACM SAC ".$row['year']."</title>";
     
     <div class="content three_quarter first"> 
       <h6>ACM SAC <?php echo $row['year'];?> </h6>
-      <p>For the past <?php echo $row['number'];?> years, the ACM Symposium on Applied Computing has been a primary gathering forum for applied computer scientists, computer engineers, software engineers, and application developers from around the world. SAC <?php echo $row['year'];?>  is sponsored by the ACM Special Interest Group on Applied Computing (SIGAPP), and is <b>hosted by</b> </p>
-      
-       <ul>
+      <?php
+        $sql="SELECT * FROM Paras WHERE year='$inputyear' AND type='home'";
+          $result = mysqli_query($conn,$sql);
+          $pararow = mysqli_fetch_array($result);
+            echo '<p style="text-align: justify;">'.$pararow['para']."</p>";
+          
+      ?>
+     <!-- <p>For the past <?php echo $row['number'];?> years, the ACM Symposium on Applied Computing has been a primary gathering forum for applied computer scientists, computer engineers, software engineers, and application developers from around the world. SAC <?php echo $row['year'];?>  is sponsored by the ACM Special Interest Group on Applied Computing (SIGAPP), and is <b>hosted by</b> </p>
+      -->
+       
          <?php
           $sql="SELECT * FROM Hosted_by WHERE year='$inputyear'";
           $result = mysqli_query($conn,$sql);
+          if(mysqli_num_rows($result) > 0) {
+           
+           echo "<ul>";
+           echo  "<p><b>The SRC Program is hosted by</b></p><br>";
           while($hostrow = mysqli_fetch_array($result))
           {
             echo '<li><a href="'.$hostrow['url'].'" target="_blank" style="color:#00BCD4">'.$hostrow['university_name'].", ".$hostrow['country']."</a></li>";
           }
+          echo  "</ul><br>";
+        }
           $sql="SELECT * FROM Sponsored_by WHERE year='$inputyear'";
           $result = mysqli_query($conn,$sql);
-          $sponrow=mysqli_fetch_array($result);
+          if(mysqli_num_rows($result) > 0) {
+           echo "<ul>";
+            echo "<p><b>The SRC Program is sponsored by</b></p><br>";
+
+          while ($sponrow=mysqli_fetch_array($result)){
+              echo '<li><h1 style="font-size: 20px; text-transform: capitalize;">';
+              echo '<a href="'.$sponrow['url'].'" target="_blank" style="color:#00BCD4">'.$sponrow['sponsor_name'].'</a>';
+              echo "</h1></li>";
+            }
+            echo "</ul><br>";
+         } 
 ?>
-
-
-       </ul><br>
-<p><b>The SRC Program is sponsored by</b></p><br>
-<h1 style="font-size: 30px; text-transform: capitalize;">
-          <?php echo '<a href="'.$sponrow['url'].'" target="_blank" style="color:#00BCD4">';
-          ?><?php echo $sponrow['sponsor_name']
-          ?></a>
-          </h1>
-
     </div>
     <div class="sidebar one_quarter"> 
    <h5 style="text-transform: capitalize;">Quick Links</h5>

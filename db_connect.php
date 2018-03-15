@@ -25,19 +25,24 @@ if ($result) {
   if (mysqli_num_rows($result) > 0) {
 	    
       $row=mysqli_fetch_array($result);
+      
       session_start();
-      $_SESSION['id']=$row['uid']; 
+      $_SESSION['uid']=$row['uid']; 
     header("Location:home.php");
     exit;
     }
   else {
 	 //echo "failure<br>";
+  $message = "Username and/or Password incorrect.\\nTry again.";
+  echo "<script type='text/javascript'>alert('$message');</script>";
+
 	  header("Location:index.html");
     exit; }
 
  }
 else {
     echo "Error  ".mysqli_error($conn)."<br>";
+
     }
 
 mysqli_close($conn);

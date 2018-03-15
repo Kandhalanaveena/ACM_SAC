@@ -107,8 +107,17 @@ echo "<title>ACM SAC ".$row['year']."</title>";
 <div class="wrapper row3">
   <main class="hoc container clear"> 
     <!-- main body -->
-    
-    <p style="text-align: justify;">All papers will be fully refereed and undergo a blind review process by at least three referees. The conference proceedings will be published by ACM. Hence, all accepted papers should be submitted in ACM 2-column camera-ready format for publication in the symposium proceedings. The final version of the paper should not be more than 6 pages long. An additional 2 pages are allowed with a charge of 80USD per extra page. Final Camera-ready submissions must follow the template available at link <b><a href="https://www.sigapp.org/sac/" target="_blank">HERE</a></b>.</p> 
+    <?php
+        $sql="SELECT * FROM Paras WHERE year='$inputyear' AND type='proceedings'";
+          $result = mysqli_query($conn,$sql);
+          $pararow = mysqli_fetch_array($result);
+            echo '<p style="text-align: justify;">'.$pararow['para'];
+          
+      
+      echo ' Final Camera-ready submissions must follow the template available at link <b><a href="https://www.sigapp.org/sac/" target="_blank">HERE</a>.</p>'
+
+      ?>
+   <!-- <p style="text-align: justify;">All papers will be fully refereed and undergo a blind review process by at least three referees. The conference proceedings will be published by ACM. Hence, all accepted papers should be submitted in ACM 2-column camera-ready format for publication in the symposium proceedings. The final version of the paper should not be more than 6 pages long. An additional 2 pages are allowed with a charge of 80USD per extra page. </b>.</p> -->
 
         
    

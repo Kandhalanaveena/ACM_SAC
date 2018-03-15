@@ -239,7 +239,29 @@ if ($result) {
 }
 else {
     echo "Error  ".mysqli_error($conn)."<br>";
-    }                  
+    }   
+
+
+$sql="CREATE TABLE Paras 
+( paraid int NOT NULL AUTO_INCREMENT,
+  para TEXT NOT NULL,
+  type VARCHAR(20) NOT NULL, 
+  year int NOT NULL,
+  PRIMARY KEY (paraid)
+ );";
+
+$result=mysqli_query($conn, $sql);
+
+if ($result) {
+    echo "Paras table creation successfull <br>";
+    
+}
+else {
+    echo "Error  ".mysqli_error($conn)."<br>";
+    }
+
+
+
 mysqli_close($conn);
 
 

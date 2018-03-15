@@ -43,8 +43,8 @@ Licence URI: http://www.os-templates.com/template-terms
               <li><a href="#">Edit website</a></li>
             </ul>
           </li>
-          <li class="active"><a href="update_info.php">Update Information</a></li>
-          <li><a href="new_pwd.php">Change Password</a></li>
+          <li ><a href="update_info.php">Update Information</a></li>
+          <li class="active"><a href="new_pwd.php">Change Password</a></li>
           <li><a href="new_admin.php">Add new Admin</a></li>
           <li><a href="logout.php">Log Out</a></li>
         </ul>
@@ -67,57 +67,52 @@ mysqli_select_db($dbConn, $dbName) or die('Cannot select database. ' . mysqli_er
 $uid=$_SESSION['uid'];
 
 // define variables and set to empty values
-$unameErr = $fnameErr = $lnameErr= $emailErr= $mobileErr =0;
-$uname = $fname =$lname = $email= $mobile ="";
+$currpassErr = $newpassErr = $confpassErr= 0;
+$currpass = $newpass = $confpass= "";
+
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  if (empty($_POST["username"])) {
-    $unameErr = 1;
+  if (empty($_POST["currpass"])) {
+    $currpassErr = 1;
   } else {
-    $uname =$_POST["username"];
+    $currpass =$_POST["currpass"];
   }
-  echo "".$unameErr."<br>";
-  echo $uname;
-  if (empty($_POST["firstname"])) {
-    $fnameErr = 1;
+   
+    if (empty($_POST["newpass"])) {
+    $newpassErr = 1;
   } else {
-    $fname=test_input($_POST["firstname"]);
+    $newpass=$_POST["newpass"];
   }
   
-  if (empty($_POST["lastname"])) {
-    $lnameErr = 1;
+  if (empty($_POST["confpass"])) {
+    $confpassErr = 1;
   } else {
-    $lname=test_input($_POST["lastname"]);
+    $confpass=$_POST["confpass"];
 }
- if (empty($_POST["email"])) {
-    $emailErr = 1;
-  } else {
-   $email=test_input($_POST["email"]);
- }   
 
-if (empty($_POST["mobile"])) {
-    $mobileErr = 1;
-  } else {
-   $mobile=test_input($_POST["mobile"]);
- } 
+if($confpass!=$newpass)
+{ 
+  $confpassErr = 1;
+}
+ 
   
     
   
   
 /* inserting into databse*/
 
-if($unameErr == 0 && $fnameErr == 0 && $lnameErr==0 && $emailErr==0 && $mobileErr==0 )
+if($currpassErr == 0 && $newpassErr == 0 && $confpassErr==0)
 {
-  $sql="UPDATE Admin SET fname='".$fname."',lname='".$lname."',email='".$email."',mobile='".$mobile."', username='".$uname."' WHERE uid=".$uid."";
-
+  $currpass=SHA1($currpass);
+  $newpass=SHA1($newpass);
+  $sql="UPDATE Admin SET password='$newpass' WHERE uid='$uid' AND password='$currpass'";
   $result = mysqli_query($dbConn, $sql);
-  if($result)
-  {
+  if($result){
       header("Location:home.php");
-  }
+    }  
   else
   {
-    echo "Error Updating Info";
+    echo "Error Updating Password";
 
   }
 
@@ -133,27 +128,7 @@ function test_input($data) {
   return $data;
 }
 
-if($unameErr==0 && empty($uname))
-{
 
-$sql="SELECT * from Admin WHERE uid='$uid'";
-
-$result = mysqli_query($dbConn, $sql);
-
-if($result)
-  {
-    $row=mysqli_fetch_array($result);
-    $uname=$row['username'];
-  }
-else
-{
-
- echo "No Username<br>";
- echo $uid;
-}
-
-
-}
 ?>
 
 <div class="wrapper row3">
@@ -162,43 +137,23 @@ else
     <!-- ################################################################################################ -->
 <div class="wrap-contact100">
      <form class="contact100-form validate-form" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" autocomplete="off">
-        <div class="wrap-input100 validate-input" data-validate="Name is required">
-          <span class="label-input100"><span class="error">*</span><?php if ($unameErr==1){ echo "<span class='error'>User Name :</span>";} else{ echo "User Name :"; }?></span>
-          <input class="input100" type="text" name="username" placeholder="Enter First name" <?php if ($unameErr==0){ echo "value="."'".$uname."'";} ?> >
+        <div class="wrap-input100 validate-input" data-validate="Current Password is required">
+          <span class="label-input100" style="left: -160px"><span class="error">*</span><?php 
+          if ($currpassErr==1){ echo "<span class='error'>Current Password:</span>";} else{ echo "Current Password:"; }?></span>
+          <input class="input100" type="password" name="currpass" placeholder="Enter current password">
           <span class="focus-input100"></span>
         </div>
 
-        <div class="wrap-input100 validate-input" data-validate="Name is required">
-          <span class="label-input100"><span class="error">*</span><?php if ($fnameErr==1){ echo "<span class='error'>First Name  :</span>";} else{ echo "First Name :"; }?></span>
-          <input class="input100" type="text" name="firstname" placeholder="Enter First name" <?php if ($fnameErr==0){ echo "value="."'".$fname."'";} ?> >
+        <div class="wrap-input100 validate-input" data-validate="New password is required">
+          <span class="label-input100" style="left: -160px"><span class="error">*</span><?php if ($newpassErr==1){ echo "<span class='error'>New Password:</span>";} else{ echo "New Password:"; }?></span>
+          <input class="input100" type="password" name="newpass" placeholder="Enter new password" >
           <span class="focus-input100"></span>
         </div>
-
-        <div class="wrap-input100 validate-input" data-validate="Name is required">
-          <span class="label-input100"><span class="error">*</span><?php if ($lnameErr==1){ echo "<span class='error'>Last Name :</span>";} else{ echo "Last Name :"; }?></span>
-          <input class="input100" type="text" name="lastname" placeholder="Enter Last name" <?php if ($lnameErr==0){ echo "value="."'".$lname."'";} ?>>
+        <div class="wrap-input100 validate-input" data-validate="Conform password is required">
+          <span class="label-input100" style="left: -160px"><span class="error">*</span><?php if ($confpassErr==1){ echo "<span class='error'>Confirm Password </span>";} else{ echo "Confirm Password:"; }?></span>
+          <input class="input100" type="password" name="confpass" placeholder="Re-enter password" >
           <span class="focus-input100"></span>
         </div>
-
-        <div class="wrap-input100 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
-          <span class="label-input100"><span class="error">*</span><?php if ($emailErr==1){ echo "<span class='error'>Email :</span>";} else{ echo "Email :"; }?></span>
-          <input class="input100" type="text" name="email" placeholder="Enter email id" <?php if ($emailErr==0){ echo "value="."'".$email."'";} ?> >
-          <span class="focus-input100"></span>
-        </div>
-
-        <div class="wrap-input100 validate-input" data-validate="Phone is required">
-
-          <span class="label-input100"><span class="error">*</span><?php if ($mobileErr==1){ echo "<span class='error'>Mobile :</span>";} else{ echo "Mobile :"; }?></span>
-          <input class="input100" type="text" name="mobile" placeholder="Enter mobile number" <?php if ($mobileErr==0){ echo "value="."'".$mobile."'";} ?>>
-          <span class="focus-input100"></span>
-        </div>
-
-        <!--<div class="wrap-input100 validate-input" data-validate = "Message is required">
-          <span class="label-input100">Message:</span>
-          <textarea class="input100" name="message" placeholder="Your Comment..."></textarea>
-          <span class="focus-input100"></span>
-        </div>
-        -->
         <div class="container-contact100-form-btn">
           <button class="contact100-form-btn">
             <span>
