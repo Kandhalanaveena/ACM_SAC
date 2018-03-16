@@ -33,8 +33,8 @@ Licence URI: http://www.os-templates.com/template-terms
       <nav id="mainav" class="clear"> 
         <!-- ################################################################################################ -->
         <ul class="clear">
-        <!-- <li><a href="home.php">Admin</a></li>-->
-          <li class="active"><a href="">Title</a></li>
+         <!-- <li><a href="home.html">Admin</a></li>-->
+          <li><a href="">Title</a></li>
           <li><a class="drop" href="">Home</a>
             <ul>
               <li><a href="host.php">Hosted by</a></li>
@@ -44,14 +44,14 @@ Licence URI: http://www.os-templates.com/template-terms
             </ul>
           </li>
           <li ><a href="track_topics.php">Track Topics</a></li>
-         <li ><a class="drop" href="">Chair persons</a>
+          <li ><a class="drop" href="">Chair persons</a>
             <ul>
               <li><a href="chairs_exist.php">Add Existing</a></li>
               <li><a href="chairs_new.php">Add New</a></li>
             </ul>
           </li>
           <li ><a href="prog_members.php">Program Committee</a></li>
-          <li><a class="drop" href="">Paragraphs</a>
+          <li ><a class="drop" href="">Paragraphs</a>
             <ul>
               <li><a href="para_home.php">Introduction</a></li>
               <li><a href="para_proceedings.php">Proceedings</a></li>
@@ -59,7 +59,7 @@ Licence URI: http://www.os-templates.com/template-terms
               <li><a href="para_topics.php">Track topics</a></li>
             </ul>
           </li>
-         <li><a class="drop" href="">User</a>
+          <li class="active"><a class="drop" href="">User</a>
             <ul>
               <li><a href="home.php">Back to Admin</a></li>
               <li><a href="logout.php">Logout</a></li>
@@ -67,7 +67,6 @@ Licence URI: http://www.os-templates.com/template-terms
               
             </ul>
           </li>
-
         </ul>
         <!-- ################################################################################################ -->
       </nav>
@@ -89,157 +88,44 @@ Licence URI: http://www.os-templates.com/template-terms
     <!-- ################################################################################################ -->
 <div class="wrap-contact100" style="color:#222222;">
 <br>
-<?php 
-require 'globals_temp.php';
-// define variables and set to empty values
-$yearErr = $numberErr = $cityErr = $countryErr = $startdateErr= $enddateErr= $gurlErr =0;
-$year = $number = $city = $country = $startdate =$enddate  = $gurl ="";
+<?php
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  if (empty($_POST["year"])) {
-    $yearErr = 1;
-  } else {
-    $year = test_input($_POST["year"]);
-  }
-  
-  if (empty($_POST["number"])) {
-    $numberErr = 1;
-  } else {
-    $number = test_input($_POST["number"]);
-  }
-    
-  if (empty($_POST["city"])) {
-    $cityErr = 1;
-  } else {
-    $city = test_input($_POST["city"]);
-  }
+$year=2018;
+$temp_no=3;
 
-  if (empty($_POST["country"])) {
-    $countryErr = 1;
-  } else {
-    $country = test_input($_POST["country"]);
-  }
+$actual_link = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+ $curr_page=strrchr ($actual_link , '/' );
 
-  if (empty($_POST["startdate"])) {
-    $startdateErr = 1;
-  } else {
-    $startdate = $_POST["startdate"];
-  }
-  if (empty($_POST["enddate"])) {
-    $enddateErr = 1;
-  } else {
-    $enddate = $_POST["enddate"];
-  }
-  if (empty($_POST["gurl"])) {
-    $gurlErr = 1;
-  } else {
-    $gurl = $_POST["gurl"];
-  }
+ $substring=substr($actual_link ,0,strlen($actual_link)-strlen($curr_page)+1);
+$link=$substring."template_".$temp_no."/home.php?year=".$year;
 
-/* inserting into databse*/
-
-if($yearErr == 0 && $numberErr == 0 && $cityErr == 0 && $countryErr == 0 && $startdateErr== 0 && $enddateErr== 0 && $gurlErr == 0 )
-{
-$dbHost = 'Localhost';
-$dbUser = 'b140622cs';
-$dbPass = 'b140622cs';
-$dbName = 'db_b140622cs';
-
-$dbConn = mysqli_connect ($dbHost, $dbUser, $dbPass) or die ('mysqli connect failed. ' . mysqli_error());
-mysqli_select_db($dbConn, $dbName) or die('Cannot select database. ' . mysqli_error());
-
-$sql="INSERT into Info (year, number, city, country, start_date, end_date, url, temp_no) 
-VALUES ('$year','$number', '$city', '$country', '$startdate', '$enddate', '$gurl', '$temp_no')";
-
-
-$result = mysqli_query($dbConn, $sql);
-
-if($result)
-{
-  $file = fopen("globals_year.php", "w") or die("Unable to open file!");
-  $txt = "<?php\n";
-  fwrite($file, $txt);
-  $txt = "\$year=".$year.";\n";
-  fwrite($file, $txt);
-  $txt = "?>\n";
-  fwrite($file, $txt);
-  fclose($file);
-
-
-
-  header("Location:host.php");
-}
-
-mysqli_close($dbConn);
-
-}
-
-}
-
-function test_input($data) {
-  $data = trim($data);
-  $data = stripslashes($data);
-  $data = htmlspecialchars($data);
-  $data=ucwords(strtolower($data));
-  return $data;
-}
 ?>
-    <p style="text-align: center;font-size:20px;">Title details</p>
+    
+    <p style="padding: 10px 40px 0px 50px">Copy the link and paste in browser to use the ACM SAC website.
+    </p>
      <form class="contact100-form validate-form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" autocomplete="off">
 
 
-<div class="wrap-input100 validate-input" data-validate="Name is required">
-           <span class="label-input100"><span class="error">*</span><?php if ($yearErr==1){ echo "<span class='error'>Year:</span>";} else{ echo "Year:"; }?></span>
-          <input class="input100" type="text" name="year" placeholder="Enter Year" <?php if ($yearErr==0){ echo "value="."'".$year."'";} ?> >
-          <span class="focus-input100"></span>
+<div class="wrap-input100 validate-input"  data-validate="Name is required">
+           <span class="label-input100">Link:</span>
+         <input class="input100" type="text" id="web_link" placeholder="Enter Year" <?php echo "value="."'".$link."'"; ?> >
+          <span class="focus-input100" ></span>
 
         </div>
-
-        <div class="wrap-input100 validate-input" data-validate="Name is required">
-          <span class="label-input100"><span class="error">*</span><?php if ($numberErr==1){ echo "<span class='error'>Number:</span>";} else{ echo "Number:"; }?></span>
-          <input class="input100" type="text" name="number" placeholder="Enter Number" <?php if ($numberErr==0){ echo "value="."'".$number."'";} ?>>
-          <span class="focus-input100"></span>
-        </div>
-
-         <div class="wrap-input100 validate-input" data-validate="Name is required">
-          <span class="label-input100"><span class="error">*</span><?php if ($cityErr==1){ echo "<span class='error'>City:</span>";} else{ echo "City:"; }?></span>
-          <input class="input100" type="text" name="city" placeholder="Enter City" <?php if ($cityErr==0){ echo "value="."'".$city."'";} ?>>
-          <span class="focus-input100"></span>
-        </div>
-
-         <div class="wrap-input100 validate-input" data-validate="Name is required">
-          <span class="label-input100"><span class="error">*</span><?php if ($countryErr==1){ echo "<span class='error'>Country:</span>";} else{ echo "Country:"; }?></span>
-          <input class="input100" type="text" name="country" placeholder="Enter Country" <?php if ($countryErr==0){ echo "value="."'".$country."'";} ?>>
-          <span class="focus-input100"></span>
-        </div>
-
-        <div class="wrap-input100 validate-input" data-validate="Name is required">
-          <span class="label-input100"><span class="error">*</span><?php if ($startdateErr==1){ echo "<span class='error'>Start date:</span>";} else{ echo "Start date:"; }?></span>
-          <input class="input100" type="date" name="startdate" placeholder="Enter Start date" <?php if ($startdateErr==0){ echo "value="."'".$startdate."'";} ?>>
-          <span class="focus-input100"></span>
-        </div>
-
-        <div class="wrap-input100 validate-input" data-validate="Name is required">
-          <span class="label-input100"><span class="error">*</span><?php if ($enddateErr==1){ echo "<span class='error'>End date:</span>";} else{ echo "End date:"; }?></span>
-          <input class="input100" type="date" name="enddate" placeholder="Enter End date" <?php if ($enddateErr==0){ echo "value="."'".$enddate."'";} ?>>
-          <span class="focus-input100"></span>
-        </div>
-
-        <div class="wrap-input100 validate-input" data-validate="Name is required">
-          <span class="label-input100"><span class="error">*</span><?php if ($gurlErr==1){ echo "<span class='error'>Global URL:</span>";} else{ echo "Global URL:"; }?></span>
-          <input class="input100" type="text" name="gurl" placeholder="Enter Global URL" <?php if ($gurlErr==0){ echo "value="."'".$gurl."'";} ?>>
-          <span class="focus-input100"></span>
-        </div>
+        
 
 <div class="container-contact100-form-btn">
-          <button class="contact100-form-btn">
+          <button class="contact100-form-btn" onclick="Generate_link()">
             <span>
-              Include
+              Copy Link
               <i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
             </span>
           </button>
         </div>
       </form>
+
+
+ 
 
 
 <br>
@@ -248,12 +134,6 @@ function test_input($data) {
 
 
 <!--Showing the List of track topics-->
-
-
-
-
-
-
 
     <div class="clear"></div>
   </main>
@@ -282,5 +162,14 @@ function test_input($data) {
 <script src="layout/scripts/jquery.min.js"></script>
 <script src="layout/scripts/jquery.backtotop.js"></script>
 <script src="layout/scripts/jquery.mobilemenu.js"></script>
+<script>
+function Generate_link() {
+  var copyText = document.getElementById("web_link");
+
+  copyText.select();
+  document.execCommand("Copy");
+  alert("Copied the link: " + copyText.value);
+}
+</script>
 </body>
 </html>

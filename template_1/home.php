@@ -216,7 +216,13 @@
 									       <div class="mu-title-area">
 										<h2>About The Conference</h2>
                                                                                </div>
-										<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam aliquam distinctio magni enim error commodi suscipit nobis alias nulla, itaque ex, vitae repellat amet neque est voluptatem iure maxime eius!</p>
+										<?php
+        $sql="SELECT * FROM Paras WHERE year='$inputyear' AND type='home'";
+          $result = mysqli_query($conn,$sql);
+          $pararow = mysqli_fetch_array($result);
+            echo '<p style="text-align: justify;">'.$pararow['para']."</p>";
+          
+      ?>
 
 										
 							
@@ -240,7 +246,16 @@
 
 							<div class="mu-title-area">
 								<h2 class="mu-title">proceedings Detail</h2>
-								<p>All papers will be fully refereed and undergo a blind review process by at least three referees. The conference proceedings will be published by ACM. Hence, all accepted papers should be submitted in ACM 2-column camera-ready format for publication in the symposium proceedings. The final version of the paper should not be more than 6 pages long. An additional 2 pages are allowed with a charge of 80USD per extra page. Final Camera-ready submissions must follow the template available at link <b><a href="https://www.sigapp.org/sac/" target="_blank">HERE</a></b>.</p>
+								 <?php
+                                                                   $sql="SELECT * FROM Paras WHERE year='$inputyear' AND type='proceedings'";
+                                                                   $result = mysqli_query($conn,$sql);
+                                                                   $pararow = mysqli_fetch_array($result);
+                                                                   echo '<p style="text-align: justify;">'.$pararow['para'];
+          
+      
+                                                                   echo ' Final Camera-ready submissions must follow the template available at link <b><a href="https://www.sigapp.org/sac/" target="_blank">HERE</a>.</p>'
+
+                                                                  ?>
 							</div>
 
 							
@@ -262,7 +277,13 @@
 
 							<div class="mu-title-area">
 								<h2 class="mu-title">Track Topics</h2>
-								<p style="text-align: justify;">The ACM SAC <?php  echo $row['year']; ?> Track on Cloud Computing welcomes paper submissions on all aspects of cloud computing research and applications with emphasis on those describing research on different forms of virtualization techniques as applied to systems computing. However the main theme of the CC track for this year is security of data in clouds. The list of possible topics includes but is not restricted to the following areas :</p> <br>
+								<p style="text-align: justify;">
+<?php
+                                                                 $sql="SELECT * FROM Paras WHERE year='$inputyear' AND type='topics'";
+          $result = mysqli_query($conn,$sql);
+          $pararow = mysqli_fetch_array($result);
+            echo '<p style="text-align: justify;">'.$pararow['para']."</p><br>"; ?>
+                                                                </p> <br>
   <!-- <ul>-->
    <?php
      $sql="SELECT t.tname FROM Topics as t, Topics_Year as y WHERE y.tid=t.tid and y.year='$inputyear'";
@@ -274,7 +295,7 @@ while($topicrow = mysqli_fetch_array($result))
 echo "<p>" . $topicrow['tname'] . "</p>";
 }?>
    <!--</ul>--><br>
- <p style="text-align: justify;">This track welcomes theoretical models, algorithms, practical results, description and analysis of experiments and demonstrations of working prototypes of cloud computing applications. Your paper needs to be submitted to the track chairs.</p> 
+ <!--<p style="text-align: justify;">This track welcomes theoretical models, algorithms, practical results, description and analysis of experiments and demonstrations of working prototypes of cloud computing applications. Your paper needs to be submitted to the track chairs.</p>  -->
 							</div>
 
 							
@@ -296,10 +317,18 @@ echo "<p>" . $topicrow['tname'] . "</p>";
 								<?php $sql="SELECT url FROM Submission_link WHERE year='$inputyear'";
                   $result = mysqli_query($conn,$sql);
                 $linkrow = mysqli_fetch_array($result)?>
-            <h6 style="text-transform: capitalize; text-align: center;">Paper Submission</h6><br>
-            <p style="text-align: justify;">The submissions should be in electronic format (pdf), based on original, unpublished work.. The file format should be PDF. The author(s) name(s) and address(es) must not appear in the body of the paper, and self-reference should be in the third person. This is to facilitate blind review. Only the title should be shown at the first page without the author's information. Papers must be formatted according to the template which is available at the SAC <?php ?> website :: <a href="https://www.sigapp.org/sac/" target="_blank">HERE</a>.</p> 
-            <p style="text-align: justify;">Full paper size is limited to 6 pages according to the above mentioned template, being allowed a maximum of 2 extra pages at the additional cost of 80 USD per extra page. Poster papers are limited to 2 pages and no additional pages are permitted. A few key words should be provided. A paper cannot be sent to more than one track. Original manuscripts (regular papers) should be submitted in electronic format through the START Conference manager web site :<br> <?php echo '<a href="'.$linkrow['url'].'" target="_blank">'.$linkrow['url'].'</a>'?></p>
-            <p>Abstracts for the Student Research Competition (SRC) should be submitted in electronic format through the START Conference manager web site : <br><?php echo '<a href="'.$linkrow['url'].'" target="_blank">'.$linkrow['url'].'</a>'?></p>
+            <!--<h6 style="text-transform: capitalize; text-align: center;">Paper Submission</h6><br> -->
+            <p style="text-align: justify;">
+               <?php
+        $sql="SELECT * FROM Paras WHERE year='$inputyear' AND type='submission'";
+          $result = mysqli_query($conn,$sql);
+          $pararow = mysqli_fetch_array($result);
+            echo '<p style="text-align: justify;">'.$pararow['para']."</p>";
+      ?>
+
+            </p> 
+        <!--    <p style="text-align: justify;">Full paper size is limited to 6 pages according to the above mentioned template, being allowed a maximum of 2 extra pages at the additional cost of 80 USD per extra page. Poster papers are limited to 2 pages and no additional pages are permitted. A few key words should be provided. A paper cannot be sent to more than one track. Original manuscripts (regular papers) should be submitted in electronic format through the START Conference manager web site :<br> <?php echo '<a href="'.$linkrow['url'].'" target="_blank">'.$linkrow['url'].'</a>'?></p>
+            <p>Abstracts for the Student Research Competition (SRC) should be submitted in electronic format through the START Conference manager web site : <br><?php echo '<a href="'.$linkrow['url'].'" target="_blank">'.$linkrow['url'].'</a>'?></p> -->
               <br><br>
 							</div>
                                <div class="mu-title-area">
@@ -502,7 +531,7 @@ echo '<li><a href="../template_'.$archrow['temp_no'].'/home.php?year='.$archrow[
 						</div>
 					</div> -->
 					<div class="mu-footer-bottom">
-						<p class="mu-copy-right">&copy; Copyright <a rel="nofollow" href="http://markups.io">markups.io</a>. All right reserved.</p>
+						<!--<p class="mu-copy-right">&copy; Copyright <a rel="nofollow" href="http://markups.io">markups.io</a>. All right reserved.</p>-->
 					</div>
 				</div>
 			</div>
