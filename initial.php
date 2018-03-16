@@ -295,6 +295,20 @@ else {
     }
 mysqli_close($conn);
 
+$sql="CREATE TABLE Files_table 
+(year int NOT NULL UNIQUE ,  
+pdf_name VARCHAR(500),
+word_name VARCHAR(500)  
+ );";
 
+$result=mysqli_query($conn, $sql);
+
+if ($result) {
+    echo "Files_table table creation successfull <br>";
+    
+}
+else {
+    echo "Error  ".mysqli_error($conn)."<br>";
+    }   
 echo "connection closed<br>";
 ?>

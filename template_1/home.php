@@ -101,8 +101,24 @@
 		  	</div><!-- /.container-fluid -->
 		</nav>
 		<!-- End menu -->
+                 <?php
+			$sql="SELECT * FROM Back_images WHERE year='$inputyear'";
+			$result = mysqli_query($conn,$sql);
+			$imagename='';
+			if($result)
+			{
+			$imagerow = mysqli_fetch_array($result);
+			$imagename=$imagerow['imagename'];
+			}
 
-		<div class="mu-hero-overlay">
+			if(!empty($imagename)){
+			echo '<div class="mu-hero-overlay" style="background-image:url('."'../background_images/".$imagename."'".');">';
+			      }
+			      else
+			      {
+				echo '<div class="mu-hero-overlay" style="background-image:url('."'images/NIT-Calicut.jpg');".'">'; 
+				} ?> 
+		<!--<div class="mu-hero-overlay"> -->
 			<div class="container">
 				<div class="mu-hero-area">
 
@@ -171,6 +187,16 @@
 				<div class="row">
 					<div class="colo-md-12">
 						<div class="mu-importantDates-area">
+                                                         <?php
+		      $sql="SELECT * FROM Gallery WHERE year='$inputyear'";
+		      $result = mysqli_query($conn,$sql);
+		      if(mysqli_num_rows($result)>0){
+			    echo '<div class="mu-title-area">';
+			    echo '<h2 class="mu-title">Gallery</h2>';
+			 
+			    echo '<p>Photos of conference are availiable <a href="gallery.php?year='.$inputyear.'">here</a>.</p></ul></div>';
+		 }
+		?>  
 
 							<div class="mu-title-area">
 								<h2 class="mu-title">Important Dates</h2>
@@ -362,7 +388,8 @@ echo "<p>" . $topicrow['tname'] . "</p>";
                              <?php $sql="SELECT pdf_name FROM Files_table WHERE year='$inputyear'";
                              $result = mysqli_query($conn,$sql);
                              $pdfrow = mysqli_fetch_array($result);
-                              $path="../pdf/".$pdfrow['pdf_name'];echo $pdfrow['pdf_name']; ?>
+                              $path="../pdf/".$pdfrow['pdf_name'];
+                             //echo $pdfrow['pdf_name']; ?>
 				
                              <h4 class="mu-title">Call for Papers</h4>
                                <a href= "<?php echo $path ?>">
@@ -513,18 +540,18 @@ echo "<p>" . $progrow['pname'] . ", ".$progrow['country']."</p>";
 							<div class="mu-title-area">
 								<h2 class="mu-title">Archives</h2>
 								<!--<ul>-->
-    <?php
-    $limityear=2017;  
-    $sql="SELECT year, temp_no FROM Info WHERE year>'$limityear' and year<='$inputyear'";
-  $result = mysqli_query($conn,$sql);
+					    <?php
+					    $limityear=2017;  
+					    $sql="SELECT year, temp_no FROM Info WHERE year>'$limityear' and year<='$inputyear'";
+					  $result = mysqli_query($conn,$sql);
 
 
-while($archrow = mysqli_fetch_array($result))
-{
-echo '<li><a href="../template_'.$archrow['temp_no'].'/home.php?year='.$archrow['year'].'" target="_blank" style="color:#00BCD4">Year '.$archrow['year'].'</a></li>';
-}
+					while($archrow = mysqli_fetch_array($result))
+					{
+					echo '<li><a href="../template_'.$archrow['temp_no'].'/home.php?year='.$archrow['year'].'" target="_blank" style="color:#00BCD4">Year '.$archrow['year'].'</a></li>';
+					}
 
-?>  
+					?>  
       <li><a href="http://www.nitc.ac.in/sac/sac2017/cc.htm" target="_blank" style="color:#00BCD4">Year 2017</a></li>
         <li><a href="http://www.nitc.ac.in/sac2018/bisite.usal.es/sac2016/cc/" target="_blank" style="color:#00BCD4">Year 2016</a></li>
         <li><a href="http://www.nitc.ac.in/sac/sac2014/cc.htm" target="_blank" style="color:#00BCD4">Year 2014</a></li>

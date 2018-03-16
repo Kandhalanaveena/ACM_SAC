@@ -57,7 +57,7 @@ ul li {
 
 a { 
 	text-decoration: none;
-	color: #2f2f2f;  
+	color: hotpink;;  
 }
 
 a:hover,
@@ -221,7 +221,7 @@ button:focus {
 /*--------------------*/
 
 #mu-hero {
-	background-image: url("assets/images/head-featured-bg.jpg");
+	/*background-image: url("assets/images/head-featured-bg.jpg"); */
 	display: inline;
 	float: left;
 	width: 100%;
@@ -1236,5 +1236,42 @@ button:focus {
 	
 	
 	
+}
+
+
+.one_half, .one_third, .two_third, .one_quarter, .two_quarter, .three_quarter{display:block; float:none; width:auto; margin:0 0 30px 0; padding:0;}
+#gallery{display:block; width:100%; margin-bottom:50px;}
+#gallery figure figcaption{display:block; width:100%; clear:both;}
+#gallery li{margin-bottom:30px;}
+
+
+.group .group > *:last-child, .clear .clear > *:last-child, .clear .group > *:last-child, .group .clear > *:last-child{margin-bottom:0;}/* Experimental - Needs more testing in different situations, stops double margin when stacking */
+	
+
+.fh5co-gallery {
+  position: relative;
+  margin-bottom: 7em;
+  float: left;
+  width: 100%;
+}
+.fh5co-gallery .gallery-item {
+  width: 25%;
+  position: relative;
+  overflow: hidden;
+  display: block;
+  float: left;
+  z-index: 110;
+}
+.fh5co-gallery .gallery-item img {
+  position: relative;
+  max-width: 100%;
+  -webkit-transform: scale(1.2);
+  -moz-transform: scale(1.2);
+  -ms-transform: scale(1.2);
+  -o-transform: scale(1.2);
+  transform: scale(1.2);
+  -webkit-transition: 0.9s;
+  -o-transition: 0.9s;
+  transition: 0.9s;
 }
 

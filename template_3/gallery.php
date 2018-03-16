@@ -141,7 +141,7 @@ echo '<br>';
 echo '<ul class="nospace clear">';
 
 $iter=1;
-$outerloop=intdiv ( $length, 1)+1;
+$outerloop=intdiv ( $length, 4)+1;
 for ($i=0; $i <$outerloop ; $i++) { 
   # code...
   if($iter<=$length)

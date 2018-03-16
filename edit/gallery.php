@@ -104,7 +104,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
    
     // Check if image file is a actual image or fake image
-    if(!empty($_FILES["image"]["tmp_name"])){
+    echo $_FILES['image']['name']."<br>";
+    if(!empty($_FILES["image"]["name"])){
         $check = getimagesize($_FILES["image"]["tmp_name"]);
         if($check !== false) {
             echo "File is an image - " . $check["mime"] . ".<br>";
@@ -121,7 +122,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     
     // Check if file already exists
-    
+   echo $uploadOk."<br>";
     if (file_exists($target_file)) {
         echo "Sorry, file already exists.";
         $uploadOk = 0;
@@ -209,7 +210,7 @@ echo '<br>';
 echo '<ul class="nospace clear">';
 
 $iter=1;
-$outerloop=intdiv ( $length, 1)+1;
+$outerloop=intdiv ( $length, 4)+1;
 for ($i=0; $i <$outerloop ; $i++) { 
   # code...
   if($iter<=$length)
