@@ -32,7 +32,8 @@ echo "<title>ACM SAC ".$row['year']."</title>";
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
-<!-- Top Background Image Wrapper --><?php
+<!-- Top Background Image Wrapper -->
+<?php
 $sql="SELECT * FROM Back_images WHERE year='$inputyear'";
 $result = mysqli_query($conn,$sql);
 $imagename='';
@@ -68,11 +69,11 @@ echo '<div class="bgded overlay" style="background-image:url('."'../background_i
       <nav id="mainav" class="fl_right">
         <ul class="clear">
           <li ><?php echo '<a href="home.php?year='.$inputyear.'">' ?>Home</a></li>
-          <li ><?php echo '<a href="proceedings.php?year='.$inputyear.'">' ?> Proceedings</a></li>
-          <li ><?php echo '<a href="track_topics.php?year='.$inputyear.'">' ?>Track Topics</a></li>
-          <li ><?php echo '<a href="paper_submission.php?year='.$inputyear.'">' ?>Paper Submission</a></li>
+          <li><?php echo '<a href="proceedings.php?year='.$inputyear.'">' ?> Proceedings</a></li>
+          <li><?php echo '<a href="track_topics.php?year='.$inputyear.'">' ?>Track Topics</a></li>
+          <li><?php echo '<a href="paper_submission.php?year='.$inputyear.'">' ?>Paper Submission</a></li>
           <li><?php echo '<a href="chairs.php?year='.$inputyear.'">' ?>Chairs</a></li>
-          <li class="active"><?php echo '<a href="program_committee.php?year='.$inputyear.'">' ?>Program Committee</a></li>
+          <li><?php echo '<a href="program_committee.php?year='.$inputyear.'">' ?>Program Committee</a></li>
           <li><?php echo '<a href="archives.php?year='.$inputyear.'">' ?>Archives</a></li>
         </ul>
       </nav>
@@ -122,21 +123,66 @@ echo '<div class="bgded overlay" style="background-image:url('."'../background_i
 <div class="wrapper row3">
   <main class="hoc container clear"> 
     <!-- main body -->
-     <h6 style="text-transform: capitalize;">Program Committee</h6>
-    <ul>
-  <?php  
-    $sql="SELECT p.pname, p.country FROM Program_committee as p, Program_committee_Year as y WHERE y.pid=p.pid and y.year='$inputyear'";
-  $result = mysqli_query($conn,$sql);
+<?php
+$sql= "SELECT * FROM Gallery WHERE year='$inputyear'";
 
 
-while($progrow = mysqli_fetch_array($result))
+$result = mysqli_query($conn, $sql); 
+     
+if ($result && mysqli_num_rows($result)>0)
 {
-echo "<li>" . $progrow['pname'] . ", ".$progrow['country']."</li>";
-}
+  $length=mysqli_num_rows($result);
 
+echo '<div class="content">'; 
+echo '<div id="gallery">';
+echo '<figure>';
+echo '<header class="heading">Image Gallery ACM SAC '.$inputyear.'</header>';
+echo '<br>';
+echo '<ul class="nospace clear">';
+
+$iter=1;
+$outerloop=intdiv ( $length, 4)+1;
+for ($i=0; $i <$outerloop ; $i++) { 
+  # code...
+  if($iter<=$length)
+  {
+   $imagerow=mysqli_fetch_array($result);
+   $imageurl="../gallery/".$inputyear."/".$imagerow['imagename'];
+   echo '<li class="one_quarter first"><a href="'.$imageurl.'" download=""><img src="'.$imageurl.'" alt="" style="width: 750px; height:220px;"></a></li>';
+    $iter=$iter+1;
+ }
+ if($iter<=$length)
+  {
+   $imagerow=mysqli_fetch_array($result);
+   $imageurl="../gallery/".$inputyear."/".$imagerow['imagename'];
+   echo '<li class="one_quarter"><a href="'.$imageurl.'" download=""><img src="'.$imageurl.'" alt="" style="width: 750px; height:220px;"></a></li>';
+    $iter=$iter+1;
+ }
+ if($iter<=$length)
+  {
+   $imagerow=mysqli_fetch_array($result);
+   $imageurl="../gallery/".$inputyear."/".$imagerow['imagename'];
+   echo '<li class="one_quarter"><a href="'.$imageurl.'" download=""><img src="'.$imageurl.'" alt="" style="width: 750px; height:220px;"></a></li>';
+    $iter=$iter+1;
+ }
+ if($iter<=$length)
+  {
+   $imagerow=mysqli_fetch_array($result);
+   $imageurl="../gallery/".$inputyear."/".$imagerow['imagename'];
+   echo '<li class="one_quarter"><a href="'.$imageurl.'" download=""><img src="'.$imageurl.'" alt="" style="width: 750px; height:220px;"></a></li>';
+    $iter=$iter+1;
+ }
+
+}
+echo "</ul>";
+echo "</figure>";
+echo "</div>";
+echo "</div>";
+echo "<!--Showing the List of track topics-->";
+}
 ?>
-   </ul>
-    <!-- / main body -->
+
+    
     <div class="clear"></div>
   </main>
 </div>
@@ -145,7 +191,7 @@ echo "<li>" . $progrow['pname'] . ", ".$progrow['country']."</li>";
 <div class="wrapper row5">
   <div id="copyright" class="hoc clear"> 
     <!-- ################################################################################################ -->
-    
+   
     <!-- ################################################################################################ -->
   </div>
 </div>

@@ -51,6 +51,14 @@ Licence URI: http://www.os-templates.com/template-terms
             </ul>
           </li>
           <li ><a href="prog_members.php">Program Committee</a></li>
+          <li ><a class="drop" href="">Paragraphs</a>
+            <ul>
+              <li><a href="para_home.php">Introduction</a></li>
+              <li><a href="para_proceedings.php">Proceedings</a></li>
+              <li><a href="para_submission.php">Paper Submission</a></li>
+              <li><a href="para_topics.php">Track topics</a></li>
+            </ul>
+          </li>
         </ul>
         <!-- ################################################################################################ -->
       </nav>
@@ -74,16 +82,6 @@ Licence URI: http://www.os-templates.com/template-terms
 <br>
 <?php
 //require 'globals_year.php';
-
-// define variables and set to empty values
-$nameErr = $desErr = $depErr= $insErr= $cityErr = $stateErr = $pinErr= $countryErr = $emailErr= $codeErr= $phoneErr= $faxErr =0;
-$name = $des =$dep = $ins= $city = $state= $pin= $country = $email =$code = $phone  = $fax ="";
-
-if ($_SERVER["REQUEST_METHOD"] == "GET") {
-
-// to get vlues from db
- 
-
 $dbHost = 'Localhost';
 $dbUser = 'b140622cs';
 $dbPass = 'b140622cs';
@@ -94,6 +92,14 @@ $dbConn = mysqli_connect ($dbHost, $dbUser, $dbPass) or die ('mysqli connect fai
 mysqli_select_db($dbConn, $dbName) or die('Cannot select database. ' . mysqli_error());
 
 
+// define variables and set to empty values
+$nameErr = $desErr = $depErr= $insErr= $cityErr = $stateErr = $pinErr= $countryErr = $emailErr= $codeErr= $phoneErr= $faxErr =0;
+$name = $des =$dep = $ins= $city = $state= $pin= $country = $email =$code = $phone  = $fax ="";
+
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
+
+// to get vlues from db
+ 
  if($_GET['cid']!=Null){
     
     $cid = $_GET['cid'];
@@ -119,14 +125,9 @@ mysqli_select_db($dbConn, $dbName) or die('Cannot select database. ' . mysqli_er
 
    }
   }
-  else
-  {
-    //echo "failure";
-  }
   // $_GET['cid']=Null;
    goto form;
  }
-
 
 }
 
@@ -137,10 +138,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   } else {
     $name = test_input($_POST["name"]);
   }
-  
-  
-    
-   
+ 
   $des=test_input($_POST["des"]);
   $dep=test_input($_POST["dep"]);
   $ins=test_input($_POST["ins"]);
@@ -158,56 +156,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 if($nameErr == 0 && $emailErr == 0)
 {
 
- $dbHost = 'Localhost';
-$dbUser = 'b140622cs';
-$dbPass = 'b140622cs';
-$dbName = 'db_b140622cs';
-$year= 2018;
-
-$dbConn = mysqli_connect ($dbHost, $dbUser, $dbPass) or die ('mysqli connect failed. ' . mysqli_error());
-mysqli_select_db($dbConn, $dbName) or die('Cannot select database. ' . mysqli_error());
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-   if($_POST["button1"]=="Edit")
-  {
-    
-   // query to update
-   $sql = "UPDATE Chairs SET cname='$name' , designation='$des' , institute='$ins' , city='$state' , pin='$pin' , country='$country' , email='$email' , country_code='$code' , phone='$phone', fax='$fax' WHERE cid='$cid'";
+ // query to update
+   $sql = "UPDATE Chairs SET cname='$name' , designation='$des', department='$dep' , institute='$ins' , city='$city', state='$state' , pin='$pin' , country='$country' , email='$email' , country_code='$code' , phone='$phone', fax='$fax' WHERE cid='$cid'";
   $result = mysqli_query($dbConn, $sql); 
-  if($result)
-  {
-    echo "success";
+   header("Location: chairs_exist.php");
   }
-  else
-  {
-    echo "failure";
-  }
-}
-
-
-}
-/*
-$sql="INSERT into Chairs (cname, designation, department, institute, city, state, pin, country, email, country_code, phone, fax) 
-VALUES ('$name','$des', '$dep','$ins', '$city', '$state', '$pin','$country', '$email',  '$code', '$phone', '$fax')";
-
-
-$result = mysqli_query($dbConn, $sql);
-
-$sql="INSERT into Chairs_Year (cid, year) 
-    SELECT cid, "."'".$year."'"." FROM Chairs WHERE cname='$name'";
-
-$result = mysqli_query($dbConn, $sql);
-
-
-if($result)
-{
-  header("Location:chairs_new.php");
-}
-
-mysqli_close($dbConn);
-*/
-}
 
 }
 
@@ -302,19 +255,23 @@ form:
           <input class="input100" type="text" name="fax" placeholder="Enter Fax" <?php if ($faxErr==0){ echo "value="."'".$fax."'";} ?>>
           <span class="focus-input100"></span>
         </div>
-          
-         <div class="wrap-input100 validate-input" data-validate="Name is required">
+
+
+          <input type="hidden" name="cid" <?php  echo "value="."'".$cid."'"; ?>>
+
+         <!--<div class="wrap-input100 validate-input" data-validate="Name is required">
           <span class="label-input100">   Cid:</span>
           <input class="input100" type="text" name="cid" placeholder="Enter Fax" <?php  echo "value="."'".$cid."'"; ?>>
           <span class="focus-input100"></span>
-        </div>
+        </div>-->
 
-         <input type='submit' name='button1' value='Edit' style='margin-top:6px;padding:6px10px;font-size:18px;color:white;background-color:#373737;border-radius:10px'><br>
-<!--
+        <!-- <input type='submit' name='button1' value='Edit' style='margin-top:6px;padding:6px10px;font-size:18px;color:white;background-color:#373737;border-radius:10px'><br>-->
+
+
 <div class="container-contact100-form-btn">
           <button class="contact100-form-btn">
             <span>
-              Add
+              Update
               <i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
             </span>
           </button>
@@ -326,10 +283,11 @@ form:
 <br>
 </div>
 
--->
 <!--Showing the List of track topics-->
 
-
+<?php
+mysqli_close($dbConn);
+?>
 
 
 
@@ -341,7 +299,7 @@ form:
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
-<div class="bgded overlay" style="background-image:url('images/NIT-Calicut.jpg');">
+<div class="bgded overlay" style="background-image:url('../images/NIT-Calicut.jpg');">
   <footer id="footer" class="hoc clear center"> 
     <!-- ################################################################################################ -->
     

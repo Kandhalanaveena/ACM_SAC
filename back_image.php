@@ -34,23 +34,23 @@ Licence URI: http://www.os-templates.com/template-terms
         <!-- ################################################################################################ -->
         <ul class="clear">
           <li><a href="home.html">Admin</a></li>
-          <li ><a href="title.php">Title</a></li>
-          <li class=" active"><a class="drop" href="">Home</a>
-           <ul>
+          <li><a href="title.php">Title</a></li>
+          <li><a class="drop" href="">Home</a>
+            <ul>
               <li><a href="host.php">Hosted by</a></li>
               <li><a href="sponsor.php">Sponsored by</a></li>
               <li><a href="imp_dates.php">Important dates</a></li>
               <li><a href="sub_link.php">Submission Link</a></li>
             </ul>
           </li>
-          <li ><a href="track_topics.php">Track Topics</a></li>
+          <li class="active"><a href="">Track Topics</a></li>
           <li ><a class="drop" href="">Chair persons</a>
             <ul>
               <li><a href="chairs_exist.php">Add Existing</a></li>
               <li><a href="chairs_new.php">Add New</a></li>
             </ul>
           </li>
-          <li ><a href="prog_members.php">Program Committee</a></li>
+          <li><a href="prog_members.php">Program Committee</a></li>
           <li><a class="drop" href="">Paragraphs</a>
             <ul>
               <li><a href="para_home.php">Introduction</a></li>
@@ -64,47 +64,8 @@ Licence URI: http://www.os-templates.com/template-terms
       </nav>
     </header>
   </div>
-  <!-- ################################################################################################ -->
-  <!-- ################################################################################################ -->
-  <!-- ################################################################################################ -->
-  
-  <!-- ################################################################################################ -->
-</div>
-<!-- End Top Background Image Wrapper -->
-<!-- ################################################################################################ -->
-<!-- ################################################################################################ -->
-<!-- ################################################################################################ -->
-<div class="wrapper row3">
-  <main class="hoc container clear"> 
-    <!-- main body -->
-    <!-- ################################################################################################ -->
-<div class="wrap-contact100" style="color:#222222;">
-<br>
-<?php
-require 'globals_year.php';
 
-// define variables and set to empty values
- $actErr = $dateErr= 0;
-$act = $date= "";
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  if (empty($_POST["act"])) {
-    $actErr = 1;
-  } else {
-    $act = test_input($_POST["act"]);
-  }
- 
-
-  if (empty($_POST["date"])) {
-    $dateErr = 1;
-  } else {
-    $date =$_POST["date"];
-  }
-  
-/* inserting into databse*/
-
-if($actErr == 0 && $dateErr == 0 )
-{
+  <?php
 $dbHost = 'Localhost';
 $dbUser = 'b140622cs';
 $dbPass = 'b140622cs';
@@ -112,81 +73,95 @@ $dbName = 'db_b140622cs';
 
 $dbConn = mysqli_connect ($dbHost, $dbUser, $dbPass) or die ('mysqli connect failed. ' . mysqli_error());
 mysqli_select_db($dbConn, $dbName) or die('Cannot select database. ' . mysqli_error());
+$year=2018;
+ $uploadOk = 1;
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $target_dir = "background_images/";
+    $target_file = $target_dir . basename($_FILES["image"]["name"]);
+    $uploadOk = 1;
+    $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+   
+    // Check if image file is a actual image or fake image
+    if(!empty($_FILES["image"]["tmp_name"])){
+        $check = getimagesize($_FILES["image"]["tmp_name"]);
+        if($check !== false) {
+            echo "File is an image - " . $check["mime"] . ".<br>";
+            $uploadOk = 1;
+          } 
+        else {
+            echo "File is not an image.";
+            $uploadOk = 0;
+            } 
+    }
+    else
+    {
+      $uploadOk=0;
+    }
+    
+    // Check if file already exists
+    
+    if (file_exists($target_file)) {
+        echo "Sorry, file already exists.";
+        $uploadOk = 0;
+    }
+    else
+    {
+        echo "file does not exists";
 
-$sql="INSERT into Important_dates (activity, start_date, year) 
-VALUES ( '$act', '$date', '$year')";
+    }
 
-$result = mysqli_query($dbConn, $sql);
-if($result)
-{
-  //echo "success";
-  header("Location:imp_dates.php");
-}
+    if ($uploadOk == 0) {
+        echo "Sorry, your file was not uploaded.";
+       // if everything is ok, try to upload file
+    } 
+    else {
+        if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
+            echo "The file ". basename($_FILES["image"]["name"]). " has been uploaded.";
+            $name=basename($_FILES["image"]["name"]);  
+            $sql="INSERT INTO Back_images (imagename, year) VALUES ('$name', '$year')";
 
+
+            $result = mysqli_query($dbConn, $sql);
+            if($result)
+            {
+                  header("Location:back_image.php");
+            }
+
+        } 
+        else {
+            echo "Sorry, there was an error uploading your file.";
+        }
+    }
 mysqli_close($dbConn);
 }
-}
-
-function test_input($data) {
-  $data = trim($data);
-  $data = stripslashes($data);
-  $data = htmlspecialchars($data);
-  $data=ucfirst(strtolower($data));
-  return $data;
-}
 ?>
-    <p style="text-align: center;font-size:20px;">Important Dates</p>
-     <form class="contact100-form validate-form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" autocomplete="off">
-
-
-    <div class="wrap-input100 validate-input" data-validate="Name is required">
-           <span class="label-input100"><span class="error">*</span><?php if ($actErr==1){ echo "<span class='error'>Notification:</span>";} else{ echo "Notification:"; }?></span>
-          <input class="input100" type="text" name="act" placeholder="Enter Activity Name" <?php if ($actErr==0){ echo "value="."'".$act."'";} ?> >
+</div>
+<div class="wrapper row3">
+  <main class="hoc container clear"> 
+    <!-- main body -->
+    <!-- ################################################################################################ -->
+<div class="wrap-contact100" style="color:#222222; ">
+<br>
+<p style="text-align: center;font-size:20px;">Background Image</p>
+     <form class="contact100-form validate-form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" autocomplete="off" enctype="multipart/form-data">
+      <div class="wrap-input100 validate-input" data-validate="Name is required">
+          <span class="label-input100"><span class="error">*</span><?php if ($uploadOk==0){ echo "<span class='error'>Image :</span>";} else{ echo "Image :"; }?></span>
+          <input class="input100" type="file" name="image" placeholder="Upload Image">
+          
           <span class="focus-input100"></span>
-
         </div>
 
-        <div class="wrap-input100 validate-input" data-validate="Name is required">
-          <span class="label-input100"><span class="error">*</span><?php if ($dateErr==1){ echo "<span class='error'>Date:</span>";} else{ echo "Date:"; }?></span>
-          <input class="input100" type="date" name="date" placeholder="Enter Date" <?php if ($dateErr==0){ echo "value="."'".$date."'";} ?>>
-          <span class="focus-input100"></span>
-        </div>
 
-
-<div class="container-contact100-form-btn">
+      <div class="container-contact100-form-btn">
           <button class="contact100-form-btn">
             <span>
-              Add
+              Upload
               <i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
             </span>
           </button>
         </div>
       </form>
 
-<?php
-
-$dbHost = 'Localhost';
-$dbUser = 'b140622cs';
-$dbPass = 'b140622cs';
-$dbName = 'db_b140622cs';
-
-$dbConn = mysqli_connect ($dbHost, $dbUser, $dbPass) or die ('mysqli connect failed. ' . mysqli_error());
-mysqli_select_db($dbConn, $dbName) or die('Cannot select database. ' . mysqli_error());
-
-$sql = "SELECT activity, start_date FROM Important_dates WHERE year='$year'";
-$result = mysqli_query($dbConn, $sql);
-if(mysqli_num_rows($result)>0) 
-{
-  echo "<p style='text-align: center; font-size:18px;'>Important Dates for ". $year."</p>";
-}
-echo "<ul style='margin-left:20px;'>";
-while ($row = mysqli_fetch_array($result)) {
-
-    echo "<li style='padding-left:10px;margin-bottom:4px;'>".$row['activity']." , ".$row['start_date']."</li>";
-    }
-echo "</ul>";
-mysqli_close($dbConn);
-?>
 
 
 <br>

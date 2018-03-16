@@ -12,6 +12,8 @@ Licence URI: http://www.os-templates.com/template-terms
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <link href="layout/styles/layout.css" rel="stylesheet" type="text/css" media="all">
+<link href="layout/styles/form.css" rel="stylesheet" type="text/css" media="all">
+
 </head>
 <body id="top">
 <!-- ################################################################################################ -->
@@ -83,108 +85,88 @@ Licence URI: http://www.os-templates.com/template-terms
   <main class="hoc container clear"> 
     <!-- main body -->
     <!-- ################################################################################################ -->
-    <ul class="nospace clear services">
-      <li >
-        <div class="inspace-30" style="color: #111111;" style="text-align:center;">
-       <!--   <h6 class="heading" style="text-align: center;font-size: 24px">How to create the website</h6> -->
+
+<br>
+<?php
+$dbHost = 'Localhost';
+$dbUser = 'b140622cs';
+$dbPass = 'b140622cs';
+$dbName = 'db_b140622cs';
+
+
+$dbConn = mysqli_connect ($dbHost, $dbUser, $dbPass) or die ('mysqli connect failed. ' . mysqli_error());
+mysqli_select_db($dbConn, $dbName) or die('Cannot select database. ' . mysqli_error());
+
+// define variables and set to empty values
+$yearErr= 0;
+$year="";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  if (empty($_POST["year"])) {
+    $yearErr = 1;
+  } else {
+    $year = test_input($_POST["year"]);
+  } 
+
+if($yearErr == 0 )
+  {
+  header("Location:edit/title.php");
+  }
+}
+
+function test_input($data) {
+  $data = trim($data);
+  $data = htmlspecialchars($data);
+  return $data;
+}
+?>    
+
+<div class="wrap-contact100" style="color:#222222;">
+<br>
+<p style="text-align: center;font-size:20px;">Enter the Year</p>
+     <form class="contact100-form validate-form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" autocomplete="off">
+
+
+    <div class="wrap-input100 validate-input" data-validate="Name is required">
+           <span class="label-input100"><span class="error">*</span><?php if ($yearErr==1){ echo "<span class='error'>Year :</span>";} else{ echo "Year :"; }?></span>
+          <input class="input100" type=number name="year" placeholder="Enter Year ...">
+          <span class="focus-input100"></span>
+
+    </div>
+
+<div class="container-contact100-form-btn">
+          <button class="contact100-form-btn">
+            <span>
+              Edit
+              <i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
+            </span>
+          </button>
+        </div>
+</form>
+
+<br>
+</div>
+
+<?php
+mysqli_close($dbConn);
+?>
+
+
+        <!--<div class="inspace-30" style="color: #111111;" style="text-align:center;">
          <form action="#" style="text-align:center;">
              Enter the year to edit :
             <input type=number name="year" style="text-align:center;"></br>
              <input type="submit" value="Edit">
          </form>
         </div>
-      </li>
-    <!-- <li class="one_quarter"><a href="#">
-        <figure><img src="images/demo/320x285.png" alt="">
-          <figcaption>Placerat</figcaption>
-        </figure>
-        </a></li>
-      <li class="one_quarter"><a href="#">
-        <figure><img src="images/demo/320x285.png" alt="">
-          <figcaption>Facilisis</figcaption>
-        </figure>
-        </a></li>
-      <li class="one_quarter first"><a href="#">
-        <figure><img src="images/NIT-Calicut.jpg" alt="">
-          <figcaption>Click for demo</figcaption>
-        </figure>
-        </a>
-        </li>
-      <li class="one_quarter"><a href="#">
-        <figure><img src="images/NIT-Calicut.jpg" alt="">
-          <figcaption>Click for demo</figcaption>
-        </figure>
-        </a></li>
-      <li class="one_quarter"><a href="#">
-        <figure><img src="images/NIT-Calicut.jpg" alt="">
-          <figcaption>Click for demo</figcaption>
-        </figure>
-        </a></li>
-        
-      
-      <li class="one_quarter"><a href="#">
-        <figure><img src="images/demo/320x285.png" alt="">
-          <figcaption>Hendrerit</figcaption>
-        </figure>
-        </a></li>-->
-
-        
-    </ul>
-    <!-- ################################################################################################ -->
-    <!-- / main body -->
-
-
+    -->
+    
     <div class="clear"></div>
   </main>
 </div>
-<!-- ################################################################################################ -->
-<!-- ################################################################################################ -->
-<!-- ################################################################################################ -->
-<!--<div class="wrapper bgded overlay" style="background-image:url('images/demo/backgrounds/02.png');">
-  <article class="hoc container clear center"> 
-    <h3 class="heading">Sagittis ac tincidunt vel mattis</h3>
-    <p class="btmspace-50">Vel erat suspendisse imperdiet eros in dignissim maximus eros ligula faucibus nisl in.</p>
-    <footer><a class="btn medium" href="#">Further Details</a></footer>
 
-  </article>
-</div>-->
-<!-- ################################################################################################ -->
-<!-- ################################################################################################ -->
-<!-- ################################################################################################ -->
-<!--<div class="wrapper row3">
-  <section class="hoc container clear"> 
 
-    <div class="center btmspace-80">
-      <h3 class="heading">Imperdiet urna lacus</h3>
-      <p class="nospace">Quis augue nullam urna tincidunt ut eleifend ac bibendum mauris ullamcorper.</p>
-    </div>
-    <ul class="nospace group cta">
-      <li class="one_third first">
-        <article><span>1</span>
-          <h6 class="heading font-x1"><a href="#">Ullamcorper in hac</a></h6>
-          <p>Augue eget nulla vulputate at posuere lacus vestibulum quisque ac orci id neque blandit tincidunt odio&hellip;</p>
-          <footer><a href="#">Details &raquo;</a></footer>
-        </article>
-      </li>
-      <li class="one_third">
-        <article><span>A</span>
-          <h6 class="heading font-x1"><a href="#">Habitasse platea dictumst</a></h6>
-          <p>Rutrum malesuada donec vel ante quam phasellus ultricies nisi condimentum imperdiet volutpat sed&hellip;</p>
-          <footer><a href="#">Details &raquo;</a></footer>
-        </article>
-      </li>
-      <li class="one_third">
-        <article><span><i class="fa fa-leaf"></i></span>
-          <h6 class="heading font-x1"><a href="#">Integer nec augue</a></h6>
-          <p>Tempus aliquam nec leo non massa congue scelerisque quis id urna cras eleifend faucibus diam curabitur&hellip;</p>
-          <footer><a href="#">Details &raquo;</a></footer>
-        </article>
-      </li>
-    </ul>
 
-    <div class="clear"></div>
-  </section>
-</div>-->
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->

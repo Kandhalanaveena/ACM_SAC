@@ -47,10 +47,18 @@ Licence URI: http://www.os-templates.com/template-terms
           <li ><a class="drop" href="">Chair persons</a>
             <ul>
               <li><a href="chairs_exist.php">Add Existing</a></li>
-              <li><a href="chairs_new.php">Add New</a></li>
+              <li><a href="chairs_new_new.php">Add New</a></li>
             </ul>
           </li>
           <li><a href="prog_members.php">Program Committee</a></li>
+          <li ><a class="drop" href="">Paragraphs</a>
+            <ul>
+              <li><a href="para_home.php">Introduction</a></li>
+              <li><a href="para_proceedings.php">Proceedings</a></li>
+              <li><a href="para_submission.php">Paper Submission</a></li>
+              <li><a href="para_topics.php">Track topics</a></li>
+            </ul>
+          </li>
         </ul>
         <!-- ################################################################################################ -->
       </nav>
@@ -92,8 +100,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   {
     
     $tid=$_POST["tid"];
-    //echo "year";
-    //echo $acid;
     $flag=1;
     $sql="SELECT tname from Topics WHERE tid='$tid'";
 
@@ -108,19 +114,8 @@ else if($_POST["button1"]=="Delete")
   {
    
     $tid=$_POST["tid"];
-    //echo "year";
-    //echo $dcid;
-
-    $sql="DELETE FROM Topics_Year WHERE tid='$tid' and year='$year'";
+     $sql="DELETE FROM Topics_Year WHERE tid='$tid' and year='$year'";
   $result = mysqli_query($dbConn, $sql); 
-  if($result)
-  {
-    //echo "success";
-  }
-  else
-  {
-    //echo "failure";
-  }
 
 }
 }
@@ -188,14 +183,14 @@ if (mysqli_num_rows($result)>0)
 
 {
 echo "<br>"; 
-      echo "<p style='text-align: center; font-size:18px;'>Track Topics in year ".$year."</p>";
+      echo "<p style='text-align: center; color:#222222; font-size:18px;'>Track Topics in year ".$year."</p>";
 
-echo "<table>"; 
+echo "<table align='center' style='max-width:800px;'>"; 
 
-  echo "<thead>
+  echo "<thead >
             <tr>
               <th>Track Topic name</th>
-              <th>Option</th>
+              <th></th>
             </tr>
           </thead>";
 echo "<tbody>";
@@ -203,7 +198,7 @@ echo "<tbody>";
 while ($row = mysqli_fetch_array($result)) {
     echo "<tr>";
     echo "<td>".$row['tname']."</td>";
-    echo "<td align='center'>";
+    echo "<td align='center'  width='120px'>";
     echo "<form action='";
     echo htmlspecialchars($_SERVER["PHP_SELF"]);
     echo "' method='post'>";

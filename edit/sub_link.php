@@ -11,8 +11,8 @@ Licence URI: http://www.os-templates.com/template-terms
 <title>ACM-SACC Admin Interface</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<link href="layout/styles/layout.css" rel="stylesheet" type="text/css" media="all">
-<link href="layout/styles/form.css" rel="stylesheet" type="text/css" media="all">
+<link href="../layout/styles/layout.css" rel="stylesheet" type="text/css" media="all">
+<link href="../layout/styles/form.css" rel="stylesheet" type="text/css" media="all">
 
 </head>
 <body id="top">
@@ -20,7 +20,7 @@ Licence URI: http://www.os-templates.com/template-terms
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
 <!-- Top Background Image Wrapper -->
-<div class="bgded overlay" style="background-image:url('images/NIT-Calicut.jpg');"> 
+<div class="bgded overlay" style="background-image:url('../images/NIT-Calicut.jpg');"> 
   <!-- ################################################################################################ -->
   <div class="wrapper">
     <header id="header" class="hoc clear">
@@ -33,8 +33,8 @@ Licence URI: http://www.os-templates.com/template-terms
       <nav id="mainav" class="clear"> 
         <!-- ################################################################################################ -->
         <ul class="clear">
-        <!-- <li><a href="home.php">Admin</a></li>-->
-          <li class="active"><a href="">Title</a></li>
+          <li><a href="home.html">Admin</a></li>
+          <li><a href="">Title</a></li>
           <li><a class="drop" href="">Home</a>
             <ul>
               <li><a href="host.php">Hosted by</a></li>
@@ -44,14 +44,14 @@ Licence URI: http://www.os-templates.com/template-terms
             </ul>
           </li>
           <li ><a href="track_topics.php">Track Topics</a></li>
-         <li ><a class="drop" href="">Chair persons</a>
+          <li ><a class="drop" href="">Chair persons</a>
             <ul>
               <li><a href="chairs_exist.php">Add Existing</a></li>
-              <li><a href="chairs_new.php">Add New</a></li>
+              <li><a href="chairs_new_new.php">Add New</a></li>
             </ul>
           </li>
           <li ><a href="prog_members.php">Program Committee</a></li>
-          <li><a class="drop" href="">Paragraphs</a>
+          <li class="active"><a class="drop" href="">Paragraphs</a>
             <ul>
               <li><a href="para_home.php">Introduction</a></li>
               <li><a href="para_proceedings.php">Proceedings</a></li>
@@ -59,15 +59,6 @@ Licence URI: http://www.os-templates.com/template-terms
               <li><a href="para_topics.php">Track topics</a></li>
             </ul>
           </li>
-         <li><a class="drop" href="">User</a>
-            <ul>
-              <li><a href="home.php">Back to Admin</a></li>
-              <li><a href="logout.php">Logout</a></li>
-              <li><a href="gen_link.php">Generate Website Link</a></li>
-              
-            </ul>
-          </li>
-
         </ul>
         <!-- ################################################################################################ -->
       </nav>
@@ -87,159 +78,89 @@ Licence URI: http://www.os-templates.com/template-terms
   <main class="hoc container clear"> 
     <!-- main body -->
     <!-- ################################################################################################ -->
-<div class="wrap-contact100" style="color:#222222;">
+<div class="wrap-contact100" style="color:#222222;width:800px">
 <br>
-<?php 
-require 'globals_temp.php';
-// define variables and set to empty values
-$yearErr = $numberErr = $cityErr = $countryErr = $startdateErr= $enddateErr= $gurlErr =0;
-$year = $number = $city = $country = $startdate =$enddate  = $gurl ="";
+<?php
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  if (empty($_POST["year"])) {
-    $yearErr = 1;
-  } else {
-    $year = test_input($_POST["year"]);
-  }
-  
-  if (empty($_POST["number"])) {
-    $numberErr = 1;
-  } else {
-    $number = test_input($_POST["number"]);
-  }
-    
-  if (empty($_POST["city"])) {
-    $cityErr = 1;
-  } else {
-    $city = test_input($_POST["city"]);
-  }
-
-  if (empty($_POST["country"])) {
-    $countryErr = 1;
-  } else {
-    $country = test_input($_POST["country"]);
-  }
-
-  if (empty($_POST["startdate"])) {
-    $startdateErr = 1;
-  } else {
-    $startdate = $_POST["startdate"];
-  }
-  if (empty($_POST["enddate"])) {
-    $enddateErr = 1;
-  } else {
-    $enddate = $_POST["enddate"];
-  }
-  if (empty($_POST["gurl"])) {
-    $gurlErr = 1;
-  } else {
-    $gurl = $_POST["gurl"];
-  }
-
-/* inserting into databse*/
-
-if($yearErr == 0 && $numberErr == 0 && $cityErr == 0 && $countryErr == 0 && $startdateErr== 0 && $enddateErr== 0 && $gurlErr == 0 )
-{
 $dbHost = 'Localhost';
 $dbUser = 'b140622cs';
 $dbPass = 'b140622cs';
 $dbName = 'db_b140622cs';
-
 $dbConn = mysqli_connect ($dbHost, $dbUser, $dbPass) or die ('mysqli connect failed. ' . mysqli_error());
 mysqli_select_db($dbConn, $dbName) or die('Cannot select database. ' . mysqli_error());
+// define variables and set to empty values
+$urlErr  =0;
+$url=$string  ="";
+$year=2018;
 
-$sql="INSERT into Info (year, number, city, country, start_date, end_date, url, temp_no) 
-VALUES ('$year','$number', '$city', '$country', '$startdate', '$enddate', '$gurl', '$temp_no')";
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  if (empty($_POST["url"])) {
+    $urlErr = 1;
+  } else {
+    $url = $_POST["url"];
+  }
+  
+/* inserting into databse*/
+
+if($urlErr == 0)
+{
+  $sql="UPDATE Submission_link SET url='$url' where year='$year'";
+  $result = mysqli_query($dbConn, $sql);
+  if($result)
+    {
+      //header("Location:track_topics.php");
+      $string="Changed successfully !!";
+    }
+  }
+}
 
 
+$sql="SELECT * from Submission_link WHERE year='$year'";
 $result = mysqli_query($dbConn, $sql);
 
 if($result)
-{
-  $file = fopen("globals_year.php", "w") or die("Unable to open file!");
-  $txt = "<?php\n";
-  fwrite($file, $txt);
-  $txt = "\$year=".$year.";\n";
-  fwrite($file, $txt);
-  $txt = "?>\n";
-  fwrite($file, $txt);
-  fclose($file);
-
-
-
-  header("Location:host.php");
-}
-
-mysqli_close($dbConn);
-
-}
-
-}
+  {
+    $row=mysqli_fetch_array($result);
+    if($urlErr==0 && empty($url))
+    {
+      $url=$row['url'];
+    }
+  }
 
 function test_input($data) {
   $data = trim($data);
-  $data = stripslashes($data);
   $data = htmlspecialchars($data);
-  $data=ucwords(strtolower($data));
   return $data;
 }
+
 ?>
-    <p style="text-align: center;font-size:20px;">Title details</p>
+    <p style="text-align: center;font-size:20px;">Paper Submission Link</p>
      <form class="contact100-form validate-form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" autocomplete="off">
 
 
-<div class="wrap-input100 validate-input" data-validate="Name is required">
-           <span class="label-input100"><span class="error">*</span><?php if ($yearErr==1){ echo "<span class='error'>Year:</span>";} else{ echo "Year:"; }?></span>
-          <input class="input100" type="text" name="year" placeholder="Enter Year" <?php if ($yearErr==0){ echo "value="."'".$year."'";} ?> >
-          <span class="focus-input100"></span>
-
-        </div>
-
         <div class="wrap-input100 validate-input" data-validate="Name is required">
-          <span class="label-input100"><span class="error">*</span><?php if ($numberErr==1){ echo "<span class='error'>Number:</span>";} else{ echo "Number:"; }?></span>
-          <input class="input100" type="text" name="number" placeholder="Enter Number" <?php if ($numberErr==0){ echo "value="."'".$number."'";} ?>>
+          <span class="label-input100"><span class="error">*</span><?php if ($urlErr==1){ echo "<span class='error'>URL:</span>";} else{ echo "URL:"; }?></span>
+          <input class="input100" type="url" name="url" placeholder="Enter Website URL" 
+          <?php if ($urlErr==0){ echo "value="."'".$url."'";} ?>
+          >
           <span class="focus-input100"></span>
         </div>
-
-         <div class="wrap-input100 validate-input" data-validate="Name is required">
-          <span class="label-input100"><span class="error">*</span><?php if ($cityErr==1){ echo "<span class='error'>City:</span>";} else{ echo "City:"; }?></span>
-          <input class="input100" type="text" name="city" placeholder="Enter City" <?php if ($cityErr==0){ echo "value="."'".$city."'";} ?>>
-          <span class="focus-input100"></span>
-        </div>
-
-         <div class="wrap-input100 validate-input" data-validate="Name is required">
-          <span class="label-input100"><span class="error">*</span><?php if ($countryErr==1){ echo "<span class='error'>Country:</span>";} else{ echo "Country:"; }?></span>
-          <input class="input100" type="text" name="country" placeholder="Enter Country" <?php if ($countryErr==0){ echo "value="."'".$country."'";} ?>>
-          <span class="focus-input100"></span>
-        </div>
-
-        <div class="wrap-input100 validate-input" data-validate="Name is required">
-          <span class="label-input100"><span class="error">*</span><?php if ($startdateErr==1){ echo "<span class='error'>Start date:</span>";} else{ echo "Start date:"; }?></span>
-          <input class="input100" type="date" name="startdate" placeholder="Enter Start date" <?php if ($startdateErr==0){ echo "value="."'".$startdate."'";} ?>>
-          <span class="focus-input100"></span>
-        </div>
-
-        <div class="wrap-input100 validate-input" data-validate="Name is required">
-          <span class="label-input100"><span class="error">*</span><?php if ($enddateErr==1){ echo "<span class='error'>End date:</span>";} else{ echo "End date:"; }?></span>
-          <input class="input100" type="date" name="enddate" placeholder="Enter End date" <?php if ($enddateErr==0){ echo "value="."'".$enddate."'";} ?>>
-          <span class="focus-input100"></span>
-        </div>
-
-        <div class="wrap-input100 validate-input" data-validate="Name is required">
-          <span class="label-input100"><span class="error">*</span><?php if ($gurlErr==1){ echo "<span class='error'>Global URL:</span>";} else{ echo "Global URL:"; }?></span>
-          <input class="input100" type="text" name="gurl" placeholder="Enter Global URL" <?php if ($gurlErr==0){ echo "value="."'".$gurl."'";} ?>>
-          <span class="focus-input100"></span>
-        </div>
+        
 
 <div class="container-contact100-form-btn">
           <button class="contact100-form-btn">
             <span>
-              Include
+              Update
               <i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
             </span>
           </button>
         </div>
       </form>
+
+
+ <p style="font-size: 18px;text-align: center;">
+ <?php echo "$string ";?>
+ </p>
 
 
 <br>
@@ -252,6 +173,10 @@ function test_input($data) {
 
 
 
+<?php
+mysqli_close($dbConn);
+?>
+
 
 
 
@@ -261,7 +186,7 @@ function test_input($data) {
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
-<div class="bgded overlay" style="background-image:url('images/NIT-Calicut.jpg');">
+<div class="bgded overlay" style="background-image:url('../images/NIT-Calicut.jpg');">
   <footer id="footer" class="hoc clear center"> 
     <!-- ################################################################################################ -->
     
@@ -279,8 +204,8 @@ function test_input($data) {
 <!-- ################################################################################################ -->
 <a id="backtotop" href="#top"><i class="fa fa-chevron-up"></i></a>
 <!-- JAVASCRIPTS -->
-<script src="layout/scripts/jquery.min.js"></script>
-<script src="layout/scripts/jquery.backtotop.js"></script>
-<script src="layout/scripts/jquery.mobilemenu.js"></script>
+<script src="../layout/scripts/jquery.min.js"></script>
+<script src="../layout/scripts/jquery.backtotop.js"></script>
+<script src="../layout/scripts/jquery.mobilemenu.js"></script>
 </body>
 </html>

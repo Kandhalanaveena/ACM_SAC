@@ -101,8 +101,24 @@
 		  	</div><!-- /.container-fluid -->
 		</nav>
 		<!-- End menu -->
+                 <?php
+			$sql="SELECT * FROM Back_images WHERE year='$inputyear'";
+			$result = mysqli_query($conn,$sql);
+			$imagename='';
+			if($result)
+			{
+			$imagerow = mysqli_fetch_array($result);
+			$imagename=$imagerow['imagename'];
+			}
 
-		<div class="mu-hero-overlay">
+			if(!empty($imagename)){
+			echo '<div class="mu-hero-overlay" style="background-image:url('."'../background_images/".$imagename."'".');">';
+			      }
+			      else
+			      {
+				echo '<div class="mu-hero-overlay" style="background-image:url('."'images/NIT-Calicut.jpg');".'">'; 
+				} ?> 
+		<!--<div class="mu-hero-overlay"> -->
 			<div class="container">
 				<div class="mu-hero-area">
 
@@ -171,6 +187,16 @@
 				<div class="row">
 					<div class="colo-md-12">
 						<div class="mu-importantDates-area">
+                                                         <?php
+		      $sql="SELECT * FROM Gallery WHERE year='$inputyear'";
+		      $result = mysqli_query($conn,$sql);
+		      if(mysqli_num_rows($result)>0){
+			    echo '<div class="mu-title-area">';
+			    echo '<h2 class="mu-title">Gallery</h2>';
+			 
+			    echo '<p>Photos of conference are availiable <a href="gallery.php?year='.$inputyear.'">here</a>.</p></ul></div>';
+		 }
+		?>  
 
 							<div class="mu-title-area">
 								<h2 class="mu-title">Important Dates</h2>
@@ -212,11 +238,37 @@
 				<div class="row">
 					<div class="col-md-12">
 						<div class="mu-about-area">
-							
-									       <div class="mu-title-area">
-										<h2>About The Conference</h2>
-                                                                               </div>
-										<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam aliquam distinctio magni enim error commodi suscipit nobis alias nulla, itaque ex, vitae repellat amet neque est voluptatem iure maxime eius!</p>
+			
+						       <div class="mu-title-area">
+							<h2>About The Conference</h2>
+		                                       </div>
+							<?php
+							$sql="SELECT * FROM Paras WHERE year='$inputyear' AND type='home'";
+							  $result = mysqli_query($conn,$sql);
+							  $pararow = mysqli_fetch_array($result);
+							    echo '<p style="text-align: justify;">'.$pararow['para']."</p>"; ?>
+						   <div class="mu-title-area">
+						     <h2>Sponsors</h2>
+						    </div>
+					<?php
+					 $sql="SELECT * FROM Sponsored_by WHERE year='$inputyear'";
+				  $result = mysqli_query($conn,$sql);
+				  if(mysqli_num_rows($result) > 0) {
+				   echo "</br>";
+				    echo '<p style="text-align:centre;"><b>The SRC Program is sponsored by</b></p><br>';
+
+				  while ($sponrow=mysqli_fetch_array($result)){
+				      echo '<p style="font-size: 20px; text-transform: capitalize; text-align:centre;">';
+				      echo '<a href="'.$sponrow['url'].'" target="_blank" >'.$sponrow['sponsor_name'].'</a>';
+				      echo "</p>";
+				    }
+				    echo "<br>";
+				 } 
+
+
+
+          
+      ?>
 
 										
 							
@@ -240,7 +292,16 @@
 
 							<div class="mu-title-area">
 								<h2 class="mu-title">proceedings Detail</h2>
-								<p>All papers will be fully refereed and undergo a blind review process by at least three referees. The conference proceedings will be published by ACM. Hence, all accepted papers should be submitted in ACM 2-column camera-ready format for publication in the symposium proceedings. The final version of the paper should not be more than 6 pages long. An additional 2 pages are allowed with a charge of 80USD per extra page. Final Camera-ready submissions must follow the template available at link <b><a href="https://www.sigapp.org/sac/" target="_blank">HERE</a></b>.</p>
+								 <?php
+                                                                   $sql="SELECT * FROM Paras WHERE year='$inputyear' AND type='proceedings'";
+                                                                   $result = mysqli_query($conn,$sql);
+                                                                   $pararow = mysqli_fetch_array($result);
+                                                                   echo '<p style="text-align: justify;">'.$pararow['para'];
+          
+      
+                                                                   echo ' Final Camera-ready submissions must follow the template available at link <b><a href="https://www.sigapp.org/sac/" target="_blank">HERE</a>.</p>'
+
+                                                                  ?>
 							</div>
 
 							
@@ -262,7 +323,13 @@
 
 							<div class="mu-title-area">
 								<h2 class="mu-title">Track Topics</h2>
-								<p style="text-align: justify;">The ACM SAC <?php  echo $row['year']; ?> Track on Cloud Computing welcomes paper submissions on all aspects of cloud computing research and applications with emphasis on those describing research on different forms of virtualization techniques as applied to systems computing. However the main theme of the CC track for this year is security of data in clouds. The list of possible topics includes but is not restricted to the following areas :</p> <br>
+								<p style="text-align: justify;">
+<?php
+                                                                 $sql="SELECT * FROM Paras WHERE year='$inputyear' AND type='topics'";
+          $result = mysqli_query($conn,$sql);
+          $pararow = mysqli_fetch_array($result);
+            echo '<p style="text-align: justify;">'.$pararow['para']."</p><br>"; ?>
+                                                                </p> <br>
   <!-- <ul>-->
    <?php
      $sql="SELECT t.tname FROM Topics as t, Topics_Year as y WHERE y.tid=t.tid and y.year='$inputyear'";
@@ -274,7 +341,7 @@ while($topicrow = mysqli_fetch_array($result))
 echo "<p>" . $topicrow['tname'] . "</p>";
 }?>
    <!--</ul>--><br>
- <p style="text-align: justify;">This track welcomes theoretical models, algorithms, practical results, description and analysis of experiments and demonstrations of working prototypes of cloud computing applications. Your paper needs to be submitted to the track chairs.</p> 
+ <!--<p style="text-align: justify;">This track welcomes theoretical models, algorithms, practical results, description and analysis of experiments and demonstrations of working prototypes of cloud computing applications. Your paper needs to be submitted to the track chairs.</p>  -->
 							</div>
 
 							
@@ -296,10 +363,18 @@ echo "<p>" . $topicrow['tname'] . "</p>";
 								<?php $sql="SELECT url FROM Submission_link WHERE year='$inputyear'";
                   $result = mysqli_query($conn,$sql);
                 $linkrow = mysqli_fetch_array($result)?>
-            <h6 style="text-transform: capitalize; text-align: center;">Paper Submission</h6><br>
-            <p style="text-align: justify;">The submissions should be in electronic format (pdf), based on original, unpublished work.. The file format should be PDF. The author(s) name(s) and address(es) must not appear in the body of the paper, and self-reference should be in the third person. This is to facilitate blind review. Only the title should be shown at the first page without the author's information. Papers must be formatted according to the template which is available at the SAC <?php ?> website :: <a href="https://www.sigapp.org/sac/" target="_blank">HERE</a>.</p> 
-            <p style="text-align: justify;">Full paper size is limited to 6 pages according to the above mentioned template, being allowed a maximum of 2 extra pages at the additional cost of 80 USD per extra page. Poster papers are limited to 2 pages and no additional pages are permitted. A few key words should be provided. A paper cannot be sent to more than one track. Original manuscripts (regular papers) should be submitted in electronic format through the START Conference manager web site :<br> <?php echo '<a href="'.$linkrow['url'].'" target="_blank">'.$linkrow['url'].'</a>'?></p>
-            <p>Abstracts for the Student Research Competition (SRC) should be submitted in electronic format through the START Conference manager web site : <br><?php echo '<a href="'.$linkrow['url'].'" target="_blank">'.$linkrow['url'].'</a>'?></p>
+            <!--<h6 style="text-transform: capitalize; text-align: center;">Paper Submission</h6><br> -->
+            <p style="text-align: justify;">
+               <?php
+        $sql="SELECT * FROM Paras WHERE year='$inputyear' AND type='submission'";
+          $result = mysqli_query($conn,$sql);
+          $pararow = mysqli_fetch_array($result);
+            echo '<p style="text-align: justify;">'.$pararow['para']."</p>";
+      ?>
+
+            </p> 
+        <!--    <p style="text-align: justify;">Full paper size is limited to 6 pages according to the above mentioned template, being allowed a maximum of 2 extra pages at the additional cost of 80 USD per extra page. Poster papers are limited to 2 pages and no additional pages are permitted. A few key words should be provided. A paper cannot be sent to more than one track. Original manuscripts (regular papers) should be submitted in electronic format through the START Conference manager web site :<br> <?php echo '<a href="'.$linkrow['url'].'" target="_blank">'.$linkrow['url'].'</a>'?></p>
+            <p>Abstracts for the Student Research Competition (SRC) should be submitted in electronic format through the START Conference manager web site : <br><?php echo '<a href="'.$linkrow['url'].'" target="_blank">'.$linkrow['url'].'</a>'?></p> -->
               <br><br>
 							</div>
                                <div class="mu-title-area">
@@ -309,10 +384,23 @@ echo "<p>" . $topicrow['tname'] . "</p>";
 
 
 
-
+                            <div class="mu-title-area">
+                             <?php $sql="SELECT pdf_name FROM Files_table WHERE year='$inputyear'";
+                             $result = mysqli_query($conn,$sql);
+                             $pdfrow = mysqli_fetch_array($result);
+                              $path="../pdf/".$pdfrow['pdf_name'];
+                             //echo $pdfrow['pdf_name']; ?>
+				
+                             <h4 class="mu-title">Call for Papers</h4>
+                               <a href= "<?php echo $path ?>">
+                                <span>
+                                  <img border="0" width="24" height="24" src="../images/pdf.png"></img>
+                                </span>
+                                </a>
+			   </div>
 
                            </div>
-			        
+                          
 	                  
 			</div>
 		</section>
@@ -452,18 +540,18 @@ echo "<p>" . $progrow['pname'] . ", ".$progrow['country']."</p>";
 							<div class="mu-title-area">
 								<h2 class="mu-title">Archives</h2>
 								<!--<ul>-->
-    <?php
-    $limityear=2017;  
-    $sql="SELECT year, temp_no FROM Info WHERE year>'$limityear' and year<='$inputyear'";
-  $result = mysqli_query($conn,$sql);
+					    <?php
+					    $limityear=2017;  
+					    $sql="SELECT year, temp_no FROM Info WHERE year>'$limityear' and year<='$inputyear'";
+					  $result = mysqli_query($conn,$sql);
 
 
-while($archrow = mysqli_fetch_array($result))
-{
-echo '<li><a href="../template_'.$archrow['temp_no'].'/home.php?year='.$archrow['year'].'" target="_blank" style="color:#00BCD4">Year '.$archrow['year'].'</a></li>';
-}
+					while($archrow = mysqli_fetch_array($result))
+					{
+					echo '<li><a href="../template_'.$archrow['temp_no'].'/home.php?year='.$archrow['year'].'" target="_blank" style="color:#00BCD4">Year '.$archrow['year'].'</a></li>';
+					}
 
-?>  
+					?>  
       <li><a href="http://www.nitc.ac.in/sac/sac2017/cc.htm" target="_blank" style="color:#00BCD4">Year 2017</a></li>
         <li><a href="http://www.nitc.ac.in/sac2018/bisite.usal.es/sac2016/cc/" target="_blank" style="color:#00BCD4">Year 2016</a></li>
         <li><a href="http://www.nitc.ac.in/sac/sac2014/cc.htm" target="_blank" style="color:#00BCD4">Year 2014</a></li>
@@ -502,7 +590,7 @@ echo '<li><a href="../template_'.$archrow['temp_no'].'/home.php?year='.$archrow[
 						</div>
 					</div> -->
 					<div class="mu-footer-bottom">
-						<p class="mu-copy-right">&copy; Copyright <a rel="nofollow" href="http://markups.io">markups.io</a>. All right reserved.</p>
+						<!--<p class="mu-copy-right">&copy; Copyright <a rel="nofollow" href="http://markups.io">markups.io</a>. All right reserved.</p>-->
 					</div>
 				</div>
 			</div>

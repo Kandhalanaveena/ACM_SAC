@@ -32,8 +32,23 @@ echo "<title>ACM SAC ".$row['year']."</title>";
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
-<!-- Top Background Image Wrapper -->
-<div class="bgded overlay" style="background-image:url('images/NIT-Calicut.jpg');"> 
+<!-- Top Background Image Wrapper --><?php
+$sql="SELECT * FROM Back_images WHERE year='$inputyear'";
+$result = mysqli_query($conn,$sql);
+$imagename='';
+if($result)
+{
+$imagerow = mysqli_fetch_array($result);
+$imagename=$imagerow['imagename'];
+}
+
+if(!empty($imagename)){
+echo '<div class="bgded overlay" style="background-image:url('."'../background_images/".$imagename."'".');">';
+      }
+      else
+      {
+        echo '<div class="bgded overlay" style="background-image:url('."'images/NIT-Calicut.jpg');".'">'; 
+        } ?> 
   <!-- ################################################################################################ -->
   <div class="wrapper row0">
     <div id="topbar" class="hoc clear"> 
