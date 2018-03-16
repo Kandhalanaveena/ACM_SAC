@@ -84,62 +84,41 @@ $dbName = 'db_b140622cs';
 $dbConn = mysqli_connect ($dbHost, $dbUser, $dbPass) or die ('mysqli connect failed. ' . mysqli_error());
 mysqli_select_db($dbConn, $dbName) or die('Cannot select database. ' . mysqli_error());
 
-$flag=0;
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-   if($_POST["button1"]=="Edit")
+  if($_POST["button1"]=="Edit")
   {
      $cid=$_POST['dcid'];
      header("Location: chairs_new.php?cid=$cid");
-     
-   
-
-}
+  }
 
 else if($_POST["button1"]=="Delete")
   {
-   
-    //$tid=$_POST["tid"];
-    //echo "year";
-    //echo $dcid;
-
-    $sql="DELETE FROM Chairs_Year WHERE cid='$dcid' and year='$year'";
+   $cid=$_POST['dcid'];
+    $sql="DELETE FROM Chairs_Year WHERE cid='$cid' and year='$year'";
   $result = mysqli_query($dbConn, $sql); 
-  if($result)
-  {
-    //echo "success";
-  }
-  else
-  {
-    //echo "failure";
   }
 
+else if($_POST["button1"]=="Add")
+  {
+    
+    $acid=$_POST["acid"];
+   $sql="INSERT into Chairs_Year (cid, year) 
+    SELECT cid, "."'".$year."'"." FROM Chairs WHERE cid='$acid'"; 
+    $result = mysqli_query($dbConn, $sql); 
+  }
 }
-}
-
-
 
 
 $sql= "SELECT cid, cname, designation, department, institute, city, state, pin, country, email, country_code, phone, fax  FROM Chairs ";
 
-
-
-
 $result = mysqli_query($dbConn, $sql); 
-      if($result)
-      {
-        //echo "success";
-
-      }
-      else
-      {
-        //echo "failure";
-      }
 if (mysqli_num_rows($result)>0)
 
 {
 
-      echo "<p style='text-align: center; font-size:18px;'>Select the Chair Persons</p>";
+echo "<p style='text-align: center; color:#222222; font-size:18px;'>Select the Chair Persons</p>";
 
 echo "<table>"; 
 
@@ -170,13 +149,8 @@ while ($row = mysqli_fetch_array($result)) {
     
     echo "<input type='submit' name='button1' value='Add' style='margin-top:6px;padding:6px 10px;font-size: 18px; color:white;background-color:#373737; border-radius:10px'>";
     echo "</form>";
-
-    /*echo "<form action='chairs_edit.php' method='post'>";
-    echo "<input type='hidden' name='acid' value='". $row['cid'] ."'>";
-    echo "<input type='submit' name='button1' value='Edit' style='margin-top:6px;padding:6px 10px;font-size: 18px; color:white;background-color:#373737; border-radius:10px'><br>";
-    echo "</form>";
-*/
-    echo "</td>";
+  
+   echo "</td>";
 
   echo "</tr>";
 
@@ -186,48 +160,8 @@ echo "</tbody>";
 echo "</table>";
       }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-   if($_POST["button1"]=="Add")
-  {
-    
-    $acid=$_POST["acid"];
-    //echo "year";
-    //echo $acid;
-    $sql="INSERT into Chairs_Year (cid, year) 
-    SELECT cid, "."'".$year."'"." FROM Chairs WHERE cid='$acid'"; 
 
-  $result = mysqli_query($dbConn, $sql); 
-  if($result)
-  {
-    //echo "success";
-  }
-  else
-  {
-    //echo "failure";
-  }
-}
-
-else if($_POST["button1"]=="Delete")
-  {
-   
-    $dcid=$_POST["dcid"];
-    //echo "year";
-    //echo $dcid;
-
-    $sql="DELETE FROM Chairs_Year WHERE cid='$dcid' and year='$year'";
-  $result = mysqli_query($dbConn, $sql); 
-  if($result)
-  {
-    //echo "success";
-  }
-  else
-  {
-    //echo "failure";
-  }
-
-}
-}
 
 
 /* new table*/
@@ -243,7 +177,7 @@ if (mysqli_num_rows($result)>0)
 
 {
 
-      echo "<br><p style='text-align: center; font-size:18px;'>Chair Persons included for ". $year."</p>";
+      echo "<br><p style='text-align: center; color:#222222; font-size:18px;'>Chair Persons included for ". $year."</p>";
 
 echo "<table>"; 
 
@@ -285,11 +219,7 @@ echo "</tbody>";
 echo "</table>";
 
 }
-
-
- 
-
-     ?>       
+?>       
     
 
 
@@ -308,7 +238,7 @@ echo "</table>";
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
-<div class="bgded overlay" style="background-image:url('images/NIT-Calicut.jpg');">
+<div class="bgded overlay" style="background-image:url('../images/NIT-Calicut.jpg');">
   <footer id="footer" class="hoc clear center"> 
     <!-- ################################################################################################ -->
     

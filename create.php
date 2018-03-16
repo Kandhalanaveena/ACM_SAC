@@ -31,18 +31,18 @@ Licence URI: http://www.os-templates.com/template-terms
       <nav id="mainav" class="clear"> 
         <!-- ################################################################################################ -->
         <ul class="clear">
-          <li class="active"><a href="home.php">Home</a></li>
+          <li ><a href="home.php">Home</a></li>
           
-          <li><a class="drop" href="#">Website</a>
+          <li class="active"><a class="drop" href="#">Website</a>
             <ul>
-              <li><a href="">Create new</a></li>
+              <li><a href="create.php">Create new</a></li>
               <li ><a href="edit_year.php">Edit website</a></li>
             </ul>
           </li>
-          <li><a href="update_info.html">Update Information</a></li>
-          <li><a href="new_pwd.html">Change Password</a></li>
-          <li><a href="#">Add new Admin</a></li>
-          <li><a href="#">Log Out</a></li>
+          <li ><a href="update_info.php">Update Information</a></li>
+          <li><a href="new_pwd.php">Change Password</a></li>
+          <li><a href="new_admin.php">Add new Admin</a></li>
+          <li><a href="logout.php">Log Out</a></li>
         </ul>
         <!-- ################################################################################################ -->
       </nav>

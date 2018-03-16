@@ -50,7 +50,7 @@ Licence URI: http://www.os-templates.com/template-terms
               <li><a href="chairs_new.php">Add New</a></li>
             </ul>
           </li>
-          <li class="active"><a href="">Program Committee</a></li>
+          <li class="active"><a href="prog_members.php">Program Committee</a></li>
         </ul>
         <!-- ################################################################################################ -->
       </nav>
@@ -73,78 +73,76 @@ Licence URI: http://www.os-templates.com/template-terms
 <div class="wrap-contact100" style="color:#222222;">
 <br>
     <p style="text-align: center;font-size:20px;">Member details</p>
-     <form class="contact100-form validate-form" action="db_prog.php" method="post" autocomplete="off">
-
-
-<div class="wrap-input100 validate-input" data-validate="Name is required">
-          <span class="label-input100">Name:</span>
-          <input class="input100" type="text" list="mem_names" name="mem_name" placeholder="Enter name">
-          <span class="focus-input100"></span>
-        </div>
-
-        <div class="wrap-input100 validate-input" data-validate="Name is required">
-          <span class="label-input100">Country:</span>
-          <input class="input100" type="text" list="countries" name="country" placeholder="Enter country">
-          <span class="focus-input100"></span>
-        </div>
-
-<datalist id="mem_names">
+     
 <?php
-
 $dbHost = 'Localhost';
 $dbUser = 'b140622cs';
 $dbPass = 'b140622cs';
 $dbName = 'db_b140622cs';
-
+$year='2018';
 $dbConn = mysqli_connect ($dbHost, $dbUser, $dbPass) or die ('mysqli connect failed. ' . mysqli_error());
 mysqli_select_db($dbConn, $dbName) or die('Cannot select database. ' . mysqli_error());
 
 $flag=0;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-echo "next";
    if($_POST["button1"]=="Edit")
   {
     
     $pid=$_POST["pid"];
-    //echo "year";
-    //echo $acid;
     $flag=1;
-    $sql="SELECT pname from Program_Committee WHERE pid='$pid'";
+    $sql="SELECT * from Program_committee WHERE pid='$pid'";
 
   $result = mysqli_query($dbConn, $sql); 
   
-  $topicrow=mysqli_fetch_array($result);
-  $edit_tname=$topicrow['pname'];
+  $memrow=mysqli_fetch_array($result);
+  $edit_pname=$memrow['pname'];
+  $edit_country=$memrow['country'];
 
-}
+  }
 
 else if($_POST["button1"]=="Delete")
   {
-   
-    $pid=$_POST["pid"];
-    //echo "year";
-    //echo $dcid;
-
-    $sql="DELETE FROM Program_Committee_Year WHERE pid='$pid' and year='$year'";
+  $pid=$_POST["pid"];
+  $sql="DELETE FROM Program_committee_Year WHERE pid='$pid' and year='$year'";
   $result = mysqli_query($dbConn, $sql); 
-  if($result)
-  {
-   echo "success";
   }
-  else
-  {
-    echo "failure";
-  }
-
 }
-}
+?>
 
 
+<form class="contact100-form validate-form" action="db_prog.php" method="post" autocomplete="off">
 
 
+<input type='hidden' name='pid' 
+          <?php if($flag==1) {
+            echo "value='".$pid."'";
+          }?>
+          >
 
+<div class="wrap-input100 validate-input" data-validate="Name is required">
+          <span class="label-input100">Name:</span>
+          <input class="input100" type="text" list="mem_names" name="mem_name" placeholder="Enter name"
+          <?php if($flag==1) {
+            echo "value='".$edit_pname."'";
+          }?>
+          >
+          <span class="focus-input100"></span>
+        </div>
 
+        <div class="wrap-input100 validate-input" data-validate="Name is required">
+          <span class="label-input100">Country:</span>
+          <input class="input100" type="text" list="countries" name="country" placeholder="Enter country"
+          <?php if($flag==1) {
+            echo "value='".$edit_country."'";
+          }?>
+          >
+          <span class="focus-input100"></span>
+        </div>
+
+<datalist id="mem_names">
+
+<?php
 
 $sql="SELECT distinct pname FROM Program_committee";
 $result = mysqli_query($dbConn, $sql);
@@ -178,9 +176,13 @@ $result = mysqli_query($dbConn, $sql);
         </div>
       </form>
 
+<br>
+<br>
+</div>
+
 <?php
 //require 'globals_year.php';
-$year=2018;
+
 
 $sql = "SELECT p.pname,p.country,p.pid  FROM Program_committee as p, Program_committee_Year as y where y.pid=p.pid and y.year='$year' ORDER BY p.pname ASC";
 $result = mysqli_query($dbConn, $sql);
@@ -188,15 +190,15 @@ $result = mysqli_query($dbConn, $sql);
 if (mysqli_num_rows($result)>0)
 
 {
+echo "<br>";
+      echo "<p style='text-align: center; color:#222222; font-size:18px;'>Committee Members in ". $year."</p>";
 
-      echo "<p style='text-align: center; font-size:18px;'>Track Topics in current year</p>";
-
-echo "<table>"; 
+echo "<table  align='center' style='max-width:680px;'>"; 
 
   echo "<thead>
             <tr>
               <th>Committee Member</th>
-              <th>Option</th>
+              <th></th>
             </tr>
           </thead>";
 echo "<tbody>";
@@ -223,17 +225,18 @@ echo "</tbody>";
 
 echo "</table>";
       }
+?>
 
 
 
 
 
+
+<?php
 mysqli_close($dbConn);
 ?>
 
-<br>
-<br>
-</div>
+
 
 
 <!--Showing the List of track topics-->
@@ -250,7 +253,7 @@ mysqli_close($dbConn);
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
-<div class="bgded overlay" style="background-image:url('images/NIT-Calicut.jpg');">
+<div class="bgded overlay" style="background-image:url('../images/NIT-Calicut.jpg');">
   <footer id="footer" class="hoc clear center"> 
     <!-- ################################################################################################ -->
     
