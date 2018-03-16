@@ -47,10 +47,18 @@ Licence URI: http://www.os-templates.com/template-terms
          <li ><a class="drop" href="">Chair persons</a>
             <ul>
               <li><a href="chairs_exist.php">Add Existing</a></li>
-              <li><a href="chairs_new.php">Add New</a></li>
+              <li><a href="chairs_new_new.php">Add New</a></li>
             </ul>
           </li>
           <li class="active"><a href="prog_members.php">Program Committee</a></li>
+          <li ><a class="drop" href="">Paragraphs</a>
+            <ul>
+              <li><a href="para_home.php">Introduction</a></li>
+              <li><a href="para_proceedings.php">Proceedings</a></li>
+              <li><a href="para_submission.php">Paper Submission</a></li>
+              <li><a href="para_topics.php">Track topics</a></li>
+            </ul>
+          </li>
         </ul>
         <!-- ################################################################################################ -->
       </nav>

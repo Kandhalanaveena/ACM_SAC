@@ -78,7 +78,7 @@ Licence URI: http://www.os-templates.com/template-terms
   <main class="hoc container clear"> 
     <!-- main body -->
     <!-- ################################################################################################ -->
-<div class="wrap-contact100" style="color:#222222;">
+<div class="wrap-contact100" style="color:#222222;width: 970px">
 <br>
 <?php
 
@@ -133,7 +133,7 @@ function test_input($data) {
 
 ?>
     <p style="text-align: center;font-size:20px;">Paper submission</p>
-    <p style="padding: 10px 40px 0px 50px">Enter the information with minimum 10 characters and multiple paragraphs are allowed, just seperate the paragraphs by newline !!! &#x263A
+    <p style="text-align: center;padding-top: 10px">Enter the information with minimum 10 characters and seperate multiple paragraphs by newline !!! &#x263A
     </p>
      <form class="contact100-form validate-form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" autocomplete="off">
 

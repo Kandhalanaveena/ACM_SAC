@@ -51,6 +51,14 @@ Licence URI: http://www.os-templates.com/template-terms
             </ul>
           </li>
           <li ><a href="prog_members.php">Program Committee</a></li>
+          <li ><a class="drop" href="">Paragraphs</a>
+            <ul>
+              <li><a href="para_home.php">Introduction</a></li>
+              <li><a href="para_proceedings.php">Proceedings</a></li>
+              <li><a href="para_submission.php">Paper Submission</a></li>
+              <li><a href="para_topics.php">Track topics</a></li>
+            </ul>
+          </li>
         </ul>
         <!-- ################################################################################################ -->
       </nav>
@@ -151,7 +159,7 @@ if($nameErr == 0 && $emailErr == 0)
  // query to update
    $sql = "UPDATE Chairs SET cname='$name' , designation='$des', department='$dep' , institute='$ins' , city='$city', state='$state' , pin='$pin' , country='$country' , email='$email' , country_code='$code' , phone='$phone', fax='$fax' WHERE cid='$cid'";
   $result = mysqli_query($dbConn, $sql); 
-   header("Location: chairs_exist.php?");
+   header("Location: chairs_exist.php");
   }
 
 }
