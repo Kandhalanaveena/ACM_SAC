@@ -74,25 +74,25 @@ Licence URI: http://www.os-templates.com/template-terms
 <br>
 <?php 
 //require 'globals_temp.php';
+
+$dbHost = 'Localhost';
+$dbUser = 'b140622cs';
+$dbPass = 'b140622cs';
+$dbName = 'db_b140622cs';
+$year='2018';
+$dbConn = mysqli_connect ($dbHost, $dbUser, $dbPass) or die ('mysqli connect failed. ' . mysqli_error());
+mysqli_select_db($dbConn, $dbName) or die('Cannot select database. ' . mysqli_error());
+
 // define variables and set to empty values
-$yearErr = $numberErr = $cityErr = $countryErr = $startdateErr= $enddateErr= $gurlErr =0;
-$year = $number = $city = $country = $startdate =$enddate  = $gurl ="";
-$edit_number = $edit_city = $edit_country = $edit_startdate = $edit_enddate = $edit_url ="";
+$numberErr = $cityErr = $countryErr = $startdateErr= $enddateErr= $gurlErr =0;
+$number = $city = $country = $startdate =$enddate  = $gurl ="";
 
 
 // updating database
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-  if($_POST["button1"]=="update") {
-   
-  if (empty($_POST["year"])) {
-    $yearErr = 1;
-  } else {
-    $year = test_input($_POST["year"]);
-  }
-  
-  if (empty($_POST["number"])) {
+if (empty($_POST["number"])) {
     $numberErr = 1;
   } else {
     $number = test_input($_POST["number"]);
@@ -125,47 +125,62 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   } else {
     $gurl = $_POST["gurl"];
   }
-if($yearErr == 0 && $numberErr == 0 && $cityErr == 0 && $countryErr == 0 && $startdateErr== 0 && $enddateErr== 0 && $gurlErr == 0 )
-{
-$dbHost = 'Localhost';
-$dbUser = 'b140622cs';
-$dbPass = 'b140622cs';
-$dbName = 'db_b140622cs';
-$year='2018';
-$dbConn = mysqli_connect ($dbHost, $dbUser, $dbPass) or die ('mysqli connect failed. ' . mysqli_error());
-mysqli_select_db($dbConn, $dbName) or die('Cannot select database. ' . mysqli_error());
 
 
-$sql = "UPDATE Info SET number = '$number', city = '$city', country = '$country', start_date = '$startdate', end_date = '$enddate', url = '$gurl'
+if( $numberErr == 0 && $cityErr == 0 && $countryErr == 0 && $startdateErr== 0 && $enddateErr== 0 && $gurlErr == 0 )
+  {
+$sql = "UPDATE Info SET number='$number', city = '$city', country = '$country', start_date = '$startdate', end_date = '$enddate', url = '$gurl'
 WHERE year='$year'";
-//$sql=" into Info (year, number, city, country, start_date, end_date, url, temp_no) 
-//VALUES ('$year','$number', '$city', '$country', '$startdate', '$enddate', '$gurl', '$temp_no')";
 
 
 $result = mysqli_query($dbConn, $sql);
 
-if($result)
-  {echo "success";}
-else 
-  {echo "failure";}
 
-mysqli_close($dbConn);
+  }   
 }
+
+
+
+$year=2018;
+$sql="SELECT * from Info WHERE year='$year'";
+$result = mysqli_query($dbConn, $sql);
+
+if($result)
+  {
+    $row=mysqli_fetch_array($result);
     
-}
-}
+    if($numberErr==0 && empty($number))
+    {
+      $number=$row['number'];
+    }
+    if($cityErr==0 && empty($city))
+    {
+      $city=$row['city'];
+    }
+    if($countryErr==0 && empty($country))
+    {
+      $country=$row['country'];
+    }
+    if($startdateErr==0 && empty($startdate))
+    {
+      $startdate=$row['start_date'];
+    }
+    if($enddateErr==0 && empty($enddate))
+    {
+      $enddate=$row['end_date'];
+    }
+    if($gurlErr==0 && empty($gurl))
+    {
+      $gurl=$row['url'];
+    }
+
+  }
 
 /* taking from databse*/
-
+/*
 if($yearErr == 0 && $numberErr == 0 && $cityErr == 0 && $countryErr == 0 && $startdateErr== 0 && $enddateErr== 0 && $gurlErr == 0 )
 {
-$dbHost = 'Localhost';
-$dbUser = 'b140622cs';
-$dbPass = 'b140622cs';
-$dbName = 'db_b140622cs';
-$year='2018';
-$dbConn = mysqli_connect ($dbHost, $dbUser, $dbPass) or die ('mysqli connect failed. ' . mysqli_error());
-mysqli_select_db($dbConn, $dbName) or die('Cannot select database. ' . mysqli_error());
+
 
 
    
@@ -182,16 +197,10 @@ mysqli_select_db($dbConn, $dbName) or die('Cannot select database. ' . mysqli_er
   $edit_url=$topicrow['url'];
   
 
-
-
-
-
-
 mysqli_close($dbConn);
 
 }
-
-
+*/
 
 function test_input($data) {
   $data = trim($data);
@@ -210,42 +219,42 @@ function test_input($data) {
 
         <div class="wrap-input100 validate-input" data-validate="Name is required">
           <span class="label-input100"><span class="error">*</span><?php if ($numberErr==1){ echo "<span class='error'>Number:</span>";} else{ echo "Number:"; }?></span>
-          <input class="input100" type="text" name="number" placeholder="Enter Number" <?php if ($numberErr==0){ echo "value="."'".$edit_number."'";} ?>>
+          <input class="input100" type="text" name="number" placeholder="Enter Number" <?php if ($numberErr==0){ echo "value="."'".$number."'";} ?>>
           <span class="focus-input100"></span>
         </div>
 
          <div class="wrap-input100 validate-input" data-validate="Name is required">
           <span class="label-input100"><span class="error">*</span><?php if ($cityErr==1){ echo "<span class='error'>City:</span>";} else{ echo "City:"; }?></span>
-          <input class="input100" type="text" name="city" placeholder="Enter City" <?php if ($cityErr==0){ echo "value="."'".$edit_city."'";} ?>>
+          <input class="input100" type="text" name="city" placeholder="Enter City" <?php if ($cityErr==0){ echo "value="."'".$city."'";} ?>>
           <span class="focus-input100"></span>
         </div>
 
          <div class="wrap-input100 validate-input" data-validate="Name is required">
           <span class="label-input100"><span class="error">*</span><?php if ($countryErr==1){ echo "<span class='error'>Country:</span>";} else{ echo "Country:"; }?></span>
-          <input class="input100" type="text" name="country" placeholder="Enter Country" <?php if ($countryErr==0){ echo "value="."'".$edit_country."'";} ?>>
+          <input class="input100" type="text" name="country" placeholder="Enter Country" <?php if ($countryErr==0){ echo "value="."'".$country."'";} ?>>
           <span class="focus-input100"></span>
         </div>
 
         <div class="wrap-input100 validate-input" data-validate="Name is required">
           <span class="label-input100"><span class="error">*</span><?php if ($startdateErr==1){ echo "<span class='error'>Start date:</span>";} else{ echo "Start date:"; }?></span>
-          <input class="input100" type="date" name="startdate" placeholder="Enter Start date" <?php if ($startdateErr==0){ echo "value="."'".$edit_startdate."'";} ?>>
+          <input class="input100" type="date" name="startdate" placeholder="Enter Start date" <?php if ($startdateErr==0){ echo "value="."'".$startdate."'";} ?>>
           <span class="focus-input100"></span>
         </div>
 
         <div class="wrap-input100 validate-input" data-validate="Name is required">
           <span class="label-input100"><span class="error">*</span><?php if ($enddateErr==1){ echo "<span class='error'>End date:</span>";} else{ echo "End date:"; }?></span>
-          <input class="input100" type="date" name="enddate" placeholder="Enter End date" <?php if ($enddateErr==0){ echo "value="."'".$edit_enddate."'";} ?>>
+          <input class="input100" type="date" name="enddate" placeholder="Enter End date" <?php if ($enddateErr==0){ echo "value="."'".$enddate."'";} ?>>
           <span class="focus-input100"></span>
         </div>
 
         <div class="wrap-input100 validate-input" data-validate="Name is required">
           <span class="label-input100"><span class="error">*</span><?php if ($gurlErr==1){ echo "<span class='error'>Global URL:</span>";} else{ echo "Global URL:"; }?></span>
-          <input class="input100" type="text" name="gurl" placeholder="Enter Global URL" <?php if ($gurlErr==0){ echo "value="."'".$edit_url."'";} ?>>
+          <input class="input100" type="url" name="gurl" placeholder="Enter Global URL" <?php if ($gurlErr==0){ echo "value="."'".$gurl."'";} ?>>
           <span class="focus-input100"></span>
         </div>
-       <input type='submit' name="button1" value="update" > 
+       <!--<input type='submit' name="button1" value="update" > -->
 
-<!--
+
 <div class="container-contact100-form-btn">
           <button class="contact100-form-btn">
             <span>
@@ -260,13 +269,17 @@ function test_input($data) {
 <br>
 <br>
 </div>
--->
+
 
 
 <!--Showing the List of track topics-->
 
 
 
+<?php
+mysqli_close($dbConn);
+
+?>
 
 
 
