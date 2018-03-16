@@ -34,7 +34,23 @@ echo "<title>ACM SAC ".$row['year']."</title>";
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
 <!-- Top Background Image Wrapper -->
-<div class="bgded overlay" style="background-image:url('images/NIT-Calicut.jpg');"> 
+<?php
+$sql="SELECT * FROM Back_images WHERE year='$inputyear'";
+$result = mysqli_query($conn,$sql);
+$imagename='';
+if($result)
+{
+$imagerow = mysqli_fetch_array($result);
+$imagename=$imagerow['imagename'];
+}
+
+if(!empty($imagename)){
+echo '<div class="bgded overlay" style="background-image:url('."'../background_images/".$imagename."'".');">';
+      }
+      else
+      {
+        echo '<div class="bgded overlay" style="background-image:url('."'images/NIT-Calicut.jpg');".'">'; 
+        } ?> 
   <!-- ################################################################################################ -->
   <div class="wrapper row0">
     <div id="topbar" class="hoc clear"> 
@@ -151,7 +167,17 @@ echo "<title>ACM SAC ".$row['year']."</title>";
     </div>
     <div class="sidebar one_quarter"> 
    <h5 style="text-transform: capitalize;">Quick Links</h5>
-   <div class="sdb_holder">
+   <?php
+      $sql="SELECT * FROM Gallery WHERE year='$inputyear'";
+      $result = mysqli_query($conn,$sql);
+      if(mysqli_num_rows($result)>0){
+            echo '<div class="sdb_holder">';
+            echo '<p class="heading" style="text-transform: capitalize; font-size: 20px">Gallery</p><ul>';
+         
+            echo '<p>Photos of conference are availiable <a href="gallery.php?year='.$inputyear.'">here</a>.</p></ul></div>';
+ }
+?>  
+ <div class="sdb_holder">
    <p class="heading" style="text-transform: capitalize; font-size: 20px">Important Dates</p>
     <ul>
          <?php
@@ -172,6 +198,13 @@ echo "<title>ACM SAC ".$row['year']."</title>";
    </div>
    <div class="sdb_holder">
    <p class="heading" style="text-transform: capitalize; font-size: 20px">Call for Papers</p>
+   <?php
+    $sql="SELECT * FROM Files_table WHERE year='$inputyear'";
+          $result = mysqli_query($conn,$sql);
+          $filerow=mysqli_fetch_array($result);
+          $pdflink="../pdf/".$filerow['pdf_name'];
+   ?>
+   <a href="<?php echo $pdflink; ?>" download ><i class="fa fa-file-pdf-o" style="font-size:36px; color:#00BCD4"></i></a>
    </div>
    <div class="sdb_holder">
    <p class="heading" style="text-transform: capitalize; font-size: 20px">Venue</p>

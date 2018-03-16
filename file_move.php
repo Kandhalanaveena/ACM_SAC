@@ -43,10 +43,10 @@ VALUES ('$year', '$name')";
 
 $result = mysqli_query($dbConn, $sql);
 
-/*if($result)
+if($result)
 {
-  header("Location:sub_link.php");
-}*/
+  header("Location:call_for_papers.php");
+}
 
 
 

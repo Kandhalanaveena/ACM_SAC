@@ -212,15 +212,35 @@
 				<div class="row">
 					<div class="col-md-12">
 						<div class="mu-about-area">
-							
-									       <div class="mu-title-area">
-										<h2>About The Conference</h2>
-                                                                               </div>
-										<?php
-        $sql="SELECT * FROM Paras WHERE year='$inputyear' AND type='home'";
-          $result = mysqli_query($conn,$sql);
-          $pararow = mysqli_fetch_array($result);
-            echo '<p style="text-align: justify;">'.$pararow['para']."</p>";
+			
+						       <div class="mu-title-area">
+							<h2>About The Conference</h2>
+		                                       </div>
+							<?php
+							$sql="SELECT * FROM Paras WHERE year='$inputyear' AND type='home'";
+							  $result = mysqli_query($conn,$sql);
+							  $pararow = mysqli_fetch_array($result);
+							    echo '<p style="text-align: justify;">'.$pararow['para']."</p>"; ?>
+						   <div class="mu-title-area">
+						     <h2>Sponsors</h2>
+						    </div>
+					<?php
+					 $sql="SELECT * FROM Sponsored_by WHERE year='$inputyear'";
+				  $result = mysqli_query($conn,$sql);
+				  if(mysqli_num_rows($result) > 0) {
+				   echo "</br>";
+				    echo '<p style="text-align:centre;"><b>The SRC Program is sponsored by</b></p><br>';
+
+				  while ($sponrow=mysqli_fetch_array($result)){
+				      echo '<p style="font-size: 20px; text-transform: capitalize; text-align:centre;">';
+				      echo '<a href="'.$sponrow['url'].'" target="_blank" >'.$sponrow['sponsor_name'].'</a>';
+				      echo "</p>";
+				    }
+				    echo "<br>";
+				 } 
+
+
+
           
       ?>
 
@@ -338,10 +358,22 @@ echo "<p>" . $topicrow['tname'] . "</p>";
 
 
 
-
+                            <div class="mu-title-area">
+                             <?php $sql="SELECT pdf_name FROM Files_table WHERE year='$inputyear'";
+                             $result = mysqli_query($conn,$sql);
+                             $pdfrow = mysqli_fetch_array($result);
+                              $path="../pdf/".$pdfrow['pdf_name'];echo $pdfrow['pdf_name']; ?>
+				
+                             <h4 class="mu-title">Call for Papers</h4>
+                               <a href= "<?php echo $path ?>">
+                                <span>
+                                  <img border="0" width="24" height="24" src="../images/pdf.png"></img>
+                                </span>
+                                </a>
+			   </div>
 
                            </div>
-			        
+                          
 	                  
 			</div>
 		</section>

@@ -11,8 +11,8 @@ Licence URI: http://www.os-templates.com/template-terms
 <title>ACM-SACC Admin Interface</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<link href="layout/styles/layout.css" rel="stylesheet" type="text/css" media="all">
-<link href="layout/styles/form.css" rel="stylesheet" type="text/css" media="all">
+<link href="../layout/styles/layout.css" rel="stylesheet" type="text/css" media="all">
+<link href="../layout/styles/form.css" rel="stylesheet" type="text/css" media="all">
 
 </head>
 <body id="top">
@@ -20,7 +20,7 @@ Licence URI: http://www.os-templates.com/template-terms
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
 <!-- Top Background Image Wrapper -->
-<div class="bgded overlay" style="background-image:url('images/NIT-Calicut.jpg');"> 
+<div class="bgded overlay" style="background-image:url('../images/NIT-Calicut.jpg');"> 
   <!-- ################################################################################################ -->
   <div class="wrapper">
     <header id="header" class="hoc clear">
@@ -70,13 +70,35 @@ $dbHost = 'Localhost';
 $dbUser = 'b140622cs';
 $dbPass = 'b140622cs';
 $dbName = 'db_b140622cs';
-
+ 
 $dbConn = mysqli_connect ($dbHost, $dbUser, $dbPass) or die ('mysqli connect failed. ' . mysqli_error());
 mysqli_select_db($dbConn, $dbName) or die('Cannot select database. ' . mysqli_error());
 $year=2018;
  $uploadOk = 1;
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $target_dir = "background_images/";
+    $target_dir = "../gallery/".$year."/";
+    if(file_exists($target_dir))
+    {
+      echo "file exists";
+    }
+    else
+    {
+      echo "file does not exists";
+      if(mkdir($target_dir,0777,true))
+      {
+        if(chmod($target_dir , 0777))
+        {
+          echo "permission changed";
+        }
+        echo "directory created";
+      }
+      else
+      {
+        echo "directory not created";
+      } 
+      
+    }
+
     $target_file = $target_dir . basename($_FILES["image"]["name"]);
     $uploadOk = 1;
     $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
@@ -118,13 +140,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
             echo "The file ". basename($_FILES["image"]["name"]). " has been uploaded.";
             $name=basename($_FILES["image"]["name"]);  
-            $sql="INSERT INTO Back_images (imagename, year) VALUES ('$name', '$year')";
+            $sql="INSERT INTO Gallery (imagename, year) VALUES ('$name', '$year')";
 
 
             $result = mysqli_query($dbConn, $sql);
             if($result)
             {
-                  header("Location:back_image.php");
+                  header("Location:gallery.php");
             }
 
         } 
@@ -132,7 +154,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             echo "Sorry, there was an error uploading your file.";
         }
     }
-mysqli_close($dbConn);
+    
 }
 ?>
 </div>
@@ -142,7 +164,7 @@ mysqli_close($dbConn);
     <!-- ################################################################################################ -->
 <div class="wrap-contact100" style="color:#222222; ">
 <br>
-<p style="text-align: center;font-size:20px;">Background Image</p>
+<p style="text-align: center;font-size:20px;">Gallary Images</p>
      <form class="contact100-form validate-form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" autocomplete="off" enctype="multipart/form-data">
       <div class="wrap-input100 validate-input" data-validate="Name is required">
           <span class="label-input100"><span class="error">*</span><?php if ($uploadOk==0){ echo "<span class='error'>Image :</span>";} else{ echo "Image :"; }?></span>
@@ -167,23 +189,73 @@ mysqli_close($dbConn);
 <br>
 <br>
 </div>
+<br>
+<br>
+<?php
+$sql= "SELECT * FROM Gallery WHERE year='$year'";
 
 
-<!--Showing the List of track topics-->
+$result = mysqli_query($dbConn, $sql); 
+     
+if ($result && mysqli_num_rows($result)>0)
+{
+  $length=mysqli_num_rows($result);
 
+echo '<div class="content">'; 
+echo '<div id="gallery">';
+echo '<figure>';
+echo '<header class="heading">Uploaded Images for year '.$year.'</header>';
+echo '<br>';
+echo '<ul class="nospace clear">';
 
+$iter=1;
+$outerloop=intdiv ( $length, 1)+1;
+for ($i=0; $i <$outerloop ; $i++) { 
+  # code...
+  if($iter<=$length)
+  {
+   $imagerow=mysqli_fetch_array($result);
+   $imageurl="../gallery/".$year."/".$imagerow['imagename'];
+   echo '<li class="one_quarter first"><a href="'.$imageurl.'" download=""><img src="'.$imageurl.'" alt="" style="width: 750px; height:220px;"></a></li>';
+    $iter=$iter+1;
+ }
+ if($iter<=$length)
+  {
+   $imagerow=mysqli_fetch_array($result);
+   $imageurl="../gallery/".$year."/".$imagerow['imagename'];
+   echo '<li class="one_quarter"><a href="'.$imageurl.'" download=""><img src="'.$imageurl.'" alt="" style="width: 750px; height:220px;"></a></li>';
+    $iter=$iter+1;
+ }
+ if($iter<=$length)
+  {
+   $imagerow=mysqli_fetch_array($result);
+   $imageurl="../gallery/".$year."/".$imagerow['imagename'];
+   echo '<li class="one_quarter"><a href="'.$imageurl.'" download=""><img src="'.$imageurl.'" alt="" style="width: 750px; height:220px;"></a></li>';
+    $iter=$iter+1;
+ }
+ if($iter<=$length)
+  {
+   $imagerow=mysqli_fetch_array($result);
+   $imageurl="../gallery/".$year."/".$imagerow['imagename'];
+   echo '<li class="one_quarter"><a href="'.$imageurl.'" download=""><img src="'.$imageurl.'" alt="" style="width: 750px; height:220px;"></a></li>';
+    $iter=$iter+1;
+ }
 
-
-
-
-
-    <div class="clear"></div>
+}
+echo "</ul>";
+echo "</figure>";
+echo "</div>";
+echo "</div>";
+echo "<!--Showing the List of track topics-->";
+}
+?>
+ <div class="clear"></div>
   </main>
 </div>
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
-<div class="bgded overlay" style="background-image:url('images/NIT-Calicut.jpg');">
+<div class="bgded overlay" style="background-image:url('../images/NIT-Calicut.jpg');">
   <footer id="footer" class="hoc clear center"> 
     <!-- ################################################################################################ -->
     
@@ -201,8 +273,8 @@ mysqli_close($dbConn);
 <!-- ################################################################################################ -->
 <a id="backtotop" href="#top"><i class="fa fa-chevron-up"></i></a>
 <!-- JAVASCRIPTS -->
-<script src="layout/scripts/jquery.min.js"></script>
-<script src="layout/scripts/jquery.backtotop.js"></script>
-<script src="layout/scripts/jquery.mobilemenu.js"></script>
+<script src="../layout/scripts/jquery.min.js"></script>
+<script src="../layout/scripts/jquery.backtotop.js"></script>
+<script src="../layout/scripts/jquery.mobilemenu.js"></script>
 </body>
 </html>

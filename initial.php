@@ -260,8 +260,39 @@ else {
     echo "Error  ".mysqli_error($conn)."<br>";
     }
 
+$sql="CREATE TABLE Back_images 
+( imageid int NOT NULL AUTO_INCREMENT,
+  imagename VARCHAR(100) NOT NULL,
+  year int NOT NULL UNIQUE,
+  PRIMARY KEY (imageid)
+ );";
+
+$result=mysqli_query($conn, $sql);
+
+if ($result) {
+    echo "Back_images table creation successfull <br>";
+    
+}
+else {
+    echo "Error  ".mysqli_error($conn)."<br>";
+    }
 
 
+$sql="CREATE TABLE Gallery 
+( imagename VARCHAR(100) NOT NULL,
+  year int NOT NULL ,
+  PRIMARY KEY (imagename, year)
+ );";
+
+$result=mysqli_query($conn, $sql);
+
+if ($result) {
+    echo "Gallery table creation successfull <br>";
+    
+}
+else {
+    echo "Error  ".mysqli_error($conn)."<br>";
+    }
 mysqli_close($conn);
 
 
