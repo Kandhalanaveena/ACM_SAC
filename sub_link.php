@@ -78,7 +78,7 @@ Licence URI: http://www.os-templates.com/template-terms
   <main class="hoc container clear"> 
     <!-- main body -->
     <!-- ################################################################################################ -->
-<div class="wrap-contact100" style="color:#222222;">
+<div class="wrap-contact100" style="color:#222222;width:800px">
 <br>
 <?php
 require 'globals_year.php';
