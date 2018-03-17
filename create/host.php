@@ -1,3 +1,55 @@
+<?php
+require 'session.php';
+require '../open.php'; 
+
+// define variables and set to empty values
+
+$temp_no=$_SESSION['create_tempno'];
+$year=$_SESSION['create_year'];
+
+$uniErr = $countryErr = $urlErr= 0;
+$uni = $country = $url= "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  if (empty($_POST["uni"])) {
+    $uniErr = 1;
+  } else {
+    $uni = test_input($_POST["uni"]);
+  }
+ 
+  if (empty($_POST["country"])) {
+    $countryErr = 1;
+  } else {
+    $country = test_input($_POST["country"]);
+  }
+  
+  $url=$_POST["url"];
+/* inserting into databse*/
+
+if($uniErr == 0 && $countryErr == 0 )
+{
+$sql="INSERT into Hosted_by (university_name, country, url, year) 
+VALUES ('$uni', '$country', '$url', '$year')";
+$result = mysqli_query($dbConn, $sql);
+
+if($result)
+  {
+    //echo "success";
+    header("Location:host.php");
+  }
+}
+}
+
+function test_input($data) {
+  $data = trim($data);
+  $data = stripslashes($data);
+  $data = htmlspecialchars($data);
+  $data=ucwords(strtolower($data));
+  return $data;
+}
+?>
+
+
 <!DOCTYPE html>
 <!--
 Template Name: Penyler
@@ -11,8 +63,8 @@ Licence URI: http://www.os-templates.com/template-terms
 <title>ACM-SACC Admin Interface</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<link href="layout/styles/layout.css" rel="stylesheet" type="text/css" media="all">
-<link href="layout/styles/form.css" rel="stylesheet" type="text/css" media="all">
+<link href="../layout/styles/layout.css" rel="stylesheet" type="text/css" media="all">
+<link href="../layout/styles/form.css" rel="stylesheet" type="text/css" media="all">
 
 </head>
 <body id="top">
@@ -20,7 +72,7 @@ Licence URI: http://www.os-templates.com/template-terms
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
 <!-- Top Background Image Wrapper -->
-<div class="bgded overlay" style="background-image:url('images/NIT-Calicut.jpg');"> 
+<div class="bgded overlay" style="background-image:url('../images/NIT-Calicut.jpg');"> 
   <!-- ################################################################################################ -->
   <div class="wrapper">
     <header id="header" class="hoc clear">
@@ -33,7 +85,6 @@ Licence URI: http://www.os-templates.com/template-terms
       <nav id="mainav" class="clear"> 
         <!-- ################################################################################################ -->
         <ul class="clear">
-          <li><a href="home.html">Admin</a></li>
           <li ><a href="title.php">Title</a></li>
           <li class=" active"><a class="drop" href="">Home</a>
            <ul>
@@ -41,6 +92,8 @@ Licence URI: http://www.os-templates.com/template-terms
               <li><a href="sponsor.php">Sponsored by</a></li>
               <li><a href="imp_dates.php">Important dates</a></li>
               <li><a href="sub_link.php">Submission Link</a></li>
+              <li><a href="call_for_papers.php">Call for Papers</a></li>
+              <li><a href="back_image.php">Background Image</a></li>
             </ul>
           </li>
           <li ><a href="track_topics.php">Track Topics</a></li>
@@ -57,6 +110,13 @@ Licence URI: http://www.os-templates.com/template-terms
               <li><a href="para_proceedings.php">Proceedings</a></li>
               <li><a href="para_submission.php">Paper Submission</a></li>
               <li><a href="para_topics.php">Track topics</a></li>
+            </ul>
+          </li>
+          <li><a class="drop" href="">User</a>
+            <ul>
+              <li><a href="../home.php">Back to Admin</a></li>
+              <li><a href="../logout.php">Logout</a></li>
+              <li><a href="gen_link.php">Generate Website Link</a></li>
             </ul>
           </li>
         </ul>
@@ -80,63 +140,7 @@ Licence URI: http://www.os-templates.com/template-terms
     <!-- ################################################################################################ -->
 <div class="wrap-contact100" style="color:#222222;">
 <br>
-<?php
-require 'globals_year.php';
 
-// define variables and set to empty values
-$uniErr = $countryErr = $urlErr= 0;
-$uni = $country = $url= "";
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  if (empty($_POST["uni"])) {
-    $uniErr = 1;
-  } else {
-    $uni = test_input($_POST["uni"]);
-  }
- 
-
-  if (empty($_POST["country"])) {
-    $countryErr = 1;
-  } else {
-    $country = test_input($_POST["country"]);
-  }
-  
-  $url=$_POST["url"];
-/* inserting into databse*/
-
-if($uniErr == 0 && $countryErr == 0 )
-{
-$dbHost = 'Localhost';
-$dbUser = 'b140622cs';
-$dbPass = 'b140622cs';
-$dbName = 'db_b140622cs';
-
-
-$dbConn = mysqli_connect ($dbHost, $dbUser, $dbPass) or die ('mysqli connect failed. ' . mysqli_error());
-mysqli_select_db($dbConn, $dbName) or die('Cannot select database. ' . mysqli_error());
-
-$sql="INSERT into Hosted_by (university_name, country, url, year) 
-VALUES ('$uni', '$country', '$url', '$year')";
-
-$result = mysqli_query($dbConn, $sql);
-if($result)
-{
-  //echo "success";
-  header("Location:host.php");
-}
-
-mysqli_close($dbConn);
-}
-}
-
-function test_input($data) {
-  $data = trim($data);
-  $data = stripslashes($data);
-  $data = htmlspecialchars($data);
-  $data=ucwords(strtolower($data));
-  return $data;
-}
-?>
     <p style="text-align: center;font-size:20px;">Hosting University details</p>
      <form class="contact100-form validate-form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" autocomplete="off">
 
@@ -156,7 +160,7 @@ function test_input($data) {
 
          <div class="wrap-input100 validate-input" data-validate="Name is required">
           <span class="label-input100">   URL:</span>
-          <input class="input100" type="text" name="url" placeholder="Enter Website URL" <?php if ($urlErr==0){ echo "value="."'".$url."'";} ?>>
+          <input class="input100" type="url" name="url" placeholder="Enter Website URL" <?php if ($urlErr==0){ echo "value="."'".$url."'";} ?>>
           <span class="focus-input100"></span>
         </div>
 
@@ -171,17 +175,9 @@ function test_input($data) {
       </form>
 
 <?php
-$dbHost = 'Localhost';
-$dbUser = 'b140622cs';
-$dbPass = 'b140622cs';
-$dbName = 'db_b140622cs';
-
-
-$dbConn = mysqli_connect ($dbHost, $dbUser, $dbPass) or die ('mysqli connect failed. ' . mysqli_error());
-mysqli_select_db($dbConn, $dbName) or die('Cannot select database. ' . mysqli_error());
-
 $sql = "SELECT university_name, country FROM Hosted_by WHERE year='$year'";
 $result = mysqli_query($dbConn, $sql);
+
 if(mysqli_num_rows($result)>0) 
 {
   echo "<p style='text-align: center; font-size:18px;'>Hosting Universities for ". $year."</p>";
@@ -192,7 +188,6 @@ while ($row = mysqli_fetch_array($result)) {
     echo "<li style='padding-left:10px;margin-bottom:4px;'>".$row['university_name']." , ".$row['country']."</li>";
     }
 echo "</ul>";
-mysqli_close($dbConn);
 ?>
 
 
@@ -201,11 +196,13 @@ mysqli_close($dbConn);
 </div>
 
 
-<!--Showing the List of track topics-->
 
 
 
 
+<?php
+require '../close.php';
+?>
 
 
 
@@ -215,7 +212,7 @@ mysqli_close($dbConn);
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
-<div class="bgded overlay" style="background-image:url('images/NIT-Calicut.jpg');">
+<div class="bgded overlay" style="background-image:url('../images/NIT-Calicut.jpg');">
   <footer id="footer" class="hoc clear center"> 
     <!-- ################################################################################################ -->
     
@@ -233,8 +230,8 @@ mysqli_close($dbConn);
 <!-- ################################################################################################ -->
 <a id="backtotop" href="#top"><i class="fa fa-chevron-up"></i></a>
 <!-- JAVASCRIPTS -->
-<script src="layout/scripts/jquery.min.js"></script>
-<script src="layout/scripts/jquery.backtotop.js"></script>
-<script src="layout/scripts/jquery.mobilemenu.js"></script>
+<script src="../layout/scripts/jquery.min.js"></script>
+<script src="../layout/scripts/jquery.backtotop.js"></script>
+<script src="../layout/scripts/jquery.mobilemenu.js"></script>
 </body>
 </html>

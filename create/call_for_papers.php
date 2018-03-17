@@ -1,3 +1,14 @@
+<?php
+
+require 'session.php';
+require '../open.php'; 
+
+// define variables and set to empty values
+
+$temp_no=$_SESSION['create_tempno'];
+$year=$_SESSION['create_year'];
+?>
+
 <!DOCTYPE html>
 <!--
 Template Name: Penyler
@@ -11,8 +22,8 @@ Licence URI: http://www.os-templates.com/template-terms
 <title>ACM-SACC Admin Interface</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<link href="layout/styles/layout.css" rel="stylesheet" type="text/css" media="all">
-<link href="layout/styles/form.css" rel="stylesheet" type="text/css" media="all">
+<link href="../layout/styles/layout.css" rel="stylesheet" type="text/css" media="all">
+<link href="../layout/styles/form.css" rel="stylesheet" type="text/css" media="all">
 
 </head>
 <body id="top">
@@ -20,7 +31,7 @@ Licence URI: http://www.os-templates.com/template-terms
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
 <!-- Top Background Image Wrapper -->
-<div class="bgded overlay" style="background-image:url('images/NIT-Calicut.jpg');"> 
+<div class="bgded overlay" style="background-image:url('../images/NIT-Calicut.jpg');"> 
   <!-- ################################################################################################ -->
   <div class="wrapper">
     <header id="header" class="hoc clear">
@@ -33,15 +44,15 @@ Licence URI: http://www.os-templates.com/template-terms
       <nav id="mainav" class="clear"> 
         <!-- ################################################################################################ -->
         <ul class="clear">
-          <li><a href="home.php">Admin</a></li>
           <li ><a href="title.php">Title</a></li>
-          <li class="active"><a class="drop" href="">Home</a>
-            <ul>
+          <li class=" active"><a class="drop" href="">Home</a>
+           <ul>
               <li><a href="host.php">Hosted by</a></li>
               <li><a href="sponsor.php">Sponsored by</a></li>
               <li><a href="imp_dates.php">Important dates</a></li>
               <li><a href="sub_link.php">Submission Link</a></li>
-	      <li><a href="call_for_papers.php">Call for Papers</a></li>
+              <li><a href="call_for_papers.php">Call for Papers</a></li>
+              <li><a href="back_image.php">Background Image</a></li>
             </ul>
           </li>
           <li ><a href="track_topics.php">Track Topics</a></li>
@@ -52,6 +63,21 @@ Licence URI: http://www.os-templates.com/template-terms
             </ul>
           </li>
           <li ><a href="prog_members.php">Program Committee</a></li>
+          <li><a class="drop" href="">Paragraphs</a>
+            <ul>
+              <li><a href="para_home.php">Introduction</a></li>
+              <li><a href="para_proceedings.php">Proceedings</a></li>
+              <li><a href="para_submission.php">Paper Submission</a></li>
+              <li><a href="para_topics.php">Track topics</a></li>
+            </ul>
+          </li>
+          <li><a class="drop" href="">User</a>
+            <ul>
+              <li><a href="../home.php">Back to Admin</a></li>
+              <li><a href="../logout.php">Logout</a></li>
+              <li><a href="gen_link.php">Generate Website Link</a></li>
+            </ul>
+          </li>
         </ul>
         <!-- ################################################################################################ -->
       </nav>
@@ -74,14 +100,13 @@ Licence URI: http://www.os-templates.com/template-terms
 <div class="wrap-contact100" style="color:#222222;">
 <br>
 <?php
-require 'globals_year.php';
 
 // define variables and set to empty values
 
 ?>
 
 
-<p style="text-align: center;font-size:20px;">Paper Submission Link</p>
+<p style="text-align: center;font-size:20px;">Upload the PDF</p>
      <form class="contact100-form validate-form" action="file_move.php" method="post" autocomplete="off" enctype="multipart/form-data">
 
          <div class="wrap-input100 validate-input" data-validate="Name is required">
@@ -110,8 +135,10 @@ require 'globals_year.php';
 </div>
 
 
-<!--Showing the List of track topics-->
 
+<?php
+require '../close.php';
+?>
 
 
 
@@ -124,7 +151,7 @@ require 'globals_year.php';
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
-<div class="bgded overlay" style="background-image:url('images/NIT-Calicut.jpg');">
+<div class="bgded overlay" style="background-image:url('../images/NIT-Calicut.jpg');">
   <footer id="footer" class="hoc clear center"> 
     <!-- ################################################################################################ -->
    
@@ -142,8 +169,8 @@ require 'globals_year.php';
 <!-- ################################################################################################ -->
 <a id="backtotop" href="#top"><i class="fa fa-chevron-up"></i></a>
 <!-- JAVASCRIPTS -->
-<script src="layout/scripts/jquery.min.js"></script>
-<script src="layout/scripts/jquery.backtotop.js"></script>
-<script src="layout/scripts/jquery.mobilemenu.js"></script>
+<script src="../layout/scripts/jquery.min.js"></script>
+<script src="../layout/scripts/jquery.backtotop.js"></script>
+<script src="../layout/scripts/jquery.mobilemenu.js"></script>
 </body>
 </html>

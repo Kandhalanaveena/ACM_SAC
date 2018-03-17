@@ -1,3 +1,70 @@
+<?php
+
+require 'session.php';
+require '../open.php'; 
+
+// define variables and set to empty values
+
+$temp_no=$_SESSION['create_tempno'];
+$year=$_SESSION['create_year'];
+
+$nameErr = $desErr = $depErr= $insErr= $cityErr = $stateErr = $pinErr= $countryErr = $emailErr= $codeErr= $phoneErr= $faxErr =0;
+$name = $des =$dep = $ins= $city = $state= $pin= $country = $email =$code = $phone  = $fax ="";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  if (empty($_POST["name"])) {
+    $nameErr = 1;
+  } else {
+    $name = test_input($_POST["name"]);
+  }
+  
+  
+  $des=test_input($_POST["des"]);
+  $dep=test_input($_POST["dep"]);
+  $ins=test_input($_POST["ins"]);
+  $city=test_input($_POST["city"]);
+  $state=test_input($_POST["state"]);
+  $pin=$_POST["pin"];
+  $country=test_input($_POST["country"]);
+  $email = $_POST["email"];
+  $code=$_POST["code"];
+  $phone=$_POST["phone"];
+  $fax=$_POST["fax"];
+
+/* inserting into databse*/
+
+if($nameErr == 0 && $emailErr == 0)
+{
+
+$sql="INSERT into Chairs (cname, designation, department, institute, city, state, pin, country, email, country_code, phone, fax) 
+VALUES ('$name','$des', '$dep','$ins', '$city', '$state', '$pin','$country', '$email',  '$code', '$phone', '$fax')";
+
+$result = mysqli_query($dbConn, $sql);
+
+$sql="INSERT into Chairs_Year (cid, year) 
+    SELECT cid, "."'".$year."'"." FROM Chairs WHERE cname='$name'";
+
+$result = mysqli_query($dbConn, $sql);
+
+
+if($result)
+  {
+    header("Location:chairs_new.php");
+  }
+
+}
+}
+
+function test_input($data) {
+  $data = trim($data);
+  $data = stripslashes($data);
+  $data = htmlspecialchars($data);
+  $data=ucwords(strtolower($data));
+  return $data;
+}
+?>
+
+
 <!DOCTYPE html>
 <!--
 Template Name: Penyler
@@ -11,8 +78,8 @@ Licence URI: http://www.os-templates.com/template-terms
 <title>ACM-SACC Admin Interface</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<link href="layout/styles/layout.css" rel="stylesheet" type="text/css" media="all">
-<link href="layout/styles/form.css" rel="stylesheet" type="text/css" media="all">
+<link href="../layout/styles/layout.css" rel="stylesheet" type="text/css" media="all">
+<link href="../layout/styles/form.css" rel="stylesheet" type="text/css" media="all">
 
 </head>
 <body id="top">
@@ -20,7 +87,7 @@ Licence URI: http://www.os-templates.com/template-terms
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
 <!-- Top Background Image Wrapper -->
-<div class="bgded overlay" style="background-image:url('images/NIT-Calicut.jpg');"> 
+<div class="bgded overlay" style="background-image:url('../images/NIT-Calicut.jpg');"> 
   <!-- ################################################################################################ -->
   <div class="wrapper">
     <header id="header" class="hoc clear">
@@ -33,7 +100,6 @@ Licence URI: http://www.os-templates.com/template-terms
       <nav id="mainav" class="clear"> 
         <!-- ################################################################################################ -->
         <ul class="clear">
-          <li><a href="home.html">Admin</a></li>
           <li><a href="">Title</a></li>
           <li><a class="drop" href="">Home</a>
             <ul>
@@ -41,6 +107,8 @@ Licence URI: http://www.os-templates.com/template-terms
               <li><a href="sponsor.php">Sponsored by</a></li>
               <li><a href="imp_dates.php">Important dates</a></li>
               <li><a href="sub_link.php">Submission Link</a></li>
+              <li><a href="call_for_papers.php">Call for Papers</a></li>
+              <li><a href="back_image.php">Background Image</a></li>
             </ul>
           </li>
           <li ><a href="track_topics.php">Track Topics</a></li>
@@ -57,6 +125,13 @@ Licence URI: http://www.os-templates.com/template-terms
               <li><a href="para_proceedings.php">Proceedings</a></li>
               <li><a href="para_submission.php">Paper Submission</a></li>
               <li><a href="para_topics.php">Track topics</a></li>
+            </ul>
+          </li>
+          <li><a class="drop" href="">User</a>
+            <ul>
+              <li><a href="../home.php">Back to Admin</a></li>
+              <li><a href="../logout.php">Logout</a></li>
+              <li><a href="gen_link.php">Generate Website Link</a></li>
             </ul>
           </li>
         </ul>
@@ -80,79 +155,7 @@ Licence URI: http://www.os-templates.com/template-terms
     <!-- ################################################################################################ -->
 <div class="wrap-contact100" style="color:#222222;">
 <br>
-<?php
-require 'globals_year.php';
 
-// define variables and set to empty values
-$nameErr = $desErr = $depErr= $insErr= $cityErr = $stateErr = $pinErr= $countryErr = $emailErr= $codeErr= $phoneErr= $faxErr =0;
-$name = $des =$dep = $ins= $city = $state= $pin= $country = $email =$code = $phone  = $fax ="";
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  if (empty($_POST["name"])) {
-    $nameErr = 1;
-  } else {
-    $name = test_input($_POST["name"]);
-  }
-  
-  
-    
-
-  $des=test_input($_POST["des"]);
-  $dep=test_input($_POST["dep"]);
-  $ins=test_input($_POST["ins"]);
-  $city=test_input($_POST["city"]);
-  $state=test_input($_POST["state"]);
-  $pin=$_POST["pin"];
-  $country=test_input($_POST["country"]);
-  $email = $_POST["email"];
-  $code=$_POST["code"];
-  $phone=$_POST["phone"];
-  $fax=$_POST["fax"];
-
-/* inserting into databse*/
-
-if($nameErr == 0 && $emailErr == 0)
-{
-$dbHost = 'Localhost';
-$dbUser = 'b140622cs';
-$dbPass = 'b140622cs';
-$dbName = 'db_b140622cs';
-
-
-$dbConn = mysqli_connect ($dbHost, $dbUser, $dbPass) or die ('mysqli connect failed. ' . mysqli_error());
-mysqli_select_db($dbConn, $dbName) or die('Cannot select database. ' . mysqli_error());
-
-$sql="INSERT into Chairs (cname, designation, department, institute, city, state, pin, country, email, country_code, phone, fax) 
-VALUES ('$name','$des', '$dep','$ins', '$city', '$state', '$pin','$country', '$email',  '$code', '$phone', '$fax')";
-
-
-$result = mysqli_query($dbConn, $sql);
-
-$sql="INSERT into Chairs_Year (cid, year) 
-    SELECT cid, "."'".$year."'"." FROM Chairs WHERE cname='$name'";
-
-$result = mysqli_query($dbConn, $sql);
-
-
-if($result)
-{
-  header("Location:chairs_new.php");
-}
-
-mysqli_close($dbConn);
-
-}
-
-}
-
-function test_input($data) {
-  $data = trim($data);
-  $data = stripslashes($data);
-  $data = htmlspecialchars($data);
-  $data=ucwords(strtolower($data));
-  return $data;
-}
-?>
     <p style="text-align: center;font-size:20px;">Member details</p>
      <form class="contact100-form validate-form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" autocomplete="off">
 
@@ -197,7 +200,7 @@ function test_input($data) {
 
         <div class="wrap-input100 validate-input" data-validate="Name is required">
           <span class="label-input100">   Pincode:</span>
-          <input class="input100" type="text" name="pin" placeholder="Enter Pincode" <?php if ($pinErr==0){ echo "value="."'".$pin."'";} ?>>
+          <input class="input100" type="number" name="pin" placeholder="Enter Pincode" <?php if ($pinErr==0){ echo "value="."'".$pin."'";} ?>>
           <span class="focus-input100"></span>
         </div>
       
@@ -211,7 +214,7 @@ function test_input($data) {
 
         <div class="wrap-input100 validate-input" data-validate="Name is required">
           <span class="label-input100">   Email:</span>
-          <input class="input100" type="text" name="email" placeholder="Enter Email" <?php if ($emailErr==0){ echo "value="."'".$email."'";} ?>>
+          <input class="input100" type="email" name="email" placeholder="Enter Email" <?php if ($emailErr==0){ echo "value="."'".$email."'";} ?>>
           <span class="focus-input100"></span>
         </div>
 
@@ -223,13 +226,13 @@ function test_input($data) {
 
         <div class="wrap-input100 validate-input" data-validate="Name is required">
           <span class="label-input100">   Phone:</span>
-          <input class="input100" type="text" name="phone" placeholder="Enter Phone number" <?php if ($phoneErr==0){ echo "value="."'".$phone."'";} ?>>
+          <input class="input100" type="tel" name="phone" placeholder="Enter Phone number" <?php if ($phoneErr==0){ echo "value="."'".$phone."'";} ?>>
           <span class="focus-input100"></span>
         </div>
 
         <div class="wrap-input100 validate-input" data-validate="Name is required">
           <span class="label-input100">   Fax:</span>
-          <input class="input100" type="text" name="fax" placeholder="Enter Fax" <?php if ($faxErr==0){ echo "value="."'".$fax."'";} ?>>
+          <input class="input100" type="tel" name="fax" placeholder="Enter Fax" <?php if ($faxErr==0){ echo "value="."'".$fax."'";} ?>>
           <span class="focus-input100"></span>
         </div>
 
@@ -251,7 +254,9 @@ function test_input($data) {
 </div>
 
 
-<!--Showing the List of track topics-->
+<?php
+require '../close.php';
+?>
 
 
 
@@ -265,7 +270,7 @@ function test_input($data) {
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
-<div class="bgded overlay" style="background-image:url('images/NIT-Calicut.jpg');">
+<div class="bgded overlay" style="background-image:url('../images/NIT-Calicut.jpg');">
   <footer id="footer" class="hoc clear center"> 
     <!-- ################################################################################################ -->
     
@@ -283,8 +288,8 @@ function test_input($data) {
 <!-- ################################################################################################ -->
 <a id="backtotop" href="#top"><i class="fa fa-chevron-up"></i></a>
 <!-- JAVASCRIPTS -->
-<script src="layout/scripts/jquery.min.js"></script>
-<script src="layout/scripts/jquery.backtotop.js"></script>
-<script src="layout/scripts/jquery.mobilemenu.js"></script>
+<script src="../layout/scripts/jquery.min.js"></script>
+<script src="../layout/scripts/jquery.backtotop.js"></script>
+<script src="../layout/scripts/jquery.mobilemenu.js"></script>
 </body>
 </html>

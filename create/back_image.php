@@ -1,3 +1,74 @@
+<?php
+
+require 'session.php';
+require '../open.php'; 
+
+// define variables and set to empty values
+
+$temp_no=$_SESSION['create_tempno'];
+$year=$_SESSION['create_year'];
+
+ $uploadOk = 1;
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $target_dir = "../background_images/";
+    $target_file = $target_dir . basename($_FILES["image"]["name"]);
+    $uploadOk = 1;
+    $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+   
+    // Check if image file is a actual image or fake image
+    if(!empty($_FILES["image"]["tmp_name"])){
+        $check = getimagesize($_FILES["image"]["tmp_name"]);
+        if($check !== false) {
+            //echo "File is an image - " . $check["mime"] . ".<br>";
+            $uploadOk = 1;
+          } 
+        else {
+            //echo "File is not an image.";
+            $uploadOk = 0;
+            } 
+    }
+    else
+    {
+      $uploadOk=0;
+    }
+    
+    // Check if file already exists
+    
+    if (file_exists($target_file)) {
+        //echo "Sorry, file already exists.";
+        $uploadOk = 0;
+    }
+    else
+    {
+        //echo "file does not exists";
+
+    }
+
+    if ($uploadOk == 0) {
+        //echo "Sorry, your file was not uploaded.";
+       // if everything is ok, try to upload file
+    } 
+    else {
+        if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
+            //echo "The file ". basename($_FILES["image"]["name"]). " has been uploaded.";
+            $name=basename($_FILES["image"]["name"]);  
+            $sql="INSERT INTO Back_images (imagename, year) VALUES ('$name', '$year')";
+
+
+            $result = mysqli_query($dbConn, $sql);
+            if($result)
+            {
+                  header("Location:back_image.php");
+            }
+
+        } 
+        else {
+            //echo "Sorry, there was an error uploading your file.";
+        }
+    }
+}
+?>
+
 <!DOCTYPE html>
 <!--
 Template Name: Penyler
@@ -11,8 +82,8 @@ Licence URI: http://www.os-templates.com/template-terms
 <title>ACM-SACC Admin Interface</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<link href="layout/styles/layout.css" rel="stylesheet" type="text/css" media="all">
-<link href="layout/styles/form.css" rel="stylesheet" type="text/css" media="all">
+<link href="../layout/styles/layout.css" rel="stylesheet" type="text/css" media="all">
+<link href="../layout/styles/form.css" rel="stylesheet" type="text/css" media="all">
 
 </head>
 <body id="top">
@@ -20,7 +91,7 @@ Licence URI: http://www.os-templates.com/template-terms
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
 <!-- Top Background Image Wrapper -->
-<div class="bgded overlay" style="background-image:url('images/NIT-Calicut.jpg');"> 
+<div class="bgded overlay" style="background-image:url('../images/NIT-Calicut.jpg');"> 
   <!-- ################################################################################################ -->
   <div class="wrapper">
     <header id="header" class="hoc clear">
@@ -33,7 +104,6 @@ Licence URI: http://www.os-templates.com/template-terms
       <nav id="mainav" class="clear"> 
         <!-- ################################################################################################ -->
         <ul class="clear">
-          <li><a href="home.html">Admin</a></li>
           <li><a href="title.php">Title</a></li>
           <li><a class="drop" href="">Home</a>
             <ul>
@@ -41,6 +111,8 @@ Licence URI: http://www.os-templates.com/template-terms
               <li><a href="sponsor.php">Sponsored by</a></li>
               <li><a href="imp_dates.php">Important dates</a></li>
               <li><a href="sub_link.php">Submission Link</a></li>
+              <li><a href="call_for_papers.php">Call for Papers</a></li>
+              <li><a href="back_image.php">Background Image</a></li>
             </ul>
           </li>
           <li class="active"><a href="">Track Topics</a></li>
@@ -59,82 +131,22 @@ Licence URI: http://www.os-templates.com/template-terms
               <li><a href="para_topics.php">Track topics</a></li>
             </ul>
           </li>
+          <li><a class="drop" href="">User</a>
+            <ul>
+              <li><a href="../home.php">Back to Admin</a></li>
+              <li><a href="../logout.php">Logout</a></li>
+              <li><a href="gen_link.php">Generate Website Link</a></li>
+            </ul>
+          </li>
         </ul>
         <!-- ################################################################################################ -->
       </nav>
     </header>
   </div>
 
-  <?php
-$dbHost = 'Localhost';
-$dbUser = 'b140622cs';
-$dbPass = 'b140622cs';
-$dbName = 'db_b140622cs';
-
-$dbConn = mysqli_connect ($dbHost, $dbUser, $dbPass) or die ('mysqli connect failed. ' . mysqli_error());
-mysqli_select_db($dbConn, $dbName) or die('Cannot select database. ' . mysqli_error());
-$year=2018;
- $uploadOk = 1;
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $target_dir = "background_images/";
-    $target_file = $target_dir . basename($_FILES["image"]["name"]);
-    $uploadOk = 1;
-    $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-   
-    // Check if image file is a actual image or fake image
-    if(!empty($_FILES["image"]["tmp_name"])){
-        $check = getimagesize($_FILES["image"]["tmp_name"]);
-        if($check !== false) {
-            echo "File is an image - " . $check["mime"] . ".<br>";
-            $uploadOk = 1;
-          } 
-        else {
-            echo "File is not an image.";
-            $uploadOk = 0;
-            } 
-    }
-    else
-    {
-      $uploadOk=0;
-    }
-    
-    // Check if file already exists
-    
-    if (file_exists($target_file)) {
-        echo "Sorry, file already exists.";
-        $uploadOk = 0;
-    }
-    else
-    {
-        echo "file does not exists";
-
-    }
-
-    if ($uploadOk == 0) {
-        echo "Sorry, your file was not uploaded.";
-       // if everything is ok, try to upload file
-    } 
-    else {
-        if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
-            echo "The file ". basename($_FILES["image"]["name"]). " has been uploaded.";
-            $name=basename($_FILES["image"]["name"]);  
-            $sql="INSERT INTO Back_images (imagename, year) VALUES ('$name', '$year')";
 
 
-            $result = mysqli_query($dbConn, $sql);
-            if($result)
-            {
-                  header("Location:back_image.php");
-            }
 
-        } 
-        else {
-            echo "Sorry, there was an error uploading your file.";
-        }
-    }
-mysqli_close($dbConn);
-}
-?>
 </div>
 <div class="wrapper row3">
   <main class="hoc container clear"> 
@@ -169,7 +181,9 @@ mysqli_close($dbConn);
 </div>
 
 
-<!--Showing the List of track topics-->
+<?php
+require '../close.php';
+?>
 
 
 
@@ -183,7 +197,7 @@ mysqli_close($dbConn);
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
-<div class="bgded overlay" style="background-image:url('images/NIT-Calicut.jpg');">
+<div class="bgded overlay" style="background-image:url('../images/NIT-Calicut.jpg');">
   <footer id="footer" class="hoc clear center"> 
     <!-- ################################################################################################ -->
     
@@ -201,8 +215,8 @@ mysqli_close($dbConn);
 <!-- ################################################################################################ -->
 <a id="backtotop" href="#top"><i class="fa fa-chevron-up"></i></a>
 <!-- JAVASCRIPTS -->
-<script src="layout/scripts/jquery.min.js"></script>
-<script src="layout/scripts/jquery.backtotop.js"></script>
-<script src="layout/scripts/jquery.mobilemenu.js"></script>
+<script src="../layout/scripts/jquery.min.js"></script>
+<script src="../layout/scripts/jquery.backtotop.js"></script>
+<script src="../layout/scripts/jquery.mobilemenu.js"></script>
 </body>
 </html>

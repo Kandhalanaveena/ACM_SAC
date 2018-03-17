@@ -1,3 +1,15 @@
+<?php
+
+require 'session.php';
+require '../open.php'; 
+
+// define variables and set to empty values
+
+$temp_no=$_SESSION['create_tempno'];
+$year=$_SESSION['create_year'];
+?>
+
+
 <!DOCTYPE html>
 <!--
 Template Name: Penyler
@@ -11,8 +23,8 @@ Licence URI: http://www.os-templates.com/template-terms
 <title>ACM-SACC Admin Interface</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<link href="layout/styles/layout.css" rel="stylesheet" type="text/css" media="all">
-<link href="layout/styles/form.css" rel="stylesheet" type="text/css" media="all">
+<link href="../layout/styles/layout.css" rel="stylesheet" type="text/css" media="all">
+<link href="../layout/styles/form.css" rel="stylesheet" type="text/css" media="all">
 
 </head>
 <body id="top">
@@ -20,7 +32,7 @@ Licence URI: http://www.os-templates.com/template-terms
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
 <!-- Top Background Image Wrapper -->
-<div class="bgded overlay" style="background-image:url('images/NIT-Calicut.jpg');"> 
+<div class="bgded overlay" style="background-image:url('../images/NIT-Calicut.jpg');"> 
   <!-- ################################################################################################ -->
   <div class="wrapper">
     <header id="header" class="hoc clear">
@@ -34,13 +46,15 @@ Licence URI: http://www.os-templates.com/template-terms
         <!-- ################################################################################################ -->
         <ul class="clear">
          <!-- <li><a href="home.html">Admin</a></li>-->
-          <li><a href="">Title</a></li>
+          <li><a href="title.php">Title</a></li>
           <li><a class="drop" href="">Home</a>
             <ul>
               <li><a href="host.php">Hosted by</a></li>
               <li><a href="sponsor.php">Sponsored by</a></li>
               <li><a href="imp_dates.php">Important dates</a></li>
               <li><a href="sub_link.php">Submission Link</a></li>
+              <li><a href="call_for_papers.php">Call for Papers</a></li>
+              <li><a href="back_image.php">Background Image</a></li>
             </ul>
           </li>
           <li ><a href="track_topics.php">Track Topics</a></li>
@@ -64,7 +78,6 @@ Licence URI: http://www.os-templates.com/template-terms
               <li><a href="home.php">Back to Admin</a></li>
               <li><a href="logout.php">Logout</a></li>
               <li><a href="gen_link.php">Generate Website Link</a></li>
-              
             </ul>
           </li>
         </ul>
@@ -86,24 +99,20 @@ Licence URI: http://www.os-templates.com/template-terms
   <main class="hoc container clear"> 
     <!-- main body -->
     <!-- ################################################################################################ -->
-<div class="wrap-contact100" style="color:#222222;">
+<div class="wrap-contact100" style="color:#222222;width: 800px">
 <br>
+<br>
+
 <?php
-
-$year=2018;
-$temp_no=3;
-
 $actual_link = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
  $curr_page=strrchr ($actual_link , '/' );
-
  $substring=substr($actual_link ,0,strlen($actual_link)-strlen($curr_page)+1);
-$link=$substring."template_".$temp_no."/home.php?year=".$year;
-
+$link=$substring."../template_".$temp_no."/home.php?year=".$year;
 ?>
     
-    <p style="padding: 10px 40px 0px 50px">Copy the link and paste in browser to use the ACM SAC website.
+    <p style="text-align: center;">Copy the link and paste in browser to use the ACM SAC website.
     </p>
-     <form class="contact100-form validate-form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" autocomplete="off">
+     <form class="contact100-form validate-form" autocomplete="off">
 
 
 <div class="wrap-input100 validate-input"  data-validate="Name is required">
@@ -133,7 +142,10 @@ $link=$substring."template_".$temp_no."/home.php?year=".$year;
 </div>
 
 
-<!--Showing the List of track topics-->
+<?php
+require '../close.php';
+?>
+
 
     <div class="clear"></div>
   </main>
@@ -141,7 +153,7 @@ $link=$substring."template_".$temp_no."/home.php?year=".$year;
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
-<div class="bgded overlay" style="background-image:url('images/NIT-Calicut.jpg');">
+<div class="bgded overlay" style="background-image:url('../images/NIT-Calicut.jpg');">
   <footer id="footer" class="hoc clear center"> 
     <!-- ################################################################################################ -->
     
@@ -159,9 +171,9 @@ $link=$substring."template_".$temp_no."/home.php?year=".$year;
 <!-- ################################################################################################ -->
 <a id="backtotop" href="#top"><i class="fa fa-chevron-up"></i></a>
 <!-- JAVASCRIPTS -->
-<script src="layout/scripts/jquery.min.js"></script>
-<script src="layout/scripts/jquery.backtotop.js"></script>
-<script src="layout/scripts/jquery.mobilemenu.js"></script>
+<script src="../layout/scripts/jquery.min.js"></script>
+<script src="../layout/scripts/jquery.backtotop.js"></script>
+<script src="../layout/scripts/jquery.mobilemenu.js"></script>
 <script>
 function Generate_link() {
   var copyText = document.getElementById("web_link");

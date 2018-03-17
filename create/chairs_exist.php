@@ -1,3 +1,14 @@
+<?php
+
+require 'session.php';
+require '../open.php'; 
+
+// define variables and set to empty values
+
+$temp_no=$_SESSION['create_tempno'];
+$year=$_SESSION['create_year'];
+?>
+
 <!DOCTYPE html>
 <!--
 Template Name: Penyler
@@ -11,8 +22,8 @@ Licence URI: http://www.os-templates.com/template-terms
 <title>ACM-SACC Admin Interface</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<link href="layout/styles/layout.css" rel="stylesheet" type="text/css" media="all">
-<link href="layout/styles/form.css" rel="stylesheet" type="text/css" media="all">
+<link href="../layout/styles/layout.css" rel="stylesheet" type="text/css" media="all">
+<link href="../layout/styles/form.css" rel="stylesheet" type="text/css" media="all">
 
 </head>
 <body id="top">
@@ -20,7 +31,7 @@ Licence URI: http://www.os-templates.com/template-terms
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
 <!-- Top Background Image Wrapper -->
-<div class="bgded overlay" style="background-image:url('images/NIT-Calicut.jpg');"> 
+<div class="bgded overlay" style="background-image:url('../images/NIT-Calicut.jpg');"> 
   <!-- ################################################################################################ -->
   <div class="wrapper">
     <header id="header" class="hoc clear">
@@ -33,7 +44,6 @@ Licence URI: http://www.os-templates.com/template-terms
       <nav id="mainav" class="clear"> 
         <!-- ################################################################################################ -->
         <ul class="clear">
-          <li><a href="home.html">Admin</a></li>
           <li ><a href="title.php">Title</a></li>
           <li><a class="drop" href="">Home</a>
             <ul>
@@ -41,6 +51,8 @@ Licence URI: http://www.os-templates.com/template-terms
               <li><a href="sponsor.php">Sponsored by</a></li>
               <li><a href="imp_dates.php">Important dates</a></li>
               <li><a href="sub_link.php">Submission Link</a></li>
+              <li><a href="call_for_papers.php">Call for Papers</a></li>
+              <li><a href="back_image.php">Background Image</a></li>
             </ul>
           </li>
           <li ><a href="track_topics.php">Track Topics</a></li>
@@ -57,6 +69,13 @@ Licence URI: http://www.os-templates.com/template-terms
               <li><a href="para_proceedings.php">Proceedings</a></li>
               <li><a href="para_submission.php">Paper Submission</a></li>
               <li><a href="para_topics.php">Track topics</a></li>
+            </ul>
+          </li>
+          <li><a class="drop" href="">User</a>
+            <ul>
+              <li><a href="../home.php">Back to Admin</a></li>
+              <li><a href="../logout.php">Logout</a></li>
+              <li><a href="gen_link.php">Generate Website Link</a></li>
             </ul>
           </li>
         </ul>
@@ -80,36 +99,14 @@ Licence URI: http://www.os-templates.com/template-terms
     <!-- ################################################################################################ -->
 
 <?php
-
-require 'globals_year.php';
-
-$dbHost = 'Localhost';
-$dbUser = 'b140622cs';
-$dbPass = 'b140622cs';
-$dbName = 'db_b140622cs';
-
-$dbConn = mysqli_connect ($dbHost, $dbUser, $dbPass) or die ('mysqli connect failed. ' . mysqli_error());
-mysqli_select_db($dbConn, $dbName) or die('Cannot select database. ' . mysqli_error());
-
 $sql= "SELECT cid, cname, designation, department, institute, city, state, pin, country, email, country_code, phone, fax  FROM Chairs ";
-
-
 $result = mysqli_query($dbConn, $sql); 
-      if($result)
-      {
-        //echo "success";
-
-      }
-      else
-      {
-        //echo "failure";
-      }
+      
 if (mysqli_num_rows($result)>0)
-
 {
 
-      echo "<p style='text-align: center; font-size:18px;'>Select the Chair Persons</p>";
-
+  echo "<p style='text-align: center; font-size:18px;color:#222222'>Select the Chair Persons</p>";
+  echo "<br>";
 echo "<table>"; 
 
   echo "<thead>
@@ -139,11 +136,6 @@ while ($row = mysqli_fetch_array($result)) {
     echo "<input type='submit' name='button1' value='Add' style='margin-top:6px;padding:6px 10px;font-size: 18px; color:white;background-color:#373737; border-radius:10px'>";
     echo "</form>";
 
-    /*echo "<form action='chairs_edit.php' method='post'>";
-    echo "<input type='hidden' name='acid' value='". $row['cid'] ."'>";
-    echo "<input type='submit' name='button1' value='Edit' style='margin-top:6px;padding:6px 10px;font-size: 18px; color:white;background-color:#373737; border-radius:10px'><br>";
-    echo "</form>";
-*/
     echo "</td>";
 
   echo "</tr>";
@@ -158,43 +150,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
    if($_POST["button1"]=="Add")
   {
-    
+
     $acid=$_POST["acid"];
-    //echo "year";
-    //echo $acid;
     $sql="INSERT into Chairs_Year (cid, year) 
     SELECT cid, "."'".$year."'"." FROM Chairs WHERE cid='$acid'"; 
-
-  $result = mysqli_query($dbConn, $sql); 
-  if($result)
-  {
-    //echo "success";
+    $result = mysqli_query($dbConn, $sql); 
   }
-  else
-  {
-    //echo "failure";
-  }
-}
 
-else if($_POST["button1"]=="Delete")
+  else if($_POST["button1"]=="Delete")
   {
    
     $dcid=$_POST["dcid"];
-    //echo "year";
-    //echo $dcid;
-
     $sql="DELETE FROM Chairs_Year WHERE cid='$dcid' and year='$year'";
-  $result = mysqli_query($dbConn, $sql); 
-  if($result)
-  {
-    //echo "success";
+    $result = mysqli_query($dbConn, $sql); 
   }
-  else
-  {
-    //echo "failure";
-  }
-
-}
 }
 
 
@@ -205,14 +174,13 @@ $sql= "SELECT c.cid, c.cname, c.designation, c.department, c.institute, c.city, 
 
 
 $result = mysqli_query($dbConn, $sql); 
-     // echo "hello1";
 
 if (mysqli_num_rows($result)>0)
 
 {
 
-      echo "<br><p style='text-align: center; font-size:18px;'>Chair Persons included for ". $year."</p>";
-
+      echo "<br><p style='text-align: center; font-size:18px;color:#222222'>Chair Persons included for ". $year."</p>";
+      echo "<br>";
 echo "<table>"; 
 
   echo "<thead>
@@ -253,16 +221,14 @@ echo "</table>";
 
 }
 
-
- 
-
-     ?>       
+?>       
     
 
 
 
-<!--Showing the List of track topics-->
-
+<?php
+require '../close.php';
+?>
 
 
 
@@ -275,7 +241,7 @@ echo "</table>";
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
-<div class="bgded overlay" style="background-image:url('images/NIT-Calicut.jpg');">
+<div class="bgded overlay" style="background-image:url('../images/NIT-Calicut.jpg');">
   <footer id="footer" class="hoc clear center"> 
     <!-- ################################################################################################ -->
     
@@ -293,8 +259,8 @@ echo "</table>";
 <!-- ################################################################################################ -->
 <a id="backtotop" href="#top"><i class="fa fa-chevron-up"></i></a>
 <!-- JAVASCRIPTS -->
-<script src="layout/scripts/jquery.min.js"></script>
-<script src="layout/scripts/jquery.backtotop.js"></script>
-<script src="layout/scripts/jquery.mobilemenu.js"></script>
+<script src="../layout/scripts/jquery.min.js"></script>
+<script src="../layout/scripts/jquery.backtotop.js"></script>
+<script src="../layout/scripts/jquery.mobilemenu.js"></script>
 </body>
 </html>
