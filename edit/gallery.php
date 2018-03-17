@@ -1,79 +1,8 @@
-<!DOCTYPE html>
-<!--
-Template Name: Penyler
-Author: <a href="http://www.os-templates.com/">OS Templates</a>
-Author URI: http://www.os-templates.com/
-Licence: Free to use under our free template licence terms
-Licence URI: http://www.os-templates.com/template-terms
--->
-<html>
-<head>
-<title>ACM-SACC Admin Interface</title>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<link href="../layout/styles/layout.css" rel="stylesheet" type="text/css" media="all">
-<link href="../layout/styles/form.css" rel="stylesheet" type="text/css" media="all">
+<?php
+require 'session.php';
+require '../open.php';
 
-</head>
-<body id="top">
-<!-- ################################################################################################ -->
-<!-- ################################################################################################ -->
-<!-- ################################################################################################ -->
-<!-- Top Background Image Wrapper -->
-<div class="bgded overlay" style="background-image:url('../images/NIT-Calicut.jpg');"> 
-  <!-- ################################################################################################ -->
-  <div class="wrapper">
-    <header id="header" class="hoc clear">
-      <div id="logo"> 
-        <!-- ################################################################################################ -->
-        <h1><a href="index.html">National Institute of Technology, Calicut</a></h1>
-        <p>ACM - SAC Admin Interface</p>
-        <!-- ################################################################################################ -->
-      </div>
-      <nav id="mainav" class="clear"> 
-        <!-- ################################################################################################ -->
-        <ul class="clear">
-          <li><a href="home.html">Admin</a></li>
-          <li><a href="title.php">Title</a></li>
-          <li><a class="drop" href="">Home</a>
-            <ul>
-              <li><a href="host.php">Hosted by</a></li>
-              <li><a href="sponsor.php">Sponsored by</a></li>
-              <li><a href="imp_dates.php">Important dates</a></li>
-              <li><a href="sub_link.php">Submission Link</a></li>
-            </ul>
-          </li>
-          <li class="active"><a href="">Track Topics</a></li>
-          <li ><a class="drop" href="">Chair persons</a>
-            <ul>
-              <li><a href="chairs_exist.php">Add Existing</a></li>
-              <li><a href="chairs_new.php">Add New</a></li>
-            </ul>
-          </li>
-          <li><a href="prog_members.php">Program Committee</a></li>
-          <li><a class="drop" href="">Paragraphs</a>
-            <ul>
-              <li><a href="para_home.php">Introduction</a></li>
-              <li><a href="para_proceedings.php">Proceedings</a></li>
-              <li><a href="para_submission.php">Paper Submission</a></li>
-              <li><a href="para_topics.php">Track topics</a></li>
-            </ul>
-          </li>
-        </ul>
-        <!-- ################################################################################################ -->
-      </nav>
-    </header>
-  </div>
-
-  <?php
-$dbHost = 'Localhost';
-$dbUser = 'b140622cs';
-$dbPass = 'b140622cs';
-$dbName = 'db_b140622cs';
- 
-$dbConn = mysqli_connect ($dbHost, $dbUser, $dbPass) or die ('mysqli connect failed. ' . mysqli_error());
-mysqli_select_db($dbConn, $dbName) or die('Cannot select database. ' . mysqli_error());
-$year=2018;
+$year=$_SESSION['edit_year'];
  $uploadOk = 1;
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $target_dir = "../gallery/".$year."/";
@@ -158,6 +87,81 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
 }
 ?>
+<!DOCTYPE html>
+<!--
+Template Name: Penyler
+Author: <a href="http://www.os-templates.com/">OS Templates</a>
+Author URI: http://www.os-templates.com/
+Licence: Free to use under our free template licence terms
+Licence URI: http://www.os-templates.com/template-terms
+-->
+<html>
+<head>
+<title>ACM-SACC Admin Interface</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<link href="../layout/styles/layout.css" rel="stylesheet" type="text/css" media="all">
+<link href="../layout/styles/form.css" rel="stylesheet" type="text/css" media="all">
+
+</head>
+<body id="top">
+<!-- ################################################################################################ -->
+<!-- ################################################################################################ -->
+<!-- ################################################################################################ -->
+<!-- Top Background Image Wrapper -->
+<div class="bgded overlay" style="background-image:url('../images/NIT-Calicut.jpg');"> 
+  <!-- ################################################################################################ -->
+  <div class="wrapper">
+    <header id="header" class="hoc clear">
+      <div id="logo"> 
+        <!-- ################################################################################################ -->
+        <h1><a href="index.html">National Institute of Technology, Calicut</a></h1>
+        <p>ACM - SAC Admin Interface</p>
+        <!-- ################################################################################################ -->
+      </div>
+      <nav id="mainav" class="clear"> 
+        <!-- ################################################################################################ -->
+        <ul class="clear">
+          <li ><a href="title.php">Title</a></li>
+          <li><a class="drop" href="">Home</a>
+            <ul>
+              <li><a href="host.php">Hosted by</a></li>
+              <li><a href="sponsor.php">Sponsored by</a></li>
+              <li><a href="imp_dates.php">Important dates</a></li>
+              <li><a href="sub_link.php">Submission Link</a></li>
+            </ul>
+          </li>
+          <li ><a href="track_topics.php">Track Topics</a></li>
+         <li><a class="drop" href="">Chair persons</a>
+            <ul>
+              <li><a href="chairs_exist.php">Update Existing</a></li>
+              <li><a href="chairs_new_new.php">Add New</a></li>
+            </ul>
+          </li>
+          <li ><a href="prog_members.php">Program Committee</a></li>
+          <li><a class="drop" href="">Paragraphs</a>
+            <ul>
+              <li><a href="para_home.php">Introduction (Home)</a></li>
+              <li><a href="para_proceedings.php">Proceedings</a></li>
+              <li><a href="para_submission.php">Paper Submission</a></li>
+              <li><a href="para_topics.php">Track topics</a></li>
+            </ul>
+          </li>
+          <li class="active"><a href="gallery.php">Gallery</a></li>
+          <li><a class="drop" href="">User</a>
+            <ul>
+              <li><a href="../home.php">Back to Admin</a></li>
+              <li><a href="../logout.php">Logout</a></li>
+            </ul>
+          </li>
+
+        </ul>
+        <!-- ################################################################################################ -->
+      </nav>
+    </header>
+  </div>
+
+  
 </div>
 <div class="wrapper row3">
   <main class="hoc container clear"> 
@@ -253,6 +257,9 @@ echo "<!--Showing the List of track topics-->";
  <div class="clear"></div>
   </main>
 </div>
+<?php
+require '../close.php'
+?>
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->

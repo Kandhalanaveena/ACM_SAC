@@ -1,22 +1,8 @@
  <?php
-
-
-$servername = "Localhost";
-$username = "b140622cs";
-$password = "b140622cs";
-$dbname="db_b140622cs";
-$year=2018;
-// Create connection
-
-
-$conn = mysqli_connect($servername, $username, $password,$dbname);
-
-// Check connection
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-}
-
-echo "connection established<br>";
+require 'session.php';
+require '../open.php';
+$year=$_SESSION['edit_year'];
+$conn=$dbConn;
 
 
 
@@ -37,7 +23,7 @@ $sql="DELETE FROM Topics_Year WHERE tid='$tid' and year='$year'";
 
 mysqli_close($conn);
 
- header("Location:track_topics.php");
+header("Location:track_topics.php");
      
 
 ?>

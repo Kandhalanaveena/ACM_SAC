@@ -1,3 +1,35 @@
+<?php
+require 'session.php';
+require '../open.php';
+$year=$_SESSION['edit_year'];
+$flag=0;
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+   if($_POST["button1"]=="Edit")
+  {
+    
+    $tid=$_POST["tid"];
+    $flag=1;
+    $sql="SELECT tname from Topics WHERE tid='$tid'";
+
+  $result = mysqli_query($dbConn, $sql); 
+  
+  $topicrow=mysqli_fetch_array($result);
+  $edit_tname=$topicrow['tname'];
+
+}
+
+else if($_POST["button1"]=="Delete")
+  {
+   
+    $tid=$_POST["tid"];
+     $sql="DELETE FROM Topics_Year WHERE tid='$tid' and year='$year'";
+  $result = mysqli_query($dbConn, $sql); 
+
+}
+}
+?>
 <!DOCTYPE html>
 <!--
 Template Name: Penyler
@@ -33,8 +65,7 @@ Licence URI: http://www.os-templates.com/template-terms
       <nav id="mainav" class="clear"> 
         <!-- ################################################################################################ -->
         <ul class="clear">
-          <li><a href="home.html">Admin</a></li>
-          <li><a href="title.php">Title</a></li>
+          <li ><a href="title.php">Title</a></li>
           <li><a class="drop" href="">Home</a>
             <ul>
               <li><a href="host.php">Hosted by</a></li>
@@ -43,20 +74,27 @@ Licence URI: http://www.os-templates.com/template-terms
               <li><a href="sub_link.php">Submission Link</a></li>
             </ul>
           </li>
-          <li class="active"><a href="">Track Topics</a></li>
-          <li ><a class="drop" href="">Chair persons</a>
+          <li class="active"><a href="track_topics.php">Track Topics</a></li>
+         <li><a class="drop" href="">Chair persons</a>
             <ul>
-              <li><a href="chairs_exist.php">Add Existing</a></li>
-              <li><a href="chairs_new_new.php">Add New</a></li>
+              <li><a href="chairs_exist.php">Update Existing</a></li>
+              <li><a href="chairs_new.php">Add New</a></li>
             </ul>
           </li>
-          <li><a href="prog_members.php">Program Committee</a></li>
-          <li ><a class="drop" href="">Paragraphs</a>
+          <li ><a href="prog_members.php">Program Committee</a></li>
+          <li><a class="drop" href="">Paragraphs</a>
             <ul>
-              <li><a href="para_home.php">Introduction</a></li>
+              <li><a href="para_home.php">Introduction (Home)</a></li>
               <li><a href="para_proceedings.php">Proceedings</a></li>
               <li><a href="para_submission.php">Paper Submission</a></li>
               <li><a href="para_topics.php">Track topics</a></li>
+            </ul>
+          </li>
+          <li><a href="gallery.php">Gallery</a></li>
+          <li><a class="drop" href="">User</a>
+            <ul>
+              <li><a href="../home.php">Back to Admin</a></li>
+              <li><a href="../logout.php">Logout</a></li>
             </ul>
           </li>
         </ul>
@@ -82,44 +120,6 @@ Licence URI: http://www.os-templates.com/template-terms
 <br>
 <p style="text-align: center;font-size:20px;">Topic details</p>
      
-<?php
-
-$dbHost = 'Localhost';
-$dbUser = 'b140622cs';
-$dbPass = 'b140622cs';
-$dbName = 'db_b140622cs';
-$year=2018;
-$dbConn = mysqli_connect ($dbHost, $dbUser, $dbPass) or die ('mysqli connect failed. ' . mysqli_error());
-mysqli_select_db($dbConn, $dbName) or die('Cannot select database. ' . mysqli_error());
-
-$flag=0;
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-   if($_POST["button1"]=="Edit")
-  {
-    
-    $tid=$_POST["tid"];
-    $flag=1;
-    $sql="SELECT tname from Topics WHERE tid='$tid'";
-
-  $result = mysqli_query($dbConn, $sql); 
-  
-  $topicrow=mysqli_fetch_array($result);
-  $edit_tname=$topicrow['tname'];
-
-}
-
-else if($_POST["button1"]=="Delete")
-  {
-   
-    $tid=$_POST["tid"];
-     $sql="DELETE FROM Topics_Year WHERE tid='$tid' and year='$year'";
-  $result = mysqli_query($dbConn, $sql); 
-
-}
-}
-?>
 
 <form class="contact100-form validate-form" action="db_topic.php" method="post" autocomplete="off">
 
@@ -166,14 +166,6 @@ $result = mysqli_query($dbConn, $sql);
 
 <?php
 
-/*$dbHost = 'Localhost';
-$dbUser = 'b140622cs';
-$dbPass = 'b140622cs';
-$dbName = 'db_b140622cs';
-
-$dbConn = mysqli_connect ($dbHost, $dbUser, $dbPass) or die ('mysqli connect failed. ' . mysqli_error());
-mysqli_select_db($dbConn, $dbName) or die('Cannot select database. ' . mysqli_error());
-*/
 $sql= "SELECT t.* FROM Topics as t, Topics_Year as y where y.tid=t.tid and y.year='$year'";
 
 
@@ -236,6 +228,9 @@ echo "</table>";
     <div class="clear"></div>
   </main>
 </div>
+<?php
+require '../close.php'
+?>
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->

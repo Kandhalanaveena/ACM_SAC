@@ -126,7 +126,7 @@ echo '<div class="bgded overlay" style="background-image:url('."'../background_i
     <ul>
     <?php
     $limityear=2017;  
-    $sql="SELECT year, temp_no FROM Info WHERE year>'$limityear' and year<='$inputyear'";
+    $sql="SELECT year, temp_no FROM Info WHERE year>'$limityear' and year<='$inputyear' ORDER BY year DESC;";
   $result = mysqli_query($conn,$sql);
 
 

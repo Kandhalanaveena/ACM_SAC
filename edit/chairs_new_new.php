@@ -1,3 +1,70 @@
+<?php
+require 'session.php';
+require '../open.php';
+$year=$_SESSION['edit_year'];
+// define variables and set to empty values
+$nameErr = $desErr = $depErr= $insErr= $cityErr = $stateErr = $pinErr= $countryErr = $emailErr= $codeErr= $phoneErr= $faxErr =0;
+$name = $des =$dep = $ins= $city = $state= $pin= $country = $email =$code = $phone  = $fax ="";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  if (empty($_POST["name"])) {
+    $nameErr = 1;
+  } else {
+    $name = test_input($_POST["name"]);
+  }
+  
+  
+    
+
+  $des=test_input($_POST["des"]);
+  $dep=test_input($_POST["dep"]);
+  $ins=test_input($_POST["ins"]);
+  $city=test_input($_POST["city"]);
+  $state=test_input($_POST["state"]);
+  $pin=$_POST["pin"];
+  $country=test_input($_POST["country"]);
+  $email = $_POST["email"];
+  $code=$_POST["code"];
+  $phone=$_POST["phone"];
+  $fax=$_POST["fax"];
+
+/* inserting into databse*/
+
+if($nameErr == 0 && $emailErr == 0)
+{
+
+
+$sql="INSERT into Chairs (cname, designation, department, institute, city, state, pin, country, email, country_code, phone, fax) 
+VALUES ('$name','$des', '$dep','$ins', '$city', '$state', '$pin','$country', '$email',  '$code', '$phone', '$fax')";
+
+
+$result = mysqli_query($dbConn, $sql);
+
+$sql="INSERT into Chairs_Year (cid, year) 
+    SELECT cid, "."'".$year."'"." FROM Chairs WHERE cname='$name'";
+
+$result = mysqli_query($dbConn, $sql);
+
+
+if($result)
+{
+  header("Location:chairs_new.php");
+}
+
+
+
+}
+
+}
+
+function test_input($data) {
+  $data = trim($data);
+  $data = stripslashes($data);
+  $data = htmlspecialchars($data);
+  $data=ucwords(strtolower($data));
+  return $data;
+}
+?>
 <!DOCTYPE html>
 <!--
 Template Name: Penyler
@@ -33,8 +100,7 @@ Licence URI: http://www.os-templates.com/template-terms
       <nav id="mainav" class="clear"> 
         <!-- ################################################################################################ -->
         <ul class="clear">
-          <li><a href="home.html">Admin</a></li>
-          <li><a href="">Title</a></li>
+          <li ><a href="title.php">Title</a></li>
           <li><a class="drop" href="">Home</a>
             <ul>
               <li><a href="host.php">Hosted by</a></li>
@@ -44,19 +110,26 @@ Licence URI: http://www.os-templates.com/template-terms
             </ul>
           </li>
           <li ><a href="track_topics.php">Track Topics</a></li>
-          <li class="active"><a class="drop" href="">Chair persons</a>
+         <li class="active"><a class="drop" href="">Chair persons</a>
             <ul>
-              <li><a href="chairs_exist.php">Add Existing</a></li>
+              <li><a href="chairs_exist.php">Update Existing</a></li>
               <li><a href="chairs_new_new.php">Add New</a></li>
             </ul>
           </li>
           <li ><a href="prog_members.php">Program Committee</a></li>
-          <li ><a class="drop" href="">Paragraphs</a>
+          <li><a class="drop" href="">Paragraphs</a>
             <ul>
-              <li><a href="para_home.php">Introduction</a></li>
+              <li><a href="para_home.php">Introduction (Home)</a></li>
               <li><a href="para_proceedings.php">Proceedings</a></li>
               <li><a href="para_submission.php">Paper Submission</a></li>
               <li><a href="para_topics.php">Track topics</a></li>
+            </ul>
+          </li>
+          <li><a href="gallery.php">Gallery</a></li>
+          <li><a class="drop" href="">User</a>
+            <ul>
+              <li><a href="../home.php">Back to Admin</a></li>
+              <li><a href="../logout.php">Logout</a></li>
             </ul>
           </li>
         </ul>
@@ -80,79 +153,7 @@ Licence URI: http://www.os-templates.com/template-terms
     <!-- ################################################################################################ -->
 <div class="wrap-contact100" style="color:#222222;">
 <br>
-<?php
-//require 'globals_year.php';
-$year=2018;
-// define variables and set to empty values
-$nameErr = $desErr = $depErr= $insErr= $cityErr = $stateErr = $pinErr= $countryErr = $emailErr= $codeErr= $phoneErr= $faxErr =0;
-$name = $des =$dep = $ins= $city = $state= $pin= $country = $email =$code = $phone  = $fax ="";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  if (empty($_POST["name"])) {
-    $nameErr = 1;
-  } else {
-    $name = test_input($_POST["name"]);
-  }
-  
-  
-    
-
-  $des=test_input($_POST["des"]);
-  $dep=test_input($_POST["dep"]);
-  $ins=test_input($_POST["ins"]);
-  $city=test_input($_POST["city"]);
-  $state=test_input($_POST["state"]);
-  $pin=$_POST["pin"];
-  $country=test_input($_POST["country"]);
-  $email = $_POST["email"];
-  $code=$_POST["code"];
-  $phone=$_POST["phone"];
-  $fax=$_POST["fax"];
-
-/* inserting into databse*/
-
-if($nameErr == 0 && $emailErr == 0)
-{
-$dbHost = 'Localhost';
-$dbUser = 'b140622cs';
-$dbPass = 'b140622cs';
-$dbName = 'db_b140622cs';
-
-
-$dbConn = mysqli_connect ($dbHost, $dbUser, $dbPass) or die ('mysqli connect failed. ' . mysqli_error());
-mysqli_select_db($dbConn, $dbName) or die('Cannot select database. ' . mysqli_error());
-
-$sql="INSERT into Chairs (cname, designation, department, institute, city, state, pin, country, email, country_code, phone, fax) 
-VALUES ('$name','$des', '$dep','$ins', '$city', '$state', '$pin','$country', '$email',  '$code', '$phone', '$fax')";
-
-
-$result = mysqli_query($dbConn, $sql);
-
-$sql="INSERT into Chairs_Year (cid, year) 
-    SELECT cid, "."'".$year."'"." FROM Chairs WHERE cname='$name'";
-
-$result = mysqli_query($dbConn, $sql);
-
-
-if($result)
-{
-  header("Location:chairs_new.php");
-}
-
-mysqli_close($dbConn);
-
-}
-
-}
-
-function test_input($data) {
-  $data = trim($data);
-  $data = stripslashes($data);
-  $data = htmlspecialchars($data);
-  $data=ucwords(strtolower($data));
-  return $data;
-}
-?>
     <p style="text-align: center;font-size:20px;">Member details</p>
      <form class="contact100-form validate-form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" autocomplete="off">
 
@@ -278,6 +279,9 @@ function test_input($data) {
     <!-- ################################################################################################ -->
   </div>
 </div>
+<?php
+require '../close.php';
+?>
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
