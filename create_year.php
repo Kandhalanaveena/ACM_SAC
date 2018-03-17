@@ -17,11 +17,11 @@ if($yearErr == 0 )
     $sql= "SELECT * FROM Info WHERE year='$year'";
     $result = mysqli_query($dbConn, $sql); 
     if ($result && mysqli_num_rows($result)>0)
-    {  $_SESSION['edit_year']=$year;
-      header("Location:edit/title.php");
+    {  echo "Website for the year already exists";
     }else
     {
-      echo "Website for the year does not exist";
+      $_SESSION['create_year']=$year;
+      header("Location:create/title.php");
     }
   }
 }
