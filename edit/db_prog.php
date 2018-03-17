@@ -1,23 +1,9 @@
  <?php
- 
-$servername = "Localhost";
-$username = "b140622cs";
-$password = "b140622cs";
-$dbname="db_b140622cs";
-// Create connection
+ require 'session.php';
+ require '../open.php';
+ $year=$_SESSION['edit_year'];
 
-
-$conn = mysqli_connect($servername, $username, $password,$dbname);
-
-// Check connection
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-}
-
-echo "connection established<br>";
-
-
-
+$conn=$dbConn;
 $name=$_POST['mem_name'];
 $country=$_POST['country'];
 if(!(empty($name)) && !(empty($country)))
@@ -27,9 +13,7 @@ $country=trim($country);
 $name=ucwords(strtolower($name));
 $country=ucwords(strtolower($country));
 $pastpid=$_POST['pid'];
-$year="2018";
-echo $pastpid;
-echo $year;
+
 $sql="INSERT into Program_committee (pname, country) 
 VALUES ('$name', '$country')";
 
@@ -59,7 +43,7 @@ $sql="DELETE from Program_committee Where pid='$pastpid'";
 $result=mysqli_query($conn, $sql);
 }
 
-mysqli_close($conn);
+require '../close.php';
 
  header("Location:prog_members.php");  
 

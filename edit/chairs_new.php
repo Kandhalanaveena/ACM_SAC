@@ -1,15 +1,8 @@
 
 <?php
-//require 'globals_year.php';
-$dbHost = 'Localhost';
-$dbUser = 'b140622cs';
-$dbPass = 'b140622cs';
-$dbName = 'db_b140622cs';
-$year= 2018;
-
-$dbConn = mysqli_connect ($dbHost, $dbUser, $dbPass) or die ('mysqli connect failed. ' . mysqli_error());
-mysqli_select_db($dbConn, $dbName) or die('Cannot select database. ' . mysqli_error());
-
+require 'session.php';
+require '../open.php';
+$year= $_SESSION['edit_year'];
 
 // define variables and set to empty values
 $nameErr = $desErr = $depErr= $insErr= $cityErr = $stateErr = $pinErr= $countryErr = $emailErr= $codeErr= $phoneErr= $faxErr =0;
@@ -130,8 +123,7 @@ Licence URI: http://www.os-templates.com/template-terms
       <nav id="mainav" class="clear"> 
         <!-- ################################################################################################ -->
         <ul class="clear">
-          <li><a href="home.html">Admin</a></li>
-          <li><a href="title.php">Title</a></li>
+          <li ><a href="title.php">Title</a></li>
           <li><a class="drop" href="">Home</a>
             <ul>
               <li><a href="host.php">Hosted by</a></li>
@@ -141,22 +133,29 @@ Licence URI: http://www.os-templates.com/template-terms
             </ul>
           </li>
           <li ><a href="track_topics.php">Track Topics</a></li>
-          <li class="active"><a class="drop" href="">Chair persons</a>
+         <li class="active"><a class="drop" href="">Chair persons</a>
             <ul>
-              <li><a href="chairs_exist.php">Add Existing</a></li>
+              <li><a href="chairs_exist.php">Update Existing</a></li>
               <li><a href="chairs_new_new.php">Add New</a></li>
             </ul>
           </li>
           <li ><a href="prog_members.php">Program Committee</a></li>
-          <li ><a class="drop" href="">Paragraphs</a>
+          <li><a class="drop" href="">Paragraphs</a>
             <ul>
-              <li><a href="para_home.php">Introduction</a></li>
+              <li><a href="para_home.php">Introduction (Home)</a></li>
               <li><a href="para_proceedings.php">Proceedings</a></li>
               <li><a href="para_submission.php">Paper Submission</a></li>
               <li><a href="para_topics.php">Track topics</a></li>
             </ul>
           </li>
-        </ul>
+          <li><a href="gallery.php">Gallery</a></li>
+          <li><a class="drop" href="">User</a>
+            <ul>
+              <li><a href="../home.php">Back to Admin</a></li>
+              <li><a href="../logout.php">Logout</a></li>
+            </ul>
+          </li>
+         </ul>
         <!-- ################################################################################################ -->
       </nav>
     </header>
@@ -289,7 +288,7 @@ Licence URI: http://www.os-templates.com/template-terms
 <!--Showing the List of track topics-->
 
 <?php
-mysqli_close($dbConn);
+require '../close.php'
 ?>
 
 

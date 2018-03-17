@@ -1,4 +1,5 @@
 <?php require 'session.php';
+require 'open.php';
 ?>
 <!DOCTYPE html>
 <!--
@@ -40,7 +41,7 @@ Licence URI: http://www.os-templates.com/template-terms
           <li><a class="drop" href="#">Website</a>
             <ul>
               <li><a href="create.php">Create new</a></li>
-              <li><a href="#">Edit website</a></li>
+              <li><a href="edit_year.php">Edit website</a></li>
             </ul>
           </li>
           <li class="active"><a href="update_info.php">Update Information</a></li>
@@ -57,13 +58,6 @@ Licence URI: http://www.os-templates.com/template-terms
 <!-- End Top Background Image Wrapper -->
 <?php
 
-$dbHost = 'Localhost';
-$dbUser = 'b140622cs';
-$dbPass = 'b140622cs';
-$dbName = 'db_b140622cs';
-
-$dbConn = mysqli_connect ($dbHost, $dbUser, $dbPass) or die ('mysqli connect failed. ' . mysqli_error());
-mysqli_select_db($dbConn, $dbName) or die('Cannot select database. ' . mysqli_error());
 $uid=$_SESSION['uid'];
 
 // define variables and set to empty values
@@ -232,6 +226,9 @@ else
     <!-- ################################################################################################ -->
   </div>
 </div>
+<?php 
+require 'close.php'
+?>
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
 <!-- ################################################################################################ -->
