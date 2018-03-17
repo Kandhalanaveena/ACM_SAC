@@ -1,3 +1,7 @@
+<?php
+require '../open.php'; 
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -40,21 +44,10 @@
   	
   	<!-- Start Header -->
 	<?php
-		$servername = "Localhost";
-		$username = "b140622cs";
-		$password = "b140622cs";
-		$dbname="db_b140622cs";
+		
 		$inputyear=$_GET['year'];
-
-		// Create connection
-		$conn = mysqli_connect($servername, $username, $password,$dbname);
-		// Check connection
-		if (mysqli_connect_errno())
-		{
-		echo "Failed to connect to MySQL: " . mysqli_connect_error();
-		}
 		$sql="SELECT * FROM Info WHERE year='$inputyear'";
-		$result = mysqli_query($conn,$sql);
+		$result = mysqli_query($dbConn,$sql);
 
 
 		$row = mysqli_fetch_array($result);
@@ -103,7 +96,7 @@
 		<!-- End menu -->
                  <?php
 			$sql="SELECT * FROM Back_images WHERE year='$inputyear'";
-			$result = mysqli_query($conn,$sql);
+			$result = mysqli_query($dbConn,$sql);
 			$imagename='';
 			if($result)
 			{
@@ -125,10 +118,10 @@
 					<!-- Start hero featured area -->
 					<div class="mu-hero-featured-area">
 						<!-- Start center Logo -->
-					<!--	<div class="mu-logo-area">
-							<!-- text based logo 
-							<a class="mu-logo" href="#">Eventoz</a>
-							<!-- image based logo 
+					<!--	<div class="mu-logo-area">-->
+							<!-- text based logo -->
+							<!--<a class="mu-logo" href="#">Eventoz</a>-->
+							<!-- image based logo -->
 							<!-- <a class="mu-logo" href="#"><img src="assets/images/logo.jpg" alt="logo img"></a> 
 						</div> -->
 						<!-- End center Logo -->
@@ -189,29 +182,52 @@
 						<div class="mu-importantDates-area">
                                                          <?php
 		      $sql="SELECT * FROM Gallery WHERE year='$inputyear'";
-		      $result = mysqli_query($conn,$sql);
+		      $result = mysqli_query($dbConn,$sql);
 		      if(mysqli_num_rows($result)>0){
 			    echo '<div class="mu-title-area">';
 			    echo '<h2 class="mu-title">Gallery</h2>';
 			 
 			    echo '<p>Photos of conference are availiable <a href="gallery.php?year='.$inputyear.'">here</a>.</p></ul></div>';
+			    echo "<br>";
+			    echo "<br>";
+			    echo "<br>";
+			    echo "<br>";
+			    echo "<br>";
 		 }
 		?>  
 
 							<div class="mu-title-area">
-								<h2 class="mu-title">Important Dates</h2>
+								
 								 <?php
                                                                     $sql="SELECT * FROM Important_dates WHERE year='$inputyear'";
-                                                                    $result = mysqli_query($conn,$sql);
+                                                                    $result = mysqli_query($dbConn,$sql);
+                                                                    if(mysqli_num_rows($result)>0){
+                                                                    	echo '<h2 class="mu-title">Important Dates</h2>';
                                                                     while($datesrow = mysqli_fetch_array($result))
                                                                      {
                                                                        echo '<p>'.$datesrow['activity'].' : '.$datesrow['start_date'].'</p><br>';
                                                                      }
-                                                                    $sql="SELECT * FROM Sponsored_by WHERE year='$inputyear'";
-                                                                    $result = mysqli_query($conn,$sql);
-                                                                    $sponrow=mysqli_fetch_array($result);
+                                                                     echo '<br>';
+                                                                     echo '<br>';
+                                                                 }
+                                                                    
 ?>
 							</div>
+
+							<div class="mu-title-area">
+                             <?php $sql="SELECT pdf_name FROM Files_table WHERE year='$inputyear'";
+                             $result = mysqli_query($dbConn,$sql);
+                             $pdfrow = mysqli_fetch_array($result);
+                              $path="../pdf/".$pdfrow['pdf_name'];
+                             //echo $pdfrow['pdf_name']; ?>
+	
+                             <h4 class="mu-title">Call for Papers</h4>
+                               <a href= "<?php echo $path ?>">
+                                <span>
+                                  <img border="0" width="24" height="24" src="../images/pdf.png"></img>
+                                </span>
+                                </a>
+			   </div>
 
 							
 							
@@ -240,19 +256,22 @@
 						<div class="mu-about-area">
 			
 						       <div class="mu-title-area">
-							<h2>About The Conference</h2>
+							<h2 >About The Conference</h2>
 		                                       </div>
 							<?php
 							$sql="SELECT * FROM Paras WHERE year='$inputyear' AND type='home'";
-							  $result = mysqli_query($conn,$sql);
+							  $result = mysqli_query($dbConn,$sql);
 							  $pararow = mysqli_fetch_array($result);
 							    echo '<p style="text-align: justify;">'.$pararow['para']."</p>"; ?>
+
+							   <br>
+							   <br>
 						   <div class="mu-title-area">
 						     <h2>Sponsors</h2>
 						    </div>
 					<?php
 					 $sql="SELECT * FROM Sponsored_by WHERE year='$inputyear'";
-				  $result = mysqli_query($conn,$sql);
+				  $result = mysqli_query($dbConn,$sql);
 				  if(mysqli_num_rows($result) > 0) {
 				   echo "</br>";
 				    echo '<p style="text-align:centre;"><b>The SRC Program is sponsored by</b></p><br>';
@@ -291,10 +310,10 @@
 						<div class="mu-proceedings-area">
 
 							<div class="mu-title-area">
-								<h2 class="mu-title">proceedings Detail</h2>
+								<h2 class="mu-title">Proceedings</h2>
 								 <?php
                                                                    $sql="SELECT * FROM Paras WHERE year='$inputyear' AND type='proceedings'";
-                                                                   $result = mysqli_query($conn,$sql);
+                                                                   $result = mysqli_query($dbConn,$sql);
                                                                    $pararow = mysqli_fetch_array($result);
                                                                    echo '<p style="text-align: justify;">'.$pararow['para'];
           
@@ -326,14 +345,14 @@
 								<p style="text-align: justify;">
 <?php
                                                                  $sql="SELECT * FROM Paras WHERE year='$inputyear' AND type='topics'";
-          $result = mysqli_query($conn,$sql);
+          $result = mysqli_query($dbConn,$sql);
           $pararow = mysqli_fetch_array($result);
             echo '<p style="text-align: justify;">'.$pararow['para']."</p><br>"; ?>
                                                                 </p> <br>
   <!-- <ul>-->
    <?php
      $sql="SELECT t.tname FROM Topics as t, Topics_Year as y WHERE y.tid=t.tid and y.year='$inputyear'";
-$result = mysqli_query($conn,$sql);
+$result = mysqli_query($dbConn,$sql);
 
 
 while($topicrow = mysqli_fetch_array($result))
@@ -361,13 +380,13 @@ echo "<p>" . $topicrow['tname'] . "</p>";
                                  <div class="mu-title-area">
 								<h4 class="mu-title">Submission Guidelines</h4>
 								<?php $sql="SELECT url FROM Submission_link WHERE year='$inputyear'";
-                  $result = mysqli_query($conn,$sql);
+                  $result = mysqli_query($dbConn,$sql);
                 $linkrow = mysqli_fetch_array($result)?>
             <!--<h6 style="text-transform: capitalize; text-align: center;">Paper Submission</h6><br> -->
             <p style="text-align: justify;">
                <?php
         $sql="SELECT * FROM Paras WHERE year='$inputyear' AND type='submission'";
-          $result = mysqli_query($conn,$sql);
+          $result = mysqli_query($dbConn,$sql);
           $pararow = mysqli_fetch_array($result);
             echo '<p style="text-align: justify;">'.$pararow['para']."</p>";
       ?>
@@ -384,20 +403,7 @@ echo "<p>" . $topicrow['tname'] . "</p>";
 
 
 
-                            <div class="mu-title-area">
-                             <?php $sql="SELECT pdf_name FROM Files_table WHERE year='$inputyear'";
-                             $result = mysqli_query($conn,$sql);
-                             $pdfrow = mysqli_fetch_array($result);
-                              $path="../pdf/".$pdfrow['pdf_name'];
-                             //echo $pdfrow['pdf_name']; ?>
-				
-                             <h4 class="mu-title">Call for Papers</h4>
-                               <a href= "<?php echo $path ?>">
-                                <span>
-                                  <img border="0" width="24" height="24" src="../images/pdf.png"></img>
-                                </span>
-                                </a>
-			   </div>
+                            
 
                            </div>
                           
@@ -427,7 +433,7 @@ echo "<p>" . $topicrow['tname'] . "</p>";
 
 									<?php
      $sql="SELECT c.* FROM Chairs as c, Chairs_Year as y WHERE y.cid=c.cid and y.year='$inputyear'";
-     $result = mysqli_query($conn,$sql);
+     $result = mysqli_query($dbConn,$sql);
 
 
 while($chairrow = mysqli_fetch_array($result))
@@ -508,7 +514,7 @@ while($chairrow = mysqli_fetch_array($result))
 								 <!--<ul>-->
   <?php  
     $sql="SELECT p.pname, p.country FROM Program_committee as p, Program_committee_Year as y WHERE y.pid=p.pid and y.year='$inputyear'";
-  $result = mysqli_query($conn,$sql);
+  $result = mysqli_query($dbConn,$sql);
 
 
 while($progrow = mysqli_fetch_array($result))
@@ -543,7 +549,7 @@ echo "<p>" . $progrow['pname'] . ", ".$progrow['country']."</p>";
 					    <?php
 					    $limityear=2017;  
 					    $sql="SELECT year, temp_no FROM Info WHERE year>'$limityear' and year<='$inputyear'";
-					  $result = mysqli_query($conn,$sql);
+					  $result = mysqli_query($dbConn,$sql);
 
 
 					while($archrow = mysqli_fetch_array($result))

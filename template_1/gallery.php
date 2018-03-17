@@ -1,3 +1,7 @@
+<?php
+require '../open.php'; 
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -40,21 +44,10 @@
   	
   	<!-- Start Header -->
 	<?php
-		$servername = "Localhost";
-		$username = "b140622cs";
-		$password = "b140622cs";
-		$dbname="db_b140622cs";
-		$inputyear=$_GET['year'];
-
-		// Create connection
-		$conn = mysqli_connect($servername, $username, $password,$dbname);
-		// Check connection
-		if (mysqli_connect_errno())
-		{
-		echo "Failed to connect to MySQL: " . mysqli_connect_error();
-		}
+		
+		$inputyear=$_GET['year'];	
 		$sql="SELECT * FROM Info WHERE year='$inputyear'";
-		$result = mysqli_query($conn,$sql);
+		$result = mysqli_query($dbConn,$sql);
 
 
 		$row = mysqli_fetch_array($result);
@@ -103,7 +96,7 @@
 		<!-- End menu -->
                  <?php
 			$sql="SELECT * FROM Back_images WHERE year='$inputyear'";
-			$result = mysqli_query($conn,$sql);
+			$result = mysqli_query($dbConn,$sql);
 			$imagename='';
 			if($result)
 			{
@@ -186,7 +179,7 @@
 				$sql= "SELECT * FROM Gallery WHERE year='$inputyear'";
 
 
-				$result = mysqli_query($conn, $sql); 
+				$result = mysqli_query($dbConn, $sql); 
 				     
 				if ($result && mysqli_num_rows($result)>0)
 				{
@@ -196,7 +189,7 @@
 				echo '<div id="gallery">';
 				echo '<figure>';
 				echo '<div class="mu-title-area">';
-				echo '<br><h2 class="mu-title">Gallery</h2>';
+				echo '<br><br><br><br><h2 class="mu-title">Gallery</h2><br><br>';
                                 echo "</div>";
 				echo '<br>';
 				echo '<ul class="nospace clear">';
