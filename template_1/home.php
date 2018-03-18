@@ -318,7 +318,7 @@ require '../open.php';
                                                                    echo '<p style="text-align: justify;">'.$pararow['para'];
           
       
-                                                                   echo ' Final Camera-ready submissions must follow the template available at link <b><a href="https://www.sigapp.org/sac/" target="_blank">HERE</a>.</p>'
+                                                                   echo ' Final Camera-ready submissions must follow the template available at link <b><a href="https://www.sigapp.org/sac/" target="_blank">HERE</a></b>.</p>'
 
                                                                   ?>
 							</div>

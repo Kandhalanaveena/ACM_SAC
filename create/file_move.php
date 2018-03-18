@@ -1,3 +1,5 @@
+<html>
+
 <?php
 
 require 'session.php';
@@ -7,45 +9,66 @@ require '../open.php';
 $temp_no=$_SESSION['create_tempno'];
 $year=$_SESSION['create_year'];
 
-$name= $_FILES['file']['name'];
+$name= basename($_FILES['file']['name']);
 
 $tmp_name= $_FILES['file']['tmp_name'];
 
 $submitbutton= $_POST['Upload'];
 
-$position= strpos($name, "."); 
-
-$fileextension= substr($name, $position + 1);
-
-$fileextension= strtolower($fileextension);
 
 
+if(isset($name) && !empty($name)){
 
-if (isset($name)) {
+    $position= strrpos($name, "."); 
+    $fileextension= substr($name, $position + 1);
+    $fileextension= strtolower($fileextension);
+    $path= '../pdf/';
+	$target_file = $path.$name;
+    if ( $fileextension=='pdf'){
+		if (move_uploaded_file($tmp_name, $target_file)) {
+			$sql="INSERT INTO Files_table (year, pdf_name)
+				VALUES ('$year', '$name')";
 
-$path= '../pdf/';
+			$result = mysqli_query($dbConn, $sql);
 
-	if (!empty($name)){
-	if (move_uploaded_file($tmp_name, $path.$name)) {
-	echo 'Uploaded!';
+			if($result)
+			{ 
+    			echo '<script type="text/javascript">
+    			alert("File uploaded successfully !!");
+    			window.location.href="back_image.php";
+    			</script>';
 
+    			
+			}
+			else
+			{
+				//echo 'Sorry, not inserted into database';
+				echo '<script type="text/javascript">
+    			alert("File not uploaded. Try again !!");
+    			window.location.href="call_for_papers.php";
+    			</script>';
+			}	
+	    	
+		}
+		else
+		{
+			echo 'file can not be uploded';
+		}
 	}
-	}
+	else
+	{
+		echo 'file type is not pdf';
+	}	
+
+
 }
-
-
-$sql="INSERT INTO Files_table (year, pdf_name)
-VALUES ('$year', '$name')";
-
-$result = mysqli_query($dbConn, $sql);
-
-if($result)
+else
 {
-  header("Location:call_for_papers.php");
+	echo "file is empty";
+
 }
 
-?>
-
-<?php
 require '../close.php';
 ?>
+
+</html>

@@ -8,6 +8,8 @@ require '../open.php';
 $temp_no=$_SESSION['create_tempno'];
 $year=$_SESSION['create_year'];
 
+
+
  $uploadOk = 1;
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $target_dir = "../background_images/";
@@ -58,7 +60,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $result = mysqli_query($dbConn, $sql);
             if($result)
             {
-                  header("Location:back_image.php");
+                  //header("Location:back_image.php");
+                    echo '<script type="text/javascript">
+                    alert("File uploaded successfully !!");
+                    window.location.href="back_image.php";
+                    </script>';
+/*
+                    echo '<script type="text/javascript">
+                    alertify.alert("Alert Title", "Alert Message!", function(){ alertify.success("Ok"); });
+                    </script>';
+                    */
             }
 
         } 
