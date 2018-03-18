@@ -221,7 +221,7 @@ Licence URI: http://www.os-templates.com/template-terms
 
         <div class="wrap-input100 validate-input" data-validate="Name is required">
           <span class="label-input100">   Country code:</span>
-          <input class="input100" type="text" name="code" placeholder="Enter Country code" <?php if ($codeErr==0){ echo "value="."'".$code."'";} ?>>
+          <input class="input100" type="text" name="code" placeholder="Enter Country code like +91 for India" <?php if ($codeErr==0){ echo "value="."'".$code."'";} ?>>
           <span class="focus-input100"></span>
         </div>
 
