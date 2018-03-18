@@ -4,11 +4,8 @@ require '../open.php';
 
 
 $year=$_SESSION['edit_year'];
-
-
-$dbConn = mysqli_connect ($dbHost, $dbUser, $dbPass) or die ('mysqli connect failed. ' . mysqli_error());
-mysqli_select_db($dbConn, $dbName) or die('Cannot select database. ' . mysqli_error());
-
+$sponsorErr= $urlErr= 0;
+$sponsor= $url= "";
 $flag=0;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -16,45 +13,54 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
    if($_POST["button1"]=="Edit")
   {
     
-    $sponsor_name=$_POST["sponsor_name"];
+    $sponsor=$_POST["sponsor_name"];
     $url=$_POST["url"];
-    //echo "year";
-    //echo $acid;
+  
+    $sponsorErr=$urlErr=1;
     $flag=1;
-    $sql="SELECT * from Sponsored_by WHERE sponsor_name='$sponsor_name' and year='$year'";
+  }
 
-  $result = mysqli_query($dbConn, $sql); 
-  
-  $topicrow=mysqli_fetch_array($result);
-  $edit_sponsorname=$topicrow['sponsor_name'];
-  $edit_url=$topicrow['url'];
- $sql="DELETE from Sponsored_by WHERE sponsor_name='$sponsor_name' and year='$year'";
-
-  $result = mysqli_query($dbConn, $sql); 
-  
-
-}
-
-else if($_POST["button1"]=="Delete")
+  else if($_POST["button1"]=="Delete")
   {
      $sponsor_name=$_POST["sponsor_name"];
-   
-    //echo "year";
-    //echo $dcid;
     $flag=2;
     $sql="DELETE FROM Sponsored_by WHERE sponsor_name='$sponsor_name' and year='$year'";
-  $result = mysqli_query($dbConn, $sql); 
-  if($result)
-  {
-    //echo "success";
-  }
-  else
-  {
-    //echo "failure";
+    $result = mysqli_query($dbConn, $sql); 
   }
 
+  else
+  {
+    $isedit=$_POST['isedit'];
+    $sponsor = test_input($_POST["sponsor_name"]);
+    $url=$_POST["url"];
+
+    if($isedit==1) 
+    {
+        $prev_sponsor=$_POST['edit_sponsor'];
+        
+        $sql="UPDATE  Sponsored_by  SET sponsor_name='$sponsor', url='$url' WHERE sponsor_name='$prev_sponsor' AND year='$year'";
+        $result = mysqli_query($dbConn, $sql);  
+      
+    }
+  else if($isedit==0)
+   {
+      $sql="INSERT into Sponsored_by (sponsor_name, url, year) 
+            VALUES ('$sponsor', '$url', '$year')";  
+      $result = mysqli_query($dbConn, $sql);
+       
+    }
+  }
 }
+
+
+function test_input($data) {
+  $data = trim($data);
+  $data = stripslashes($data);
+  $data = htmlspecialchars($data);
+  $data=ucwords(strtolower($data));
+  return $data;
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -99,6 +105,8 @@ Licence URI: http://www.os-templates.com/template-terms
               <li><a href="sponsor.php">Sponsored by</a></li>
               <li><a href="imp_dates.php">Important dates</a></li>
               <li><a href="sub_link.php">Submission Link</a></li>
+              <li><a href="call_for_papers.php">Call for Papers</a></li>
+              <li><a href="back_image.php">Background Image</a></li>
             </ul>
           </li>
           <li ><a href="track_topics.php">Track Topics</a></li>
@@ -122,6 +130,7 @@ Licence URI: http://www.os-templates.com/template-terms
             <ul>
               <li><a href="../home.php">Back to Admin</a></li>
               <li><a href="../logout.php">Logout</a></li>
+              <li><a href="gen_link.php">Website Link</a></li>
             </ul>
           </li>
         </ul>
@@ -146,90 +155,28 @@ Licence URI: http://www.os-templates.com/template-terms
 <div class="wrap-contact100" style="color:#222222;">
 <br>
 
-<?php
-
-
-//define variables and set to empty values
-$sponsorErr= $urlErr= 0;
-$sponsor= $url= "";
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  if (empty($_POST["sponsor"])) {
-    $sponsorErr = 1;
-  } else {
-    $sponsor = test_input($_POST["sponsor"]);
-  }
- 
-
-  $url=$_POST["url"];
-
-
-  
-
-if($sponsorErr == 0 )
-{
-
-if($flag==0)
-{
-$sql="INSERT into Sponsored_by (sponsor_name, url, year) 
-VALUES ('$sponsor', '$url', '$year')";
-
-
-$result = mysqli_query($dbConn, $sql);
-
-if($result)
-{
-  //header("Location:sponsor.php");
-}
-
-
-}
-
-else if($flag==1)
-{
-$sql="UPDATE Sponsored_by
-SET sponsor_name='$edit_sponsorname', url='$edit_url'
-WHERE sponsor= '$sponsor' AND year='$year';";
-
-$result = mysqli_query($dbConn, $sql);
-
-if($result)
-{
-  //header("Location:sponsor.php");
-}
-
-
-}
-
-
-}
-}
-function test_input($data) {
-  $data = trim($data);
-  $data = stripslashes($data);
-  $data = htmlspecialchars($data);
-  $data=ucwords(strtolower($data));
-  return $data;
-}
-?>
-
 
 <p style="text-align: center;font-size:20px;">Sponsors details</p>
      <form class="contact100-form validate-form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" autocomplete="off">
 
 
     <div class="wrap-input100 validate-input" data-validate="Name is required">
-           <span class="label-input100"><span class="error">*</span><?php if ($sponsorErr==1){ echo "<span class='error'>Sponser:</span>";} else{ echo "Sponsor:"; }?></span>
-          <input class="input100" type="text" name="sponsor" placeholder="Enter Sponsor name" <?php if ($flag==1){ echo "value="."'".$edit_sponsorname."'";} ?> >
+           <span class="label-input100"><span class="error">*</span>Sponsor :</span>
+          <input class="input100" type="text" name="sponsor_name" required placeholder="Enter Sponsor name" <?php if ($sponsorErr==1){ echo "value='".$sponsor."'";} ?> >
           <span class="focus-input100"></span>
 
         </div>
-	<input type="hidden" name="button1" value="Include">
+	
          <div class="wrap-input100 validate-input" data-validate="Name is required">
           <span class="label-input100">   URL:</span>
-          <input class="input100" type="text" name="url" placeholder="Enter Website URL" <?php if ($flag==1){ echo "value="."'".$edit_url."'";} ?>>
+          <input class="input100" type="url" name="url" placeholder="Enter Website URL" <?php if ($urlErr==1){ echo "value="."'".$url."'";} ?>>
           <span class="focus-input100"></span>
         </div>
+
+
+        <input type="hidden" name="button1" value="Include">
+        <input type="hidden" name="isedit" value="<?php echo $flag;?>">
+        <input type="hidden" name="edit_sponsor" value="<?php echo $sponsor;?>">
 
 
 <div class="container-contact100-form-btn">

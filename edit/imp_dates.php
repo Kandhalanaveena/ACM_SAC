@@ -7,54 +7,21 @@ require '../open.php';
 
 $year=$_SESSION['edit_year'];
 
- $actErr = $dateErr= 0;
+$actErr = $dateErr= 0;
 $act = $date= "";
-  $flag=0;
+$flag=0;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   
 /* inserting into databse*/
-if($_POST["button1"]=="values_edit")
-{
-  if (empty($_POST["act"])) {
-    $actErr = 1;
-  } else {
-    $act = test_input($_POST["act"]);
-  }
- 
-  if (empty($_POST["date"])) {
-    $dateErr = 1;
-  } else {
-    $date =$_POST["date"];
-  }
-
-  if($actErr == 0 && $dateErr == 0 )
-  {
-    $sql="INSERT into Important_dates (activity, start_date, year) 
-    VALUES ( '$act', '$date', '$year')";
-    $result = mysqli_query($dbConn, $sql);
-    if($result)
-    {
-      $flag=1;
-    //echo "success";
-    //header("Location:imp_dates.php");
-    }
-  }
-}
 
 if($_POST["button1"]=="Edit")
   {
     $act = $_POST["act"];
     $date =$_POST["date"];
     
-    $sql="DELETE from Important_dates where activity='$act' and start_date='$date' and year='$year' ";
-    $result = mysqli_query($dbConn, $sql);   
-    if($result)
-    {
-    //echo "success";
-    //header("Location:imp_dates.php");
-    }
-    
+    $actErr=$dateErr=1;
+    $flag=1;
   }
 
 else if($_POST["button1"]=="Delete")
@@ -65,6 +32,29 @@ else if($_POST["button1"]=="Delete")
     $sql="DELETE FROM Important_dates WHERE activity='$act' and start_date='$date' and year='$year'";
     $result = mysqli_query($dbConn, $sql); 
   }
+  else
+  {
+    $isedit=$_POST['isedit'];
+    $act = test_input($_POST["act_name"]);
+    $date=$_POST["date"];
+
+    if($isedit==1) 
+      {
+        $prev_act=$_POST['edit_act'];
+        $prev_date=$_POST['edit_date'];
+        $sql="UPDATE  Important_dates  SET activity='$act', start_date='$date' WHERE activity='$prev_act' AND start_date='$prev_date'";
+        $result = mysqli_query($dbConn, $sql);  
+       
+      }
+    else if($isedit==0)
+      {
+        $sql="INSERT into Important_dates (activity, start_date, year) 
+              VALUES ( '$act', '$date', '$year')";
+          $result = mysqli_query($dbConn, $sql);  
+      }
+    
+  }
+
 }
 
 function test_input($data) {
@@ -74,6 +64,8 @@ function test_input($data) {
   return $data;
 }
 ?>
+
+
 <!DOCTYPE html>
 <!--
 Template Name: Penyler
@@ -116,6 +108,8 @@ Licence URI: http://www.os-templates.com/template-terms
               <li><a href="sponsor.php">Sponsored by</a></li>
               <li><a href="imp_dates.php">Important dates</a></li>
               <li><a href="sub_link.php">Submission Link</a></li>
+              <li><a href="call_for_papers.php">Call for Papers</a></li>
+              <li><a href="back_image.php">Background Image</a></li>
             </ul>
           </li>
           <li ><a href="track_topics.php">Track Topics</a></li>
@@ -139,6 +133,7 @@ Licence URI: http://www.os-templates.com/template-terms
             <ul>
               <li><a href="../home.php">Back to Admin</a></li>
               <li><a href="../logout.php">Logout</a></li>
+              <li><a href="gen_link.php">Website Link</a></li>
             </ul>
           </li>
         </ul>
@@ -166,13 +161,16 @@ Licence URI: http://www.os-templates.com/template-terms
     <p style="text-align: center;font-size:20px;">Important Dates</p>
      <form class="contact100-form validate-form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" autocomplete="off">
 
-    <input type='hidden' name='button1' value='values_edit'>
+  <input type="hidden" name="button1" value="Include">
+  <input type="hidden" name="isedit" value="<?php echo $flag;?>">
+  <input type="hidden" name="edit_act" value="<?php echo $act;?>">
+  <input type="hidden" name="edit_date" value="<?php echo $date;?>">
 
     <div class="wrap-input100 validate-input" data-validate="Name is required">
-           <span class="label-input100"><span class="error">*</span><?php if ($actErr==1){ echo "<span class='error'>Notification:</span>";} else{ echo "Notification:"; }?></span>
-          <input class="input100" type="text" name="act" placeholder="Enter Activity Name" 
+           <span class="label-input100"><span class="error">*</span>Notification : </span>
+          <input class="input100" type="text" name="act_name" required placeholder="Enter Activity Name" 
           <?php 
-          if ($actErr==0 and $flag==0)
+          if ($actErr==1)
             { 
               echo "value="."'".$act."'";
             } ?> 
@@ -181,11 +179,12 @@ Licence URI: http://www.os-templates.com/template-terms
 
         </div>
 
+
         <div class="wrap-input100 validate-input" data-validate="Name is required">
-          <span class="label-input100"><span class="error">*</span><?php if ($dateErr==1){ echo "<span class='error'>Date:</span>";} else{ echo "Date:"; }?></span>
-          <input class="input100" type="date" name="date" placeholder="Enter Date" 
+          <span class="label-input100"><span class="error">*</span>Date :</span>
+          <input class="input100" type="date" name="date" required placeholder="Enter Date" 
           <?php 
-          if ($dateErr==0 and $flag==0)
+          if ($dateErr==1)
             { 
               echo "value="."'".$date."'";
             } 
@@ -198,7 +197,7 @@ Licence URI: http://www.os-templates.com/template-terms
 <div class="container-contact100-form-btn">
           <button class="contact100-form-btn">
             <span>
-              Add
+              Update
               <i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
             </span>
           </button>
