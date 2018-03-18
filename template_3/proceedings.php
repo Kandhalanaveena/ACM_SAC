@@ -81,10 +81,28 @@ echo '<div class="bgded overlay" style="background-image:url('."'../background_i
       <article >
         <div>
           <p class="heading">
-          <?php echo '<a  style="color:white;"href="'.$row['url'].'">';
-                 echo $row['number'];
+          <?php 
+          $decimal=$row['number']%10;
+              
+              if($decimal==1){
+                $prefix='st';
+              }
+              elseif ($decimal==2) {
+                # code...
+                $prefix='nd';
+              }
+              elseif ($decimal==3) {
+                # code...
+                $prefix='rd';
+              }
+              else
+              {
+                $prefix='th';
+              }
+          echo '<a  style="color:white;"href="'.$row['url'].'">';
+                 echo $row['number'].' '.$prefix;
           ?>
-          rd ACM/ SIGAPP Symposium On Applied Computing</a></p>
+           ACM/ SIGAPP Symposium On Applied Computing</a></p>
           <h2 class="heading"><?php echo '<a href="'.$row['url'].'"target="_blank" style="color: white;">' ?>ACM SAC <?php echo $row['year'];
           ?></a></h2>
           <p class="heading" style="font-size: 25px; text-transform: capitalize;">Track On Cloud Computing</p>

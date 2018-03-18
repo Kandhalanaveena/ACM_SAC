@@ -127,10 +127,28 @@ require '../open.php';
 						<!-- End center Logo -->
 
 						<div class="mu-hero-featured-content">
-							<h1><?php echo '<a  style="color:white;"href="'.$row['url'].'">';
-                 					echo $row['number'];?>
+							<h1><?php 
+							$decimal=$row['number']%10;
+							
+							if($decimal==1){
+								$prefix='st';
+							}
+							elseif ($decimal==2) {
+								# code...
+								$prefix='nd';
+							}
+							elseif ($decimal==3) {
+								# code...
+								$prefix='rd';
+							}
+							else
+							{
+								$prefix='th';
+							}
+echo '<a  style="color:white;"href="'.$row['url'].'">';
+							echo $row['number'].' '.$prefix;?>
           																
-						rd ACM/ SIGAPP Symposium On Applied Computing</h1>
+						 ACM/ SIGAPP Symposium On Applied Computing</h1>
 					        <h1 class="heading"><?php echo '<a href="'.$row['url'].'"target="_blank" style="color: white;">' ?>ACM SAC <?php echo $row['year'];
           ?></a></h1>
 				                

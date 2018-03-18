@@ -71,10 +71,29 @@ echo "<title>ACM SAC ".$row['year']."</title>";
 					<div class="inner">
 						<header>
 						<h6 style="font-size: 25px; text-transform: capitalize;">
-						<?php echo '<a  style="color:white;"href="'.$row['url'].'" target="_blank">';
-                 echo $row['number'];
+						<?php 
+            $decimal=$row['number']%10;
+              
+              if($decimal==1){
+                $prefix='st';
+              }
+              elseif ($decimal==2) {
+                # code...
+                $prefix='nd';
+              }
+              elseif ($decimal==3) {
+                # code...
+                $prefix='rd';
+              }
+              else
+              {
+                $prefix='th';
+              }
+
+            echo '<a  style="color:white;"href="'.$row['url'].'" target="_blank">';
+                 echo $row['number'].' '.$prefix;
           ?>
-          rd ACM/ SIGAPP Symposium On Applied Computing</a></h6>
+          ACM/ SIGAPP Symposium On Applied Computing</a></h6>
           <h2 ><?php echo '<a href="'.$row['url'].'"target="_blank" >' ?>ACM SAC <?php echo $row['year'];
           ?></a></h2>
           <h6 style="font-size: 25px; text-transform: capitalize;">Track On Cloud Computing</h6>
