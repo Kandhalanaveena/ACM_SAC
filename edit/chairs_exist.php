@@ -121,6 +121,7 @@ Licence URI: http://www.os-templates.com/template-terms
   <main class="hoc container clear"> 
     <!-- main body -->
     <!-- ################################################################################################ -->
+    <?php echo '<h4 style="text-align:center; color:black">You are currently editing '.$year.' website</h4>';?>
 
 
 

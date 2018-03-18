@@ -81,7 +81,7 @@ Licence URI: http://www.os-templates.com/template-terms
       <nav id="mainav" class="clear"> 
         <!-- ################################################################################################ -->
         <ul class="clear">
-          <li><a href="home.html">Admin</a></li>
+          
           <li><a href="">Title</a></li>
           <li><a class="drop" href="">Home</a>
             <ul>
@@ -135,6 +135,7 @@ Licence URI: http://www.os-templates.com/template-terms
   <main class="hoc container clear"> 
     <!-- main body -->
     <!-- ################################################################################################ -->
+    <?php echo '<h4 style="text-align:center; color:black">You are creating '.$year.' website</h4>';?>
 <div class="wrap-contact100" style="color:#222222;width: 970px">
 <br>
 

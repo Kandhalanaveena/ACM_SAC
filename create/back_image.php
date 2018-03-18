@@ -163,6 +163,7 @@ Licence URI: http://www.os-templates.com/template-terms
   <main class="hoc container clear"> 
     <!-- main body -->
     <!-- ################################################################################################ -->
+    <?php echo '<h4 style="text-align:center; color:black">You are creating '.$year.' website</h4>';?>
 <div class="wrap-contact100" style="color:#222222; ">
 <br>
 <p style="text-align: center;font-size:20px;">Background Image</p>

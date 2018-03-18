@@ -88,8 +88,9 @@ Licence URI: http://www.os-templates.com/template-terms
     <ul class="nospace clear services">
       <li >
         <div class="inspace-30" style="color: #111111;">
-          <h6 class="heading" style="text-align: center;font-size: 24px">How to create the website</h6>
-          <p class="nospace">Maximus aliquet vivamus velit non magna ac sollicitudin risus luctus eget tempor tortor nulla et lacus quis nisl tristique congue nulla semper diam et ipsum rhoncus dapibus sed rhoncus at diam quis facilisis fusce dui ante.</p>
+          <h6 class="heading" style="text-align: center;font-size: 24px">About the Interface</h6>
+          <p class="nospace" style="text-align:justify">This website is an interface for the admin to create new or edit the existing ACM SAC website.
+To use this interface the user must be an admin with a valid username and password. Once he logs in he will be provided with different options like create a new website, edit the existing website, add a new admin , change the password of the current admin. When the admin chooses create new website option he will be provided with 3 different templates of the websites for which previews are also available.  As he chooses the template, forms will be displayed to fill in all the important details like the dates, venue, chairpersons, program committee etc. There is also a provision to add background images in the templates. At the end, a generate website option will be given which will return the link of the new website generated. If the admin choses to edit the existing website, the filled in details of that website are displayed in the forms which can be edited and updated. If the admin wants to add images in the future, i.e., post-conference he can choose the edit option and add the required images for that year. For better user experience use google chrome browser. </p>
         </div>
       </li>
     <!-- <li class="one_quarter"><a href="#">
