@@ -199,17 +199,30 @@ require '../open.php';
 							<div class="mu-title-area">
 								
 								 <?php
-                                                                    $sql="SELECT * FROM Important_dates WHERE year='$inputyear'";
-                                                                    $result = mysqli_query($dbConn,$sql);
-                                                                    if(mysqli_num_rows($result)>0){
-                                                                    	echo '<h2 class="mu-title">Important Dates</h2>';
-                                                                    while($datesrow = mysqli_fetch_array($result))
-                                                                     {
-                                                                       echo '<p>'.$datesrow['activity'].' : '.$datesrow['start_date'].'</p><br>';
-                                                                     }
-                                                                     echo '<br>';
-                                                                     echo '<br>';
-                                                                 }
+                                 $sql="SELECT * FROM Important_dates WHERE year='$inputyear'";
+                                 $result = mysqli_query($dbConn,$sql);
+                                 if(mysqli_num_rows($result)>0){
+                                 echo '<h2 class="mu-title">Important Dates</h2>';
+                                 date_default_timezone_set('Asia/Kolkata');
+                                 $today=new DateTime('');
+
+                                  
+                                 while($datesrow = mysqli_fetch_array($result))
+                                 {
+                                  $notfdate=new DateTime($datesrow['start_date']);
+                                  if($today->format('Y-m-d')>$notfdate->format('Y-m-d'))
+                                  {	
+                                  echo '<p>'.$datesrow['activity'].' : <strike>'.$datesrow['start_date'].'</strike></p>';
+                              		}
+                              		else
+                              		{
+                              			echo '<p>'.$datesrow['activity'].' : '.$datesrow['start_date'].'</p>';	
+                              		}
+                                 }
+                                 
+                                 }
+                                 echo '<br>';
+                                 echo '<br>';
                                                                     
 ?>
 							</div>

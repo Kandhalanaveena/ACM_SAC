@@ -23,9 +23,10 @@ if(isset($name) && !empty($name)){
     $fileextension= substr($name, $position + 1);
     $fileextension= strtolower($fileextension);
     $path= '../pdf/';
-	$target_file = $path.'2018.pdf';
+	$target_file = $path.$year.'.pdf';
     if ( $fileextension=='pdf'){
 		if (move_uploaded_file($tmp_name, $target_file)) {
+			$name=$year.'.pdf';
 			$sql="INSERT INTO Files_table (year, pdf_name)
 				VALUES ('$year', '$name')";
 
@@ -40,31 +41,34 @@ if(isset($name) && !empty($name)){
 
     			
 			}
-			else
-			{
-				//echo 'Sorry, not inserted into database';
-				echo '<script type="text/javascript">
-    			alert("File not uploaded. Try again !!");
-    			window.location.href="call_for_papers.php";
-    			</script>';
-			}	
+				
 	    	
 		}
 		else
 		{
-			echo 'file can not be uploded';
+			echo '<script type="text/javascript">
+    			alert("File can not be uploaded. Try again !!");
+    			window.location.href="call_for_papers.php";
+    			</script>';
 		}
 	}
 	else
 	{
-		echo 'file type is not pdf';
+		echo '<script type="text/javascript">
+    			alert("File type is not pdf. Try again !!");
+    			window.location.href="call_for_papers.php";
+    			</script>';
 	}	
 
 
 }
 else
 {
-	echo "file is empty";
+	echo '<script type="text/javascript">
+    			alert("Empty file name. Try again !!");
+    			window.location.href="call_for_papers.php";
+    			</script>';
+
 
 }
 

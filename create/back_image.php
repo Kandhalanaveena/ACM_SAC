@@ -16,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $target_file = $target_dir . basename($_FILES["image"]["name"]);
     $uploadOk = 1;
     $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-   
+    
     // Check if image file is a actual image or fake image
     if(!empty($_FILES["image"]["tmp_name"])){
         $check = getimagesize($_FILES["image"]["tmp_name"]);
@@ -33,9 +33,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     {
       $uploadOk=0;
     }
-    
+    $name=basename($_FILES["image"]["name"]);
+    $position= strrpos($name, "."); 
+    $fileextension= substr($name, $position + 1);
+    $fileextension= strtolower($fileextension);
     // Check if file already exists
-    
+    $target_file = $target_dir . $year.'.'.$fileextension;
     if (file_exists($target_file)) {
         //echo "Sorry, file already exists.";
         $uploadOk = 0;
@@ -47,13 +50,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if ($uploadOk == 0) {
-        //echo "Sorry, your file was not uploaded.";
-       // if everything is ok, try to upload file
+        echo '<script type="text/javascript">
+          alert("File already exists for this year, cannot upload!!");
+          window.location.href="track_topics.php";
+          </script>';
     } 
     else {
         if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
             //echo "The file ". basename($_FILES["image"]["name"]). " has been uploaded.";
-            $name=basename($_FILES["image"]["name"]);  
+            $name= $year.'.'.$fileextension; 
             $sql="INSERT INTO Back_images (imagename, year) VALUES ('$name', '$year')";
 
 
@@ -63,7 +68,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                   //header("Location:back_image.php");
                     echo '<script type="text/javascript">
                     alert("File uploaded successfully !!");
-                    window.location.href="back_image.php";
+                    window.location.href="track_topics.php";
                     </script>';
 /*
                     echo '<script type="text/javascript">
@@ -74,7 +79,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         } 
         else {
-            //echo "Sorry, there was an error uploading your file.";
+            
+        //echo 'Sorry, not inserted into database';
+        echo '<script type="text/javascript">
+          alert("Uploading failed, try again!!");
+          window.location.href="track_topics.php";
+          </script>';
+     
         }
     }
 }
@@ -169,7 +180,7 @@ Licence URI: http://www.os-templates.com/template-terms
      <form class="contact100-form validate-form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" autocomplete="off" enctype="multipart/form-data">
       <div class="wrap-input100 validate-input" data-validate="Name is required">
           <span class="label-input100"><span class="error">*</span><?php if ($uploadOk==0){ echo "<span class='error'>Image :</span>";} else{ echo "Image :"; }?></span>
-          <input class="input100" type="file" name="image" placeholder="Upload Image">
+          <input class="input100" type="file" name="image" required placeholder="Upload Image">
           
           <span class="focus-input100"></span>
         </div>

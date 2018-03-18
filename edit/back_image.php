@@ -15,7 +15,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $target_file = $target_dir . basename($_FILES["image"]["name"]);
     $uploadOk = 1;
     $imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-   
+    $name=basename($_FILES["image"]["name"]);
+    $position= strrpos($name, "."); 
+    $fileextension= substr($name, $position + 1);
+    $fileextension= strtolower($fileextension);
+    // Check if file already exists
+    $target_file = $target_dir . $year.'.'.$fileextension;
     // Check if image file is a actual image or fake image
     if(!empty($_FILES["image"]["tmp_name"])){
         $check = getimagesize($_FILES["image"]["tmp_name"]);
@@ -33,27 +38,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $uploadOk=0;
     }
     
-    // Check if file already exists
     
-    if (file_exists($target_file)) {
-        //echo "Sorry, file already exists.";
-        $uploadOk = 0;
-    }
-    else
-    {
-        //echo "file does not exists";
-
-    }
 
     if ($uploadOk == 0) {
-        //echo "Sorry, your file was not uploaded.";
-       // if everything is ok, try to upload file
+         echo '<script type="text/javascript">
+                    alert("Upload failure, Try again !!");
+                    window.location.href="back_image.php";
+                    </script>';
     } 
     else {
         if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
             //echo "The file ". basename($_FILES["image"]["name"]). " has been uploaded.";
-            $name=basename($_FILES["image"]["name"]);  
-            $sql="INSERT INTO Back_images (imagename, year) VALUES ('$name', '$year')";
+            $name= $year.'.'.$fileextension; 
+           /* $sql="INSERT INTO Back_images (imagename, year) VALUES ('$name', '$year')";
 
 
             $result = mysqli_query($dbConn, $sql);
@@ -64,16 +61,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     alert("File uploaded successfully !!");
                     window.location.href="back_image.php";
                     </script>';
-/*
-                    echo '<script type="text/javascript">
-                    alertify.alert("Alert Title", "Alert Message!", function(){ alertify.success("Ok"); });
+
+                
+            }*/
+             echo '<script type="text/javascript">
+                    alert("File uploaded successfully !!");
+                    window.location.href="track_topics.php";
                     </script>';
-                    */
-            }
 
         } 
         else {
             //echo "Sorry, there was an error uploading your file.";
+          echo '<script type="text/javascript">
+                    alert("Sorry, Uploading failure !!");
+                    window.location.href="track_topics.php";
+                    </script>';
         }
     }
 }

@@ -21,7 +21,10 @@ if($yearErr == 0 )
       header("Location:edit/title.php");
     }else
     {
-      echo "Website for the year does not exist";
+     echo '<script type="text/javascript">
+                    alert("Cannot edit, website for the year does not exist !!");
+                    window.location.href="create_year.php";
+                    </script>';
     }
   }
 }

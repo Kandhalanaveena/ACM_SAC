@@ -17,7 +17,11 @@ if($yearErr == 0 )
     $sql= "SELECT * FROM Info WHERE year='$year'";
     $result = mysqli_query($dbConn, $sql); 
     if ($result && mysqli_num_rows($result)>0)
-    {  echo "Website for the year already exists";
+    { 
+                echo '<script type="text/javascript">
+                    alert("Cannot create, website for the year already exists !!");
+                    window.location.href="create_year.php";
+                    </script>';
     }else
     {
       $_SESSION['create_year']=$year;

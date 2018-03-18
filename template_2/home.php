@@ -162,17 +162,28 @@ echo "<title>ACM SAC ".$row['year']."</title>";
 											echo '</dd>';
 											echo '</dl>';
             							}
-								
+										
           								$sql="SELECT * FROM Important_dates WHERE year='$inputyear'";
           								$result = mysqli_query($dbConn,$sql);
           								if($result && mysqli_num_rows($result)>0){
           									echo '<h4><b>Important dates</b></h4>';
           									echo '<ul class="alt">';
-											
-										
+											date_default_timezone_set('Asia/Kolkata');
+										$today=new DateTime('');
           								while($datesrow = mysqli_fetch_array($result))
           								{
-           								 echo '<li>'.$datesrow['activity'].' : '.$datesrow['start_date'].'</li>';
+          									$notfdate=new DateTime($datesrow['start_date']);
+          									
+                                  if($today->format('Y-m-d')>$notfdate->format('Y-m-d'))
+                                  {	
+                                  echo '<li>'.$datesrow['activity'].' : <strike>'.$datesrow['start_date'].'</strike></li>';
+                              		}
+                              		else
+                              		{
+                              			echo '<li>'.$datesrow['activity'].' : '.$datesrow['start_date'].'</li>';
+                              			
+                              		}
+           								 
           								}
           									echo '</ul>';
       									}
