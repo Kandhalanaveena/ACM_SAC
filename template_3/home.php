@@ -1,24 +1,17 @@
+<?php
+require '../open.php';
+?>
+
 <!DOCTYPE html>
 
 <html lang="">
 <!-- To declare your language - read more here: https://www.w3.org/International/questions/qa-html-language-declarations -->
 <head>
 <?php
-$servername = "Localhost";
-$username = "b140622cs";
-$password = "b140622cs";
-$dbname="db_b140622cs";
-$inputyear=$_GET['year'];
 
-// Create connection
-$conn = mysqli_connect($servername, $username, $password,$dbname);
-// Check connection
-if (mysqli_connect_errno())
-{
-echo "Failed to connect to MySQL: " . mysqli_connect_error();
-}
+$inputyear=$_GET['year'];
 $sql="SELECT * FROM Info WHERE year='$inputyear'";
-$result = mysqli_query($conn,$sql);
+$result = mysqli_query($dbConn,$sql);
 
 
 $row = mysqli_fetch_array($result);
@@ -36,7 +29,7 @@ echo "<title>ACM SAC ".$row['year']."</title>";
 <!-- Top Background Image Wrapper -->
 <?php
 $sql="SELECT * FROM Back_images WHERE year='$inputyear'";
-$result = mysqli_query($conn,$sql);
+$result = mysqli_query($dbConn,$sql);
 $imagename='';
 if($result)
 {
@@ -125,11 +118,11 @@ echo '<div class="bgded overlay" style="background-image:url('."'../background_i
   <main class="hoc container clear"> 
     <!-- main body -->
     
-    <div class="content three_quarter first"> 
+    <div class="content three_quarter first" style="width: 66%"> 
       <h6>ACM SAC <?php echo $row['year'];?> </h6>
       <?php
         $sql="SELECT * FROM Paras WHERE year='$inputyear' AND type='home'";
-          $result = mysqli_query($conn,$sql);
+          $result = mysqli_query($dbConn,$sql);
           $pararow = mysqli_fetch_array($result);
             echo '<p style="text-align: justify;">'.$pararow['para']."</p>";
           
@@ -139,7 +132,7 @@ echo '<div class="bgded overlay" style="background-image:url('."'../background_i
        
          <?php
           $sql="SELECT * FROM Hosted_by WHERE year='$inputyear'";
-          $result = mysqli_query($conn,$sql);
+          $result = mysqli_query($dbConn,$sql);
           if(mysqli_num_rows($result) > 0) {
            
            echo "<ul>";
@@ -151,7 +144,7 @@ echo '<div class="bgded overlay" style="background-image:url('."'../background_i
           echo  "</ul><br>";
         }
           $sql="SELECT * FROM Sponsored_by WHERE year='$inputyear'";
-          $result = mysqli_query($conn,$sql);
+          $result = mysqli_query($dbConn,$sql);
           if(mysqli_num_rows($result) > 0) {
            echo "<ul>";
             echo "<p><b>The SRC Program is sponsored by</b></p><br>";
@@ -165,11 +158,11 @@ echo '<div class="bgded overlay" style="background-image:url('."'../background_i
          } 
 ?>
     </div>
-    <div class="sidebar one_quarter"> 
-   <h5 style="text-transform: capitalize;">Quick Links</h5>
+    <div class="sidebar one_quarter" style="width: 30%"> 
+   <b><h5 style="text-transform: capitalize;">Quick Links</h5></b>
    <?php
       $sql="SELECT * FROM Gallery WHERE year='$inputyear'";
-      $result = mysqli_query($conn,$sql);
+      $result = mysqli_query($dbConn,$sql);
       if(mysqli_num_rows($result)>0){
             echo '<div class="sdb_holder">';
             echo '<p class="heading" style="text-transform: capitalize; font-size: 20px">Gallery</p><ul>';
@@ -177,18 +170,19 @@ echo '<div class="bgded overlay" style="background-image:url('."'../background_i
             echo '<p>Photos of conference are availiable <a href="gallery.php?year='.$inputyear.'">here</a>.</p></ul></div>';
  }
 ?>  
+<hr>
  <div class="sdb_holder">
    <p class="heading" style="text-transform: capitalize; font-size: 20px">Important Dates</p>
     <ul>
          <?php
           $sql="SELECT * FROM Important_dates WHERE year='$inputyear'";
-          $result = mysqli_query($conn,$sql);
+          $result = mysqli_query($dbConn,$sql);
           while($datesrow = mysqli_fetch_array($result))
           {
-            echo '<li>'.$datesrow['activity'].' : <br>'.$datesrow['start_date'].'</li><br>';
+            echo '<li >'.$datesrow['activity'].' : '.$datesrow['start_date'].'</li><br>';
           }
           $sql="SELECT * FROM Sponsored_by WHERE year='$inputyear'";
-          $result = mysqli_query($conn,$sql);
+          $result = mysqli_query($dbConn,$sql);
           $sponrow=mysqli_fetch_array($result);
 ?>
 
@@ -196,27 +190,36 @@ echo '<div class="bgded overlay" style="background-image:url('."'../background_i
        </ul>
 
    </div>
+   <hr>
    <div class="sdb_holder">
    <p class="heading" style="text-transform: capitalize; font-size: 20px">Call for Papers</p>
    <?php
     $sql="SELECT * FROM Files_table WHERE year='$inputyear'";
-          $result = mysqli_query($conn,$sql);
+          $result = mysqli_query($dbConn,$sql);
           $filerow=mysqli_fetch_array($result);
           $pdflink="../pdf/".$filerow['pdf_name'];
    ?>
-   <a href="<?php echo $pdflink; ?>" download ><i class="fa fa-file-pdf-o" style="font-size:36px; color:#00BCD4"></i></a>
+   <a href="<?php echo $pdflink; ?>" ><i class="fa fa-file-pdf-o" style="font-size:36px; "></i></a>
    </div>
+   <hr>
    <div class="sdb_holder">
    <p class="heading" style="text-transform: capitalize; font-size: 20px">Venue</p>
-    <p>The conference will be held in - <br><br>
+    <p>The conference will be held in - <br>
     <b> <?php echo $row['city'].", ".$row['country'];?> </b></p>
    </div>
     </div>
    
     <!-- / main body -->
+
+
     <div class="clear"></div>
   </main>
 </div>
+
+
+<?php
+require '../close.php';
+?>
 
 
 <div class="wrapper row5">

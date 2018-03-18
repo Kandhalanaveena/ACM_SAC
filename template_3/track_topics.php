@@ -1,23 +1,18 @@
+<?php
+require '../open.php';
+?>
+
 <!DOCTYPE html>
 
 <html lang="">
 <!-- To declare your language - read more here: https://www.w3.org/International/questions/qa-html-language-declarations -->
 <head>
 <?php
-$servername = "Localhost";
-$username = "b140622cs";
-$password = "b140622cs";
-$dbname="db_b140622cs";
+
 $inputyear=$_GET['year'];
-// Create connection
-$conn = mysqli_connect($servername, $username, $password,$dbname);
-// Check connection
-if (mysqli_connect_errno())
-{
-echo "Failed to connect to MySQL: " . mysqli_connect_error();
-}
+
 $sql="SELECT * FROM Info WHERE year='$inputyear'";
-$result = mysqli_query($conn,$sql);
+$result = mysqli_query($dbConn,$sql);
 
 
 $row = mysqli_fetch_array($result);
@@ -34,7 +29,7 @@ echo "<title>ACM SAC ".$row['year']."</title>";
 <!-- ################################################################################################ -->
 <!-- Top Background Image Wrapper --><?php
 $sql="SELECT * FROM Back_images WHERE year='$inputyear'";
-$result = mysqli_query($conn,$sql);
+$result = mysqli_query($dbConn,$sql);
 $imagename='';
 if($result)
 {
@@ -122,10 +117,11 @@ echo '<div class="bgded overlay" style="background-image:url('."'../background_i
 <div class="wrapper row3">
   <main class="hoc container clear"> 
     <!-- main body -->
-    <h6 style="text-transform: capitalize;">Track Topics</h6>
+    <h6 style="text-transform: capitalize;text-align: center;">Track Topics</h6>
+    <br>
      <?php
         $sql="SELECT * FROM Paras WHERE year='$inputyear' AND type='topics'";
-          $result = mysqli_query($conn,$sql);
+          $result = mysqli_query($dbConn,$sql);
           $pararow = mysqli_fetch_array($result);
             echo '<p style="text-align: justify;">'.$pararow['para']."</p><br>";
      
@@ -133,7 +129,7 @@ echo '<div class="bgded overlay" style="background-image:url('."'../background_i
 
   
      $sql="SELECT t.tname FROM Topics as t, Topics_Year as y WHERE y.tid=t.tid and y.year='$inputyear'";
-$result = mysqli_query($conn,$sql);
+$result = mysqli_query($dbConn,$sql);
 
 if (mysqli_num_rows($result) > 0) {
   echo '<p style="text-align: justify;">The list of possible topics includes but is not restricted to the following areas :</p>';
@@ -151,6 +147,10 @@ echo "<li>" . $topicrow['tname'] . "</li>";
     <div class="clear"></div>
   </main>
 </div>
+
+<?php
+require '../close.php';
+?>
 
 
 <div class="wrapper row5">

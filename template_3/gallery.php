@@ -1,23 +1,19 @@
+<?php
+require '../open.php';
+?>
+
+
 <!DOCTYPE html>
 
 <html lang="">
 <!-- To declare your language - read more here: https://www.w3.org/International/questions/qa-html-language-declarations -->
 <head>
 <?php
-$servername = "Localhost";
-$username = "b140622cs";
-$password = "b140622cs";
-$dbname="db_b140622cs";
+
 $inputyear=$_GET['year'];
-// Create connection
-$conn = mysqli_connect($servername, $username, $password,$dbname);
-// Check connection
-if (mysqli_connect_errno())
-{
-echo "Failed to connect to MySQL: " . mysqli_connect_error();
-}
+
 $sql="SELECT * FROM Info WHERE year='$inputyear'";
-$result = mysqli_query($conn,$sql);
+$result = mysqli_query($dbConn,$sql);
 
 
 $row = mysqli_fetch_array($result);
@@ -35,7 +31,7 @@ echo "<title>ACM SAC ".$row['year']."</title>";
 <!-- Top Background Image Wrapper -->
 <?php
 $sql="SELECT * FROM Back_images WHERE year='$inputyear'";
-$result = mysqli_query($conn,$sql);
+$result = mysqli_query($dbConn,$sql);
 $imagename='';
 if($result)
 {
@@ -127,7 +123,7 @@ echo '<div class="bgded overlay" style="background-image:url('."'../background_i
 $sql= "SELECT * FROM Gallery WHERE year='$inputyear'";
 
 
-$result = mysqli_query($conn, $sql); 
+$result = mysqli_query($dbConn, $sql); 
      
 if ($result && mysqli_num_rows($result)>0)
 {
@@ -186,6 +182,10 @@ echo "<!--Showing the List of track topics-->";
     <div class="clear"></div>
   </main>
 </div>
+
+<?php
+require '../close.php';
+?>
 
 
 <div class="wrapper row5">
