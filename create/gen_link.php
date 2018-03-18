@@ -118,7 +118,7 @@ $link=$substring."template_".$temp_no."/home.php?year=".$year;
 
 <div class="wrap-input100 validate-input"  data-validate="Name is required">
            <span class="label-input100">Link:</span>
-         <input class="input100" type="text" id="web_link" placeholder="Enter Year" <?php echo "value="."'".$link."'"; ?> >
+         <input class="input100" type="text" id="web_link" placeholder="Enter Year" <?php echo "value="."'".$link."'"; ?> readonly >
           <span class="focus-input100" ></span>
 
         </div>
