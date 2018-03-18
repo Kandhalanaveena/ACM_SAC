@@ -97,7 +97,7 @@ Licence URI: http://www.os-templates.com/template-terms
   <main class="hoc container clear"> 
     <!-- main body -->
     <!-- ################################################################################################ -->
-
+    <?php echo '<h4 style="text-align:center; color:black">You are creating '.$year.' website</h4>';?>
 <?php
 $sql= "SELECT cid, cname, designation, department, institute, city, state, pin, country, email, country_code, phone, fax  FROM Chairs ";
 $result = mysqli_query($dbConn, $sql); 
