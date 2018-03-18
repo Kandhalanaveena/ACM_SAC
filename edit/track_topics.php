@@ -72,6 +72,8 @@ Licence URI: http://www.os-templates.com/template-terms
               <li><a href="sponsor.php">Sponsored by</a></li>
               <li><a href="imp_dates.php">Important dates</a></li>
               <li><a href="sub_link.php">Submission Link</a></li>
+              <li><a href="call_for_papers.php">Call for Papers</a></li>
+              <li><a href="back_image.php">Background Image</a></li>
             </ul>
           </li>
           <li class="active"><a href="track_topics.php">Track Topics</a></li>
@@ -95,6 +97,7 @@ Licence URI: http://www.os-templates.com/template-terms
             <ul>
               <li><a href="../home.php">Back to Admin</a></li>
               <li><a href="../logout.php">Logout</a></li>
+              <li><a href="gen_link.php">Website Link</a></li>
             </ul>
           </li>
         </ul>
@@ -130,8 +133,8 @@ Licence URI: http://www.os-templates.com/template-terms
           >
 
 <div class="wrap-input100 validate-input" data-validate="Name is required">
-          <span class="label-input100">Topic Name:</span>
-          <input class="input100" type="text" list="tt_names" name="tt_name" placeholder="Enter track topic" <?php if($flag==1) {
+          <span class="label-input100"><span class="error">*</span>Topic Name:</span>
+          <input class="input100" type="text" list="tt_names" name="tt_name" required placeholder="Enter track topic" <?php if($flag==1) {
             echo "value='".$edit_tname."'";
           }?>
           >

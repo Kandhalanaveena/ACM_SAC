@@ -75,8 +75,8 @@ Licence URI: http://www.os-templates.com/template-terms
           </li>
           <li class="active"><a class="drop" href="">User</a>
             <ul>
-              <li><a href="home.php">Back to Admin</a></li>
-              <li><a href="logout.php">Logout</a></li>
+              <li><a href="../home.php">Back to Admin</a></li>
+              <li><a href="../logout.php">Logout</a></li>
               <li><a href="gen_link.php">Generate Website Link</a></li>
             </ul>
           </li>
