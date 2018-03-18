@@ -103,99 +103,32 @@ echo "<title>ACM SAC ".$row['year']."</title>";
 
 		
 			</section>
-
-		<div id="main" class="container" style="color: black">
-
-				<!-- Elements -->
-					<h2 id="elements" style="color: black"><b>ACM SAC <?php echo $row['year'];
-          ?></b></h2>
-					<div class="row 200%">
-						<div class="6u 12u$(medium)">
-						<?php
-        $sql="SELECT * FROM Paras WHERE year='$inputyear' AND type='home'";
+<section id="two" class="wrapper style2">
+				<div class="inner">
+					<div class="box">
+						<div class="content" style="color: black">
+							<header class="align-center">
+							 <h2 style="text-transform: capitalize;"><b>Paper Submission</b></h2>
+							</header>
+							<?php $sql="SELECT url FROM Submission_link WHERE year='$inputyear'";
+                  $result = mysqli_query($dbConn,$sql);
+                $linkrow = mysqli_fetch_array($result);
+        $sql="SELECT * FROM Paras WHERE year='$inputyear' AND type='submission'";
           $result = mysqli_query($dbConn,$sql);
           $pararow = mysqli_fetch_array($result);
             echo '<p style="text-align: justify;">'.$pararow['para']."</p>";
-          
       ?>
-      <?php
-          $sql="SELECT * FROM Hosted_by WHERE year='$inputyear'";
-          $result = mysqli_query($dbConn,$sql);
-          if(mysqli_num_rows($result) > 0) {
-           
-           echo "<ul>";
-           echo  "<p><b>The SRC Program is hosted by</b></p><br>";
-          while($hostrow = mysqli_fetch_array($result))
-          {
-            echo '<li><a href="'.$hostrow['url'].'" target="_blank" >'.$hostrow['university_name'].", ".$hostrow['country']."</a></li>";
-          }
-          echo  "</ul><br>";
-        }
-          $sql="SELECT * FROM Sponsored_by WHERE year='$inputyear'";
-          $result = mysqli_query($dbConn,$sql);
-          if(mysqli_num_rows($result) > 0) {
-           echo "<ul>";
-            echo "<p><b>The SRC Program is sponsored by</b></p><br>";
+           <!-- <p style="text-align: justify;">The submissions should be in electronic format (pdf), based on original, unpublished work.. The file format should be PDF. The author(s) name(s) and address(es) must not appear in the body of the paper, and self-reference should be in the third person. This is to facilitate blind review. Only the title should be shown at the first page without the author's information. Papers must be formatted according to the template which is available at the SAC <?php ?> website :: <a href="https://www.sigapp.org/sac/" target="_blank">HERE</a>.</p> 
+            <p style="text-align: justify;">Full paper size is limited to 6 pages according to the above mentioned template, being allowed a maximum of 2 extra pages at the additional cost of 80 USD per extra page. Poster papers are limited to 2 pages and no additional pages are permitted. A few key words should be provided. A paper cannot be sent to more than one track. Original manuscripts (regular papers) should be submitted in electronic format through the START Conference manager web site :<br> <?php echo '<a href="'.$linkrow['url'].'" target="_blank">'.$linkrow['url'].'</a>'?></p>-->
+            <p>Abstracts for the Student Research Competition (SRC) should be submitted in electronic format through the START Conference manager web site : <br><?php echo '<a href="'.$linkrow['url'].'" target="_blank">'.$linkrow['url'].'</a>'?></p>
+              <br><br>
+              <h3><b>IMPORTANT NOTICE FOR THE AUTHORS</b></h3>
 
-          while ($sponrow=mysqli_fetch_array($result)){
-              echo '<li><h1 style="font-size: 20px; text-transform: capitalize;">';
-              echo '<a href="'.$sponrow['url'].'" target="_blank" >'.$sponrow['sponsor_name'].'</a>';
-              echo "</h1></li>";
-            }
-            echo "</ul><br>";
-         } 
-?>
-						</div>
-						<div class="6u 12u$(medium)">
-						<h3><b>Quick Links</b></h3>
-								<div class="row">
-									<div >
-									
-									<?php
-      								$sql="SELECT * FROM Gallery WHERE year='$inputyear'";
-      								$result = mysqli_query($dbConn,$sql);
-      								if(mysqli_num_rows($result)>0){
-            								echo '<dl>';
-											echo '<h4><b>Gallery</b></h4>';
-											echo '<dd>';
-											echo '<p>Photos of conference are availiable <a href="gallery.php?year='.$inputyear.'">here</a>.</p>';
-											echo '</dd>';
-											echo '</dl>';
-            							}
-								
-          								$sql="SELECT * FROM Important_dates WHERE year='$inputyear'";
-          								$result = mysqli_query($dbConn,$sql);
-          								if($result && mysqli_num_rows($result)>0){
-          									echo '<h4><b>Important dates</b></h4>';
-          									echo '<ul class="alt">';
-											
-										
-          								while($datesrow = mysqli_fetch_array($result))
-          								{
-           								 echo '<li>'.$datesrow['activity'].' : '.$datesrow['start_date'].'</li>';
-          								}
-          									echo '</ul>';
-      									}
-										?>
-										<h4 ><b>Call for Papers</b></h4>
-   <?php
-    $sql="SELECT * FROM Files_table WHERE year='$inputyear'";
-          $result = mysqli_query($dbConn,$sql);
-          $filerow=mysqli_fetch_array($result);
-          $pdflink="../pdf/".$filerow['pdf_name'];
-   ?>
-   <a href="<?php echo $pdflink; ?>" ><i class="fa fa-file-pdf-o" style="font-size:36px; "></i></a>	<br><br>
-   			<h4 ><b>Venue</b></p>
-   			<ul class="alt">
-   			<li style="color: black">The conference will be held in - <br>
-    <b> <?php echo $row['city'].", ".$row['country'];?> </b></li>
-    </ul>
-									</div>
-									
-								</div>
+                <p style="text-align: justify;">Paper registration is required, allowing the inclusion of the paper/poster in the conference proceedings. An author or a proxy attending SAC MUST present the paper. This is a requirement for the paper/poster to be included in the ACM/IEEE digital library. No-show of scheduled papers and posters will result in excluding them from the ACM/IEEE digital library.</p>
 						</div>
 					</div>
-		</div>		
+				</div>
+			</section>	
 
 
 		<!-- Footer -->

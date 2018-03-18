@@ -60,7 +60,7 @@ echo "<title>ACM SAC ".$row['year']."</title>";
 						}
 
 						if(!empty($imagename)){
-							echo '<img src="../background_images/'.$imagename.'"  />';
+							echo '<img src="../background_images/'.$imagename.'" style="opacity:0.5; filter: alpha(opacity=50);" />';
 							
 
       					}
@@ -100,103 +100,43 @@ echo "<title>ACM SAC ".$row['year']."</title>";
 				</article>
 				
 			</section>
+	<section id="three" class="wrapper style2">
+				<div class="inner">
+					<header class="align-center">
+						
+						<h2>Gallery</h2>
+					</header>
+					<?php
+					$sql= "SELECT * FROM Gallery WHERE year='$inputyear'";
+					$result = mysqli_query($dbConn, $sql); 
+     				if ($result && mysqli_num_rows($result)>0)
+					{
+ 					$length=mysqli_num_rows($result);
+					echo '<div class="gallery">';
 
-		
+
+for ($i=0; $i <$length ; $i++) { 
+  # code...
+  
+   $imagerow=mysqli_fetch_array($result);
+   $imageurl="../gallery/".$inputyear."/".$imagerow['imagename'];
+   echo '<div>';
+	echo '<div class="image fit">';
+	echo '<a href="'.$imageurl.'" download><img src="'.$imageurl.'" alt="" style="width:520px;height:300px"/></a>';
+							echo '</div>';
+						echo '</div>';
+   
+   
+ 
+}
+						
+						
+					echo '</div>';
+					}
+					?>
+
+				</div>
 			</section>
-
-		<div id="main" class="container" style="color: black">
-
-				<!-- Elements -->
-					<h2 id="elements" style="color: black"><b>ACM SAC <?php echo $row['year'];
-          ?></b></h2>
-					<div class="row 200%">
-						<div class="6u 12u$(medium)">
-						<?php
-        $sql="SELECT * FROM Paras WHERE year='$inputyear' AND type='home'";
-          $result = mysqli_query($dbConn,$sql);
-          $pararow = mysqli_fetch_array($result);
-            echo '<p style="text-align: justify;">'.$pararow['para']."</p>";
-          
-      ?>
-      <?php
-          $sql="SELECT * FROM Hosted_by WHERE year='$inputyear'";
-          $result = mysqli_query($dbConn,$sql);
-          if(mysqli_num_rows($result) > 0) {
-           
-           echo "<ul>";
-           echo  "<p><b>The SRC Program is hosted by</b></p><br>";
-          while($hostrow = mysqli_fetch_array($result))
-          {
-            echo '<li><a href="'.$hostrow['url'].'" target="_blank" >'.$hostrow['university_name'].", ".$hostrow['country']."</a></li>";
-          }
-          echo  "</ul><br>";
-        }
-          $sql="SELECT * FROM Sponsored_by WHERE year='$inputyear'";
-          $result = mysqli_query($dbConn,$sql);
-          if(mysqli_num_rows($result) > 0) {
-           echo "<ul>";
-            echo "<p><b>The SRC Program is sponsored by</b></p><br>";
-
-          while ($sponrow=mysqli_fetch_array($result)){
-              echo '<li><h1 style="font-size: 20px; text-transform: capitalize;">';
-              echo '<a href="'.$sponrow['url'].'" target="_blank" >'.$sponrow['sponsor_name'].'</a>';
-              echo "</h1></li>";
-            }
-            echo "</ul><br>";
-         } 
-?>
-						</div>
-						<div class="6u 12u$(medium)">
-						<h3><b>Quick Links</b></h3>
-								<div class="row">
-									<div >
-									
-									<?php
-      								$sql="SELECT * FROM Gallery WHERE year='$inputyear'";
-      								$result = mysqli_query($dbConn,$sql);
-      								if(mysqli_num_rows($result)>0){
-            								echo '<dl>';
-											echo '<h4><b>Gallery</b></h4>';
-											echo '<dd>';
-											echo '<p>Photos of conference are availiable <a href="gallery.php?year='.$inputyear.'">here</a>.</p>';
-											echo '</dd>';
-											echo '</dl>';
-            							}
-								
-          								$sql="SELECT * FROM Important_dates WHERE year='$inputyear'";
-          								$result = mysqli_query($dbConn,$sql);
-          								if($result && mysqli_num_rows($result)>0){
-          									echo '<h4><b>Important dates</b></h4>';
-          									echo '<ul class="alt">';
-											
-										
-          								while($datesrow = mysqli_fetch_array($result))
-          								{
-           								 echo '<li>'.$datesrow['activity'].' : '.$datesrow['start_date'].'</li>';
-          								}
-          									echo '</ul>';
-      									}
-										?>
-										<h4 ><b>Call for Papers</b></h4>
-   <?php
-    $sql="SELECT * FROM Files_table WHERE year='$inputyear'";
-          $result = mysqli_query($dbConn,$sql);
-          $filerow=mysqli_fetch_array($result);
-          $pdflink="../pdf/".$filerow['pdf_name'];
-   ?>
-   <a href="<?php echo $pdflink; ?>" ><i class="fa fa-file-pdf-o" style="font-size:36px; "></i></a>	<br><br>
-   			<h4 ><b>Venue</b></p>
-   			<ul class="alt">
-   			<li style="color: black">The conference will be held in - <br>
-    <b> <?php echo $row['city'].", ".$row['country'];?> </b></li>
-    </ul>
-									</div>
-									
-								</div>
-						</div>
-					</div>
-		</div>		
-
 
 		<!-- Footer -->
 			<footer id="footer">

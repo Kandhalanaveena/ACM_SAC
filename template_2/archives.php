@@ -102,100 +102,43 @@ echo "<title>ACM SAC ".$row['year']."</title>";
 			</section>
 
 		
-			</section>
+			<section id="two" class="wrapper style2">
+				<div class="inner">
+					<div class="box">
+						<div class="content" style="color: black">
+							<header class="align-center">
+							 <h2 style="text-transform: capitalize;"><b>Previous Year Websites</b></h2>
+							</header>
+							<ul>
+    <?php
+    $limityear=2017;  
+    $sql="SELECT year, temp_no FROM Info WHERE year>'$limityear' and year<='$inputyear' ORDER BY year DESC;";
+  $result = mysqli_query($dbConn,$sql);
 
-		<div id="main" class="container" style="color: black">
 
-				<!-- Elements -->
-					<h2 id="elements" style="color: black"><b>ACM SAC <?php echo $row['year'];
-          ?></b></h2>
-					<div class="row 200%">
-						<div class="6u 12u$(medium)">
-						<?php
-        $sql="SELECT * FROM Paras WHERE year='$inputyear' AND type='home'";
-          $result = mysqli_query($dbConn,$sql);
-          $pararow = mysqli_fetch_array($result);
-            echo '<p style="text-align: justify;">'.$pararow['para']."</p>";
-          
-      ?>
-      <?php
-          $sql="SELECT * FROM Hosted_by WHERE year='$inputyear'";
-          $result = mysqli_query($dbConn,$sql);
-          if(mysqli_num_rows($result) > 0) {
-           
-           echo "<ul>";
-           echo  "<p><b>The SRC Program is hosted by</b></p><br>";
-          while($hostrow = mysqli_fetch_array($result))
-          {
-            echo '<li><a href="'.$hostrow['url'].'" target="_blank" >'.$hostrow['university_name'].", ".$hostrow['country']."</a></li>";
-          }
-          echo  "</ul><br>";
-        }
-          $sql="SELECT * FROM Sponsored_by WHERE year='$inputyear'";
-          $result = mysqli_query($dbConn,$sql);
-          if(mysqli_num_rows($result) > 0) {
-           echo "<ul>";
-            echo "<p><b>The SRC Program is sponsored by</b></p><br>";
+while($archrow = mysqli_fetch_array($result))
+{
+echo '<li><a href="../template_'.$archrow['temp_no'].'/home.php?year='.$archrow['year'].'" target="_blank" >Year '.$archrow['year'].'</a></li>';
+}
 
-          while ($sponrow=mysqli_fetch_array($result)){
-              echo '<li><h1 style="font-size: 20px; text-transform: capitalize;">';
-              echo '<a href="'.$sponrow['url'].'" target="_blank" >'.$sponrow['sponsor_name'].'</a>';
-              echo "</h1></li>";
-            }
-            echo "</ul><br>";
-         } 
-?>
-						</div>
-						<div class="6u 12u$(medium)">
-						<h3><b>Quick Links</b></h3>
-								<div class="row">
-									<div >
-									
-									<?php
-      								$sql="SELECT * FROM Gallery WHERE year='$inputyear'";
-      								$result = mysqli_query($dbConn,$sql);
-      								if(mysqli_num_rows($result)>0){
-            								echo '<dl>';
-											echo '<h4><b>Gallery</b></h4>';
-											echo '<dd>';
-											echo '<p>Photos of conference are availiable <a href="gallery.php?year='.$inputyear.'">here</a>.</p>';
-											echo '</dd>';
-											echo '</dl>';
-            							}
-								
-          								$sql="SELECT * FROM Important_dates WHERE year='$inputyear'";
-          								$result = mysqli_query($dbConn,$sql);
-          								if($result && mysqli_num_rows($result)>0){
-          									echo '<h4><b>Important dates</b></h4>';
-          									echo '<ul class="alt">';
-											
-										
-          								while($datesrow = mysqli_fetch_array($result))
-          								{
-           								 echo '<li>'.$datesrow['activity'].' : '.$datesrow['start_date'].'</li>';
-          								}
-          									echo '</ul>';
-      									}
-										?>
-										<h4 ><b>Call for Papers</b></h4>
-   <?php
-    $sql="SELECT * FROM Files_table WHERE year='$inputyear'";
-          $result = mysqli_query($dbConn,$sql);
-          $filerow=mysqli_fetch_array($result);
-          $pdflink="../pdf/".$filerow['pdf_name'];
-   ?>
-   <a href="<?php echo $pdflink; ?>" ><i class="fa fa-file-pdf-o" style="font-size:36px; "></i></a>	<br><br>
-   			<h4 ><b>Venue</b></p>
-   			<ul class="alt">
-   			<li style="color: black">The conference will be held in - <br>
-    <b> <?php echo $row['city'].", ".$row['country'];?> </b></li>
+?>  
+      <li><a href="http://www.nitc.ac.in/sac/sac2017/cc.htm" target="_blank" >Year 2017</a></li>
+        <li><a href="http://www.nitc.ac.in/sac2018/bisite.usal.es/sac2016/cc/" target="_blank" >Year 2016</a></li>
+        <li><a href="http://www.nitc.ac.in/sac/sac2014/cc.htm" target="_blank" >Year 2014</a></li>
+        <li><a href="http://www.nitc.ac.in/sac/sac2013/cc.htm" target="_blank" >Year 2013</a></li>
+        <li><a href="http://www.nitc.ac.in/sac/sac2012/cc.htm" target="_blank" >Year 2012</a></li>
+        <li><a href="http://www.nitc.ac.in/sac/sac_2011/" target="_blank" >Year 2011</a></li>
+        <li><a href="http://www.nitc.ac.in/sac/sac2010/cc.htm" target="_blank" >Year 2010</a></li>
     </ul>
-									</div>
-									
-								</div>
+  
+							
 						</div>
 					</div>
-		</div>		
+				</div>
+			</section>	
+
+		
+	
 
 
 		<!-- Footer -->

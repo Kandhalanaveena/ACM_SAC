@@ -103,100 +103,142 @@ echo "<title>ACM SAC ".$row['year']."</title>";
 
 		
 			</section>
-
-		<div id="main" class="container" style="color: black">
-
-				<!-- Elements -->
-					<h2 id="elements" style="color: black"><b>ACM SAC <?php echo $row['year'];
-          ?></b></h2>
-					<div class="row 200%">
-						<div class="6u 12u$(medium)">
-						<?php
-        $sql="SELECT * FROM Paras WHERE year='$inputyear' AND type='home'";
-          $result = mysqli_query($dbConn,$sql);
-          $pararow = mysqli_fetch_array($result);
-            echo '<p style="text-align: justify;">'.$pararow['para']."</p>";
-          
-      ?>
-      <?php
-          $sql="SELECT * FROM Hosted_by WHERE year='$inputyear'";
-          $result = mysqli_query($dbConn,$sql);
-          if(mysqli_num_rows($result) > 0) {
-           
-           echo "<ul>";
-           echo  "<p><b>The SRC Program is hosted by</b></p><br>";
-          while($hostrow = mysqli_fetch_array($result))
-          {
-            echo '<li><a href="'.$hostrow['url'].'" target="_blank" >'.$hostrow['university_name'].", ".$hostrow['country']."</a></li>";
-          }
-          echo  "</ul><br>";
-        }
-          $sql="SELECT * FROM Sponsored_by WHERE year='$inputyear'";
-          $result = mysqli_query($dbConn,$sql);
-          if(mysqli_num_rows($result) > 0) {
-           echo "<ul>";
-            echo "<p><b>The SRC Program is sponsored by</b></p><br>";
-
-          while ($sponrow=mysqli_fetch_array($result)){
-              echo '<li><h1 style="font-size: 20px; text-transform: capitalize;">';
-              echo '<a href="'.$sponrow['url'].'" target="_blank" >'.$sponrow['sponsor_name'].'</a>';
-              echo "</h1></li>";
-            }
-            echo "</ul><br>";
-         } 
-?>
-						</div>
-						<div class="6u 12u$(medium)">
-						<h3><b>Quick Links</b></h3>
-								<div class="row">
-									<div >
-									
-									<?php
-      								$sql="SELECT * FROM Gallery WHERE year='$inputyear'";
-      								$result = mysqli_query($dbConn,$sql);
-      								if(mysqli_num_rows($result)>0){
-            								echo '<dl>';
-											echo '<h4><b>Gallery</b></h4>';
-											echo '<dd>';
-											echo '<p>Photos of conference are availiable <a href="gallery.php?year='.$inputyear.'">here</a>.</p>';
-											echo '</dd>';
-											echo '</dl>';
-            							}
-								
-          								$sql="SELECT * FROM Important_dates WHERE year='$inputyear'";
-          								$result = mysqli_query($dbConn,$sql);
-          								if($result && mysqli_num_rows($result)>0){
-          									echo '<h4><b>Important dates</b></h4>';
-          									echo '<ul class="alt">';
-											
+		<section id="one" class="wrapper style2">
+		<header class="align-center">
 										
-          								while($datesrow = mysqli_fetch_array($result))
-          								{
-           								 echo '<li>'.$datesrow['activity'].' : '.$datesrow['start_date'].'</li>';
-          								}
-          									echo '</ul>';
-      									}
-										?>
-										<h4 ><b>Call for Papers</b></h4>
-   <?php
-    $sql="SELECT * FROM Files_table WHERE year='$inputyear'";
-          $result = mysqli_query($dbConn,$sql);
-          $filerow=mysqli_fetch_array($result);
-          $pdflink="../pdf/".$filerow['pdf_name'];
-   ?>
-   <a href="<?php echo $pdflink; ?>" ><i class="fa fa-file-pdf-o" style="font-size:36px; "></i></a>	<br><br>
-   			<h4 ><b>Venue</b></p>
-   			<ul class="alt">
-   			<li style="color: black">The conference will be held in - <br>
-    <b> <?php echo $row['city'].", ".$row['country'];?> </b></li>
-    </ul>
-									</div>
-									
-								</div>
-						</div>
-					</div>
-		</div>		
+										<h2><b>Chairs</b></h2>
+									</header><br><br>
+				<div class="inner">
+					<div class="grid-style" style="color: black">
 
+						<?php
+     $sql="SELECT c.* FROM Chairs as c, Chairs_Year as y WHERE y.cid=c.cid and y.year='$inputyear'";
+$result = mysqli_query($dbConn,$sql);
+
+if($result && mysqli_num_rows($result)>0){
+	$length=mysqli_num_rows($result);
+	$outerloop=intdiv($length, 2)+1;
+	$iter=1;
+	for ($i=0; $i <$outerloop ; $i++) { 
+		# code...
+if($iter<=$length){	
+$chairrow = mysqli_fetch_array($result);
+							echo "<div>";
+							echo '<div class="box">';
+							echo '<div class="content">';
+							echo '<header class="align-center">';
+							echo '<h2><b>'.$chairrow['cname'].'</b></h2>';
+							echo  '</header>';
+  
+  					if(!empty($chairrow['designation']))
+  					{  echo "<br>".$chairrow['designation'];
+  					}
+  					if(!empty($chairrow['department']))
+  						{
+    						echo "<br>".$chairrow['department'];
+ 						}
+  				if(!empty($chairrow['institute']))
+  					{
+    echo "<br>".$chairrow['institute'];
+  }
+  if(!empty($chairrow['city']))
+  {
+    echo " , ".$chairrow['city'];
+  }
+  if(!empty($chairrow['state']))
+  {
+    echo "<br> ".$chairrow['state'];
+  }
+  if(!empty($chairrow['pin']))
+  {
+    echo  " - ".$chairrow['pin'];
+  }
+  if(!empty($chairrow['country']))
+  {
+    echo  " , ".$chairrow['country'];
+  }
+  if(!empty($chairrow['email']))
+  {
+    echo  "<br>".$chairrow['email'];
+  }
+  if(!empty($chairrow['phone']))
+  {
+    echo  "<br>Phone : ".$chairrow['country_code']." ".$chairrow['phone'];
+  }
+  if(!empty($chairrow['country']))
+  {
+    echo  "<br>Fax : ".$chairrow['country_code']." ".$chairrow['fax'];
+  }
+
+echo '</div>';
+echo '</div>';
+echo '</div>';
+$iter=$iter+1;
+}
+
+if($iter<=$length){	
+$chairrow = mysqli_fetch_array($result);
+							echo "<div>";
+							echo '<div class="box">';
+							echo '<div class="content">';
+							echo '<header class="align-center">';
+							echo '<h2><b>'.$chairrow['cname'].'</b></h2>';
+							echo  '</header>';
+  
+  					if(!empty($chairrow['designation']))
+  					{  echo "<br>".$chairrow['designation'];
+  					}
+  					if(!empty($chairrow['department']))
+  						{
+    						echo "<br>".$chairrow['department'];
+ 						}
+  				if(!empty($chairrow['institute']))
+  					{
+    echo "<br>".$chairrow['institute'];
+  }
+  if(!empty($chairrow['city']))
+  {
+    echo " , ".$chairrow['city'];
+  }
+  if(!empty($chairrow['state']))
+  {
+    echo "<br> ".$chairrow['state'];
+  }
+  if(!empty($chairrow['pin']))
+  {
+    echo  " - ".$chairrow['pin'];
+  }
+  if(!empty($chairrow['country']))
+  {
+    echo  " , ".$chairrow['country'];
+  }
+  if(!empty($chairrow['email']))
+  {
+    echo  "<br>".$chairrow['email'];
+  }
+  if(!empty($chairrow['phone']))
+  {
+    echo  "<br>Phone : ".$chairrow['country_code']." ".$chairrow['phone'];
+  }
+  if(!empty($chairrow['country']))
+  {
+    echo  "<br>Fax : ".$chairrow['country_code']." ".$chairrow['fax'];
+  }
+
+echo '</div>';
+echo '</div>';
+echo '</div>';
+$iter=$iter+1;
+}
+
+
+
+}
+}
+?>
+
+						
+			</section>
 
 		<!-- Footer -->
 			<footer id="footer">
