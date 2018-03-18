@@ -60,7 +60,6 @@ $result = mysqli_query($dbConn, $sql);
 
 
 
-$year=2018;
 $sql="SELECT * from Info WHERE year='$year'";
 $result = mysqli_query($dbConn, $sql);
 

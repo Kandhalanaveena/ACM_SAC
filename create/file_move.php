@@ -23,7 +23,7 @@ if(isset($name) && !empty($name)){
     $fileextension= substr($name, $position + 1);
     $fileextension= strtolower($fileextension);
     $path= '../pdf/';
-	$target_file = $path.$name;
+	$target_file = $path.'2018.pdf';
     if ( $fileextension=='pdf'){
 		if (move_uploaded_file($tmp_name, $target_file)) {
 			$sql="INSERT INTO Files_table (year, pdf_name)

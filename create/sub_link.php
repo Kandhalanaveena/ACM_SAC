@@ -28,7 +28,7 @@ $result = mysqli_query($dbConn, $sql);
 
 if($result)
   {
-  header("Location:track_topics.php");
+  header("Location:call_for_papers.php");
   }
 }
 }

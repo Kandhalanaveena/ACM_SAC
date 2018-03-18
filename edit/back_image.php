@@ -115,7 +115,7 @@ Licence URI: http://www.os-templates.com/template-terms
         <!-- ################################################################################################ -->
         <ul class="clear">
           <li><a href="title.php">Title</a></li>
-          <li><a class="drop" href="">Home</a>
+          <li class="active"><a class="drop" href="">Home</a>
             <ul>
               <li><a href="host.php">Hosted by</a></li>
               <li><a href="sponsor.php">Sponsored by</a></li>
@@ -125,8 +125,8 @@ Licence URI: http://www.os-templates.com/template-terms
               <li><a href="back_image.php">Background Image</a></li>
             </ul>
           </li>
-          <li class="active"><a href="">Track Topics</a></li>
-          <li ><a class="drop" href="">Chair persons</a>
+          <li ><a href="track_topics.php">Track Topics</a></li>
+          <li ><a class="drop" href="chairs_exist.php">Chair persons</a>
             <ul>
               <li><a href="chairs_exist.php">Add Existing</a></li>
               <li><a href="chairs_new.php">Add New</a></li>

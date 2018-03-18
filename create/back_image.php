@@ -126,7 +126,7 @@ Licence URI: http://www.os-templates.com/template-terms
               <li><a href="back_image.php">Background Image</a></li>
             </ul>
           </li>
-          <li class="active"><a href="">Track Topics</a></li>
+          <li ><a href="track_topics.php">Track Topics</a></li>
           <li ><a class="drop" href="">Chair persons</a>
             <ul>
               <li><a href="chairs_exist.php">Add Existing</a></li>

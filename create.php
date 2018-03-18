@@ -79,8 +79,8 @@ Licence URI: http://www.os-templates.com/template-terms
         </a></li>-->
       <li class="one_third first">
       	<div style="background-color: #2196F3;">
-      		<a href="template_1/demo.html" target="_blank">
-        	<figure><img src="images/NIT-Calicut.jpg" alt="">
+      		<a href="template_1/home.php?year=2018" target="_blank">
+        	<figure><img src="images/temp1_demo.png" alt="">
           	<figcaption>Click for demo</figcaption>
         	</figure>
         	</a>
@@ -94,8 +94,8 @@ Licence URI: http://www.os-templates.com/template-terms
 
       <li class="one_third">
         <div style="background-color: #2196F3;">
-          <a href="#">
-          <figure><img src="images/NIT-Calicut.jpg" alt="">
+          <a href="template_2/home.php?year=2018" target="_blank">
+          <figure><img src="images/temp2_demo.png" alt="">
             <figcaption>Click for demo</figcaption>
           </figure>
           </a>
@@ -109,8 +109,8 @@ Licence URI: http://www.os-templates.com/template-terms
       
         <li class="one_third">
         <div style="background-color: #2196F3;">
-          <a href="#">
-          <figure><img src="images/NIT-Calicut.jpg" alt="">
+          <a href="template_3/home.php?year=2018" target="_blank">
+          <figure><img src="images/temp3_demo.png" alt="">
             <figcaption>Click for demo</figcaption>
           </figure>
           </a>

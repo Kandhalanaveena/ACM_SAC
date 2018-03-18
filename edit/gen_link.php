@@ -105,10 +105,19 @@ Licence URI: http://www.os-templates.com/template-terms
 <br>
 
 <?php
+$sql="SELECT temp_no from Info WHERE year='$year'";
+$result = mysqli_query($dbConn, $sql);
+$temp_no=0;
+if($result)
+{
+  $inforow=mysqli_fetch_array($result);
+  $temp_no=$inforow['temp_no'];
+}
 $actual_link = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
- $curr_page=strrchr ($actual_link , '/' );
- $curr_page=strrchr ($curr_page , '/' );
- $substring=substr($actual_link ,0,strlen($actual_link)-strlen($curr_page)+1);
+$curr_page=strrchr ($actual_link , '/' );
+$substring1=substr($actual_link ,0,strlen($actual_link)-strlen($curr_page));
+$curr_page=strrchr ($substring1 , '/' );
+$substring=substr($substring1 ,0,strlen($substring1)-strlen($curr_page)+1);
 $link=$substring."template_".$temp_no."/home.php?year=".$year;
 ?>
     

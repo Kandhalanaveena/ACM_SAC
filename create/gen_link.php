@@ -106,8 +106,13 @@ Licence URI: http://www.os-templates.com/template-terms
 <?php
 $actual_link = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
  $curr_page=strrchr ($actual_link , '/' );
- $curr_page=strrchr ($curr_page , '/' );
- $substring=substr($actual_link ,0,strlen($actual_link)-strlen($curr_page)+1);
+
+ $substring1=substr($actual_link ,0,strlen($actual_link)-strlen($curr_page));
+
+ $curr_page=strrchr ($substring1 , '/' );
+
+ $substring=substr($substring1 ,0,strlen($substring1)-strlen($curr_page)+1);
+ 
 $link=$substring."template_".$temp_no."/home.php?year=".$year;
 ?>
     
