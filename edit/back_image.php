@@ -47,28 +47,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </script>';
     } 
     else {
+        $sql="SELECT imagename from Back_images WHERE year='$year'";
+        $result = mysqli_query($dbConn, $sql);
+        if($result){
+            $prevrow=mysqli_fetch_array($result);
+            $prevname='../background_images/'.$prevrow['imagename'];
+            unlink($prevname);
+        }    
         if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
             //echo "The file ". basename($_FILES["image"]["name"]). " has been uploaded.";
             $name= $year.'.'.$fileextension; 
-           /* $sql="INSERT INTO Back_images (imagename, year) VALUES ('$name', '$year')";
+            $sql="UPDATE Back_images SET imagename='$name' WHERE year='$year'";
 
 
             $result = mysqli_query($dbConn, $sql);
             if($result)
             {
-                  //header("Location:back_image.php");
+              
+               
+                 // header("Location:back_image.php");
                     echo '<script type="text/javascript">
-                    alert("File uploaded successfully !!");
-                    window.location.href="back_image.php";
-                    </script>';
-
-                
-            }*/
-             echo '<script type="text/javascript">
                     alert("File uploaded successfully !!");
                     window.location.href="track_topics.php";
                     </script>';
 
+                
+            }
+             
         } 
         else {
             //echo "Sorry, there was an error uploading your file.";

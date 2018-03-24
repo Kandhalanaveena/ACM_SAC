@@ -17,14 +17,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 /* inserting into databse*/
 
 if($paraErr == 0)
-{
-  $sql="UPDATE Paras SET para='$para' where year='$year' and type='$type'";
+{ 
+  $sql="SELECT * FROM Paras WHERE year='$year' and type='$type'";
   $result = mysqli_query($dbConn, $sql);
-  if($result)
-    {
-    //header("Location:para_proceedings.php");
+
+  if($result && mysqli_num_rows($result)>0) {
+      $sql="UPDATE Paras SET para='$para' where year='$year' and type='$type'";
+        $result = mysqli_query($dbConn, $sql);
     }
-  }
+   else
+   {
+
+    $sql="INSERT into Paras (para, year, type) VALUES ('$para','$year','$type')";
+      $result = mysqli_query($dbConn, $sql);
+   }
+
+}
 }
 
 

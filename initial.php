@@ -1,21 +1,7 @@
  <?php
-$servername = "Localhost";
-$username = "b140622cs";
-$password = "b140622cs";
-$dbname="db_b140622cs";
-// Create connection
+ require 'open.php';
 
-
-$conn = mysqli_connect($servername, $username, $password,$dbname);
-
-// Check connection
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error()."<br>");
-}
-
-echo "connection established<br>";
-
-
+$conn=$dbConn;
 $sql="CREATE TABLE Admin 
 ( uid int NOT NULL AUTO_INCREMENT,
 username VARCHAR(50) NOT NULL UNIQUE, 
@@ -293,7 +279,7 @@ if ($result) {
 else {
     echo "Error  ".mysqli_error($conn)."<br>";
     }
-mysqli_close($conn);
+
 
 $sql="CREATE TABLE Files_table 
 (year int NOT NULL UNIQUE ,  
@@ -311,4 +297,5 @@ else {
     echo "Error  ".mysqli_error($conn)."<br>";
     }   
 echo "connection closed<br>";
+require 'close.php';
 ?>

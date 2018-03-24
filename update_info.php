@@ -183,7 +183,7 @@ else
         <div class="wrap-input100 validate-input" data-validate="Phone is required">
 
           <span class="label-input100"><span class="error">*</span><?php if ($mobileErr==1){ echo "<span class='error'>Mobile :</span>";} else{ echo "Mobile :"; }?></span>
-          <input class="input100" type="text" name="mobile" placeholder="Enter mobile number" <?php if ($mobileErr==0){ echo "value="."'".$mobile."'";} ?>>
+          <input class="input100" type="tel" name="mobile" placeholder="Enter mobile number" <?php if ($mobileErr==0){ echo "value="."'".$mobile."'";} ?>>
           <span class="focus-input100"></span>
         </div>
 

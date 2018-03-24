@@ -24,7 +24,14 @@ if(isset($name) && !empty($name)){
     $path= '../pdf/';
 	$target_file = $path.$year.'.pdf';
     if ( $fileextension=='pdf'){
-		if (move_uploaded_file($tmp_name, $target_file)) {
+		$sql="SELECT * from Files_table WHERE year='$year'";
+        $result = mysqli_query($dbConn, $sql);
+        if($result){
+            $prevrow=mysqli_fetch_array($result);
+            $prevname='../pdf/'.$prevrow['pdf_name'];
+            unlink($prevname);
+        }    
+       if (move_uploaded_file($tmp_name, $target_file)) {
 			$name=$year.'.pdf';
 			$sql="UPDATE Files_table SET year='".$year."', pdf_name='".$name."' WHERE year='$year'";
 
